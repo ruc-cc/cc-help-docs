@@ -1,0 +1,18 @@
+site_name: 校级公共计算云平台用户手册
+
+theme:
+  name: 'material'
+  highlightjs: true
+
+copyright: Copyright © 中国人民大学大型科学仪器共享平台
+
+markdown_extensions:
+  - admonition
+
+nav:
+    - '首页': 'index.md'
+    - '使用指南':
+      - '用户登录': 'manual/login.md'
+      - '使用模式': 'manual/usage-mode.md'
+    - '软件使用':
+      - 'TensorFlow': 'app/tensorflow.md'
