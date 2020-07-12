@@ -14,5 +14,6 @@ nav:
     - '使用指南':
       - '用户登录': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
+      - '数据传输': 'manual/transfer.md'
     - '软件使用':
       - 'TensorFlow': 'app/tensorflow.md'
