@@ -15,5 +15,10 @@ nav:
       - '用户登录': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
       - '数据传输': 'manual/transfer.md'
+      - '作业调度': 'manual/job-scheduler.md'
+    
+    - '共享集群':
+      - '集群入门': 'cluster/intro.md'
+
     - '软件使用':
       - 'TensorFlow': 'app/tensorflow.md'

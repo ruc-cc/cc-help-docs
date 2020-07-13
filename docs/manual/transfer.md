@@ -56,12 +56,12 @@
 
 首次使用SSH登录的用户需要设置SSH密码，此密码为计算云平台密码，用于计算云SSH登录时使用：点击右上角用户名，重置密码。
 
-![重置密码](../images/reset-passwd.png)
+![重置密码](../images/reset_passwd.png)
 
 用户在校内，能够直接访问计算云服务IP地址的情况下，可以使用scp, winscp之类的工具来传输数据：
 
 ```bash
-scp -P 20014 some_data u20200002@10.77.90.101:
+scp -P 20014 some_data u20200002@10.77.90.101:/home/your-user-id/
 ```
 
 ## WebDAV 协议访问
@@ -72,9 +72,9 @@ WebDAV协议访问的地址是`https://10.77.90.102:4918`。用户验证请使�
 
 Windows系统建议使用[RaiDrive](https://www.raidrive.com/)。Mac系统建议使用[Cyberduck](https://cyberduck.io/)。
 
-## 容器实例内访问项目Home目录
+## 交互实例内访问共享集群Home目录
 
-个人独占容器实例内，是可以访问到本用户所有所在项目的Home目录的。平台会自动把项目目录挂载到/group_homes下。 用户可以在交互式实例里把脚本和数据直接复制或移动到任何所在项目的Home目录中。
+交互实例模式内，是可以访问到本用户共享集群模式的Home目录的。平台会自动共享集群模式的Home目录挂载到`/group_homes`下。 用户可以在交互实例里把脚本和数据直接复制或移动到共享集群模式的Home目录中。
 
 ![group_homes](../images/group_homes.png)
 
