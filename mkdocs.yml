@@ -9,16 +9,19 @@ copyright: Copyright © 中国人民大学大型科学仪器共享平台
 markdown_extensions:
   - admonition
 
+extra_css:
+  - stylesheets/extra.css
+
 nav:
     - '首页': 'index.md'
-    - '使用指南':
+    - '使用必读':
       - '用户登录': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
       - '数据传输': 'manual/transfer.md'
-      - '作业调度': 'manual/job-scheduler.md'
     
     - '共享集群':
       - '集群入门': 'cluster/intro.md'
+      - '作业调度': 'cluster/job-scheduler.md'
 
     - '软件使用':
       - 'TensorFlow': 'app/tensorflow.md'
