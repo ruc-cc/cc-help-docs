@@ -1,8 +1,10 @@
 site_name: 校级公共计算云平台用户手册
+site_url: 'http://cc.ruc.edu.cn/help/'
 
 theme:
   name: 'material'
   language: 'zh'
+  favicon: 'images/favicon.png'
 
 copyright: Copyright © 中国人民大学大型科学仪器共享平台
 
