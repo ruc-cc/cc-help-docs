@@ -1,6 +1,6 @@
-# JupyterLab GPU
+# JupyterLab
 
-JupyterLab是下一代Jupyter Notebook，它集成了更多功能，是一个集成开发环境。
+JupyterLab是下一代Jupyter Notebook，它集成了更多功能，是一个集成开发环境。我们提供了CPU版本和GPU版本的实例，其中，GPU版本的实例使用的显卡为Nvidia GeForce 2080 Ti。
 
 ## 申请实例
 
