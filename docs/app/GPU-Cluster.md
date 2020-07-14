@@ -1,4 +1,4 @@
-# 共享集群简介
+# 共享集群使用方法
 
 ## 集群入门
 
@@ -40,7 +40,7 @@
 
 集群上常见的作业调度系统有Torque（我校2017年项目采用Torque）和Slurm（本项目采用）。Slurm（Simple Linux Utility for Resource Management）是一种可用于大型计算集群的作业调度系统，被世界范围内的超级计算机和计算集群广泛采用。相比Torque，Slurm更先进，因此我们放弃了Torque，转而使用Slurm。无论Torque还是Slurm，作业调度系统主要包括提交作业、查看状态等几大部分。
 
-所有集群调度系统在提交作业时都需要用户在一份文件中做一些参数说明，告知本作业需要多少CPU、GPU和内存，用来申请计算资源。用户提交一个作业，需要先将这些参数填写进一个脚本中，用户提交这个脚本给Slurm，Slurm会分配相应的计算资源给这个作业，如下图所示。[作业调度](job-scheduler.md)部分将详细介绍如何使用Slurm来提交作业。
+所有集群调度系统在提交作业时都需要用户在一份文件中做一些参数说明，告知本作业需要多少CPU、GPU和内存，用来申请计算资源。用户提交一个作业，需要先将这些参数填写进一个脚本中，用户提交这个脚本给Slurm，Slurm会分配相应的计算资源给这个作业，如下图所示。下文将详细介绍如何使用Slurm来提交作业。
 
 ![集群与作业调度器](../images/job_scheduler.png)
 
@@ -52,3 +52,38 @@
 
 在公共集群上，我们按照计算设备的类型，分成了不同的队列，用户提交作业时需要确定自己所需的队列。
 
+我们首先登陆到共享集群的登录节点，可以使用Web SSH，也可以使用SSH客户端。
+
+### 查看集群状态
+
+我们可以使用`sinfo`查看集群信息和状态。
+
+```bash
+$ sinfo
+```
+
+得到当前集群的队列信息：
+
+```
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+tesla*       up   infinite      3   idle tesla[1-3]
+titan        up   infinite      7   idle titan[1-7]
+cpu          up   infinite      6   idle cpu[1-6]
+fat          up   infinite      2   idle fat[1-2]
+```
+
+可以看到，我们有4个队列，每个队列的设备参数可以参考[计算资源](#_3)部分。
+
+### 提交作业
+
+在Slurm系统中，提交作业前需要先准备一个脚本，该脚本中会说明用户本次申请的资源。准备好脚本后，再使用`sbatch`提交作业。
+
+```bash
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=32
+#SBATCH --time=2:00:00
+#SBATCH --job-name=JOBNAME
+
+python test.py
+```

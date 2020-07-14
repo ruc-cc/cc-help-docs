@@ -2,26 +2,32 @@ site_name: 校级公共计算云平台用户手册
 
 theme:
   name: 'material'
-  highlightjs: true
+  language: 'zh'
 
 copyright: Copyright © 中国人民大学大型科学仪器共享平台
 
 markdown_extensions:
-  - admonition
+    - admonition
+    - codehilite
+    - toc:
+        permalink: True
 
+plugins:
+    - redirects:
+        redirect_maps:
+            'app/Jupyterlab-With-GPU.md': 'app/Jupyterlab.md'
+        
 extra_css:
   - stylesheets/extra.css
-
+          
 nav:
     - '首页': 'index.md'
     - '使用必读':
       - '用户登录': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
       - '数据传输': 'manual/transfer.md'
-    
-    - '共享集群':
-      - '集群入门': 'cluster/intro.md'
-      - '作业调度': 'cluster/job-scheduler.md'
 
     - '软件使用':
+      - '共享集群': 'app/GPU-Cluster.md'
+      - 'Jupyter': 'app/Jupyterlab.md'
       - 'TensorFlow': 'app/tensorflow.md'
