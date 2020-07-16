@@ -14,7 +14,10 @@ JupyterLab属于交互实例，在计算云上使用时，需要先申请资源�
 
 ![JupyterLab交互界面](../images/jupyterlab.png)
 
-我们已经在实例中安装好了Anaconda，用户进入Jupyter后默认使用`/opt/conda/bin/`下的`conda`和`python`。其中，Python3为Anaconda`base`环境提供的Python。
+!!! tip "提示"
+    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在 Jupyter 交互实例上安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。
+
+用户进入Jupyter后默认使用`/opt/conda/bin/`下的`conda`和`python`。其中，Python3为Anaconda`base`环境提供的Python。
 
 ![创建新的程序](../images/jupyterlab_launcher.png)
 

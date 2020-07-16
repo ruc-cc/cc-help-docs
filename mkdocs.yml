@@ -32,4 +32,6 @@ nav:
     - '软件使用':
       - '共享集群': 'app/GPU-Cluster.md'
       - 'Jupyter': 'app/Jupyterlab.md'
+      - 'conda': 'app/conda.md'
       - 'TensorFlow': 'app/tensorflow.md'
+      - 'PyTorch': 'app/pytorch.md'

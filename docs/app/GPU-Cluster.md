@@ -8,7 +8,7 @@
 
 用户需要先连接到登录节点，登录节点是连接整个集群的入口。用户通过登录节点来进一步访问计算节点和存储节点。计算节点，是提供计算服务的计算机节点，可以是CPU节点或GPU节点。通常情况下，一个用户作业任务需要一台或多台计算节点来支持其计算服务。将某个计算作业任务分配到不同计算节点上进行计算的工具被称为**作业调度系统**。计算作业一般需要读写文件，我们采用了**共享存储系统**，将存储节点的磁盘空间映射到所有计算节点上。共享存储的可用磁盘容量非常大，这样一个大容量的磁盘空间被映射到用户的目录上。映射后，用户可以像操作本地的文件一样操作远程的存储节点上的文件。
 
-!!! warning "请勿在共享集群登录节点执行计算任务"
+!!! warning "请勿在登录节点执行计算任务！"
     共享集群的登陆节点配置了资源限制，请勿在共享集群的登陆节点执行大的计算任务。
 
 ## 共享集群
@@ -17,14 +17,16 @@
 
 ![共享集群入口](../images/public_cluster_entry.png)
 
-登录这个集群，可以使用Web SSH直接登录，也查看SSH登录信息，然后使用本地的SSH客户端登录。Windows上的免费客户端有MobaXterm、XShell + Xftp等。
+登录这个集群，可以使用Web SSH直接登录，也查看SSH登录信息，然后使用本地的SSH客户端登录。Windows上的开源免费客户端有[MobaXterm](https://mobaxterm.mobatek.net/)、[XShell + Xftp](https://www.netsarang.com/zh/free-for-home-school/)等。
+
+!!! tip "不建议使用破解版软件！"
+    MobaXterm和XShell都对教育用户免费。网络上有一些破解版软件，这些破解软件往往植入了病毒，比如使用集群资源挖矿。我们不建议用户使用这些破解软件。
 
 ![共享集群操作界面](../images/public_cluster.png)
 
 !!! warning "登录注意事项"
-    1. 登录时注意设置正确的端口号。
-    2. 校内用户可直接登录该IP地址。
-    3. 由于校园网和VPN的限制，目前校外用户使用VPN连接到校内后无法登录，我们正与相关部门积极沟通，解决这个问题。校外用户可先使用Web SSH。
+    1. 登录时注意设置正确的端口号，端口号在SSH连接信息处查看。
+    2. 校内用户可直接使用IP和端口号登录该IP地址。校外用户，使用SSH客户端登录，需要先登录我校[VPN](https://vpn.ruc.edu.cn/)。
 
 “数据管理”页面可以上传下载数据。该目录为用户在共享集群上的Home目录，实际上是挂载了共享存储系统。
 
@@ -34,10 +36,10 @@
 
 | 队列名 | CPU                         | 内存  | GPU                        | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- |
-| tesla  | 2 * Intel Gold 5218 16 Core | 256GB | 2 * Nvidia Tesla V100 32GB | 3    |
-| titan  | 2 * Intel Gold 5218 16 Core | 128GB | 2 * Nvidia Titan RTX       | 7    |
-| cpu    | 2 * Intel Gold 5218 16 Core | 192GB | 无                         | 6    |
-| fat    | 2 * Intel Gold 5218 16 Core | 384GB | 无                         | 2    |
+| tesla  | 2 * Intel Gold 5218 (16 Core) | 256GB | 2 * Nvidia Tesla V100 32GB | 3    |
+| titan  | 2 * Intel Gold 5218 (16 Core) | 128GB | 2 * Nvidia Titan RTX       | 7    |
+| cpu    | 2 * Intel Gold 5218 (16 Core) | 192GB | 无                         | 6    |
+| fat    | 2 * Intel Gold 5218 (16 Core) | 384GB | 无                         | 2    |
 
 ## 调度系统
 
@@ -77,18 +79,112 @@ cpu          up   infinite      6   idle cpu[1-6]
 fat          up   infinite      2   idle fat[1-2]
 ```
 
-可以看到，我们有4个队列，每个队列的设备参数可以参考[计算资源](#_3)部分。
+可以看到，我们有4个队列，每个队列的设备参数可以参考[计算资源](#_3)部分。其中`idle`为空闲，`mix`为节点部分核心可以使用，`alloc`为已被占用。
+
+查看指定分区节点空闲状态：
+
+```bash
+$ sinfo -p cpu
+```
 
 ### 提交作业
 
-在Slurm系统中，提交作业前需要先准备一个脚本，该脚本中会说明用户本次申请的资源。准备好脚本后，再使用`sbatch`提交作业。
+在 Slurm 系统中，提交作业前需要先准备一个脚本，该脚本中会说明用户本次申请的资源。准备好脚本后，再使用`sbatch`提交作业。
+
+这里我们提供了一个脚本模板，将其命名为`run.sh`，将这个脚本上传至共享集群的个人目录下。
 
 ```bash
 #!/bin/bash
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=32
-#SBATCH --time=2:00:00
-#SBATCH --job-name=JOBNAME
 
+### 给你这个作业起个名字，方便识别不同的作业
+#SBATCH --job-name=example
+
+### 指定该作业需要多少个节点
+#SBATCH --nodes=1
+
+### 指定该作业需要多少个CPU
+#SBATCH --ntasks=4
+
+### 指定该作业在哪个队列上执行
+### 目前可用的队列有 cpu/fat/titan/tesla
+#SBATCH --partition cpu
+
+### 配置好环境变量
+export PATH=/opt/app/anaconda3/bin:$PATH
+conda activate tf22
+
+### 执行你的作业
 python test.py
+```
+
+假如我们想执行一个Python程序`test.py`，Python程序`test.py`也要放在`run.sh`相同的目录下。做好以上准备后，在该目录下提交这个作业：
+
+```bash
+$ sbatch run.sh
+```
+
+这个程序将提交至作业调度系统，作业调度系统会为作业生成一个作业ID，并分配相应节点执行该作业。同时，程序中各类输出结果也会生成到文件中，文件名为`slurm-jobid.out`。
+
+以上只是一个简单的案例，Slurm 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gres=gpu:1`指定使用一张GPU卡。
+
+一个使用GPU的作业提交脚本：
+
+```bash
+#!/bin/bash
+
+### 给你这个作业起个名字，方便识别不同的作业
+#SBATCH --job-name=gpu-example
+
+### 指定该作业需要多少个节点
+#SBATCH --nodes=1
+
+### 指定该作业需要多少个CPU
+#SBATCH --ntasks=16
+
+### 指定该作业在哪个队列上执行
+### 目前可用的GPU队列有 titan/tesla
+#SBATCH --partition tesla
+
+### 申请一块GPU卡
+#SBATCH --gres=gpu:1 
+
+nvidia-smi
+
+### 执行你的作业
+python test.py
+```
+
+
+
+### 管理作业
+
+使用`sbatch run.sh`提交作业后，作业就进入运行状态：如果程序报错，错误日志会写到输出文件中。
+
+我们可以使用`squeue`命令将显示作业调度系统中所有的作业。
+
+查看自己提交的作业信息：
+
+```bash
+$ squeue -u `whoami`
+```
+
+!!! tip "查看输出文件"
+    如果执行上面的命令查看不到自己的作业，表示作业已经执行结束，很可能是执行遇到问题，建议查看输出文件中的报错信息。
+
+如果想取消某个作业，可以使用`scancel`命令，比如想取消ID为43的作业：
+
+```bash
+$ scancel 43
+```
+
+取消当前用户的所有作业：
+
+```bash
+$ scancel -u `whoami`
+```
+
+取消当前用户下作业状态为PENDING的作业：
+
+```bash
+$ scancel -t PENDING -u `whoami`
 ```
