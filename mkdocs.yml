@@ -35,3 +35,4 @@ nav:
       - 'conda': 'app/conda.md'
       - 'TensorFlow': 'app/tensorflow.md'
       - 'PyTorch': 'app/pytorch.md'
+      - 'RStudio': 'app/RStudio.md'
