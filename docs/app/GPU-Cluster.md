@@ -13,11 +13,11 @@
 
 ## 共享集群
 
-在计算云平台上，我们已经创建了一个共享集群，名为`public_cluster`。在计算云上，点击“共享资源”，选择`public_cluster`进入该集群。
+在计算云平台上，我们已经创建了一个共享集群，名为“public_cluster”。在计算云上，点击“共享资源”，选择`public_cluster`进入该集群。
 
 ![共享集群入口](../images/public_cluster_entry.png)
 
-登录这个集群，可以使用Web SSH直接登录，也查看SSH登录信息，然后使用本地的SSH客户端登录。Windows上的开源免费客户端有[MobaXterm](https://mobaxterm.mobatek.net/)、[XShell + Xftp](https://www.netsarang.com/zh/free-for-home-school/)等。
+登录这个集群，可以使用Web SSH直接登录，也查看SSH登录信息，然后使用本地的SSH客户端登录。Windows上的开源免费客户端有[MobaXterm](https://mobaxterm.mobatek.net/)、[XShell + Xftp](https://www.netsarang.com/zh/free-for-home-school/)等。我们提供了一个MobaXterm的校内[下载链接](./../files/MobaXterm_Portable_v20.3.zip)。
 
 !!! tip "不建议使用破解版软件！"
     MobaXterm和XShell都对教育用户免费。网络上有一些破解版软件，这些破解软件往往植入了病毒，比如使用集群资源挖矿。我们不建议用户使用这些破解软件。

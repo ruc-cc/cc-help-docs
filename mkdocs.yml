@@ -1,5 +1,5 @@
 site_name: 校级公共计算云平台用户手册
-site_url: 'http://cc.ruc.edu.cn/help/'
+site_url: 'https://cc.ruc.edu.cn/help/'
 
 theme:
   name: 'material'
@@ -28,6 +28,7 @@ nav:
       - '用户登录': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
       - '数据传输': 'manual/transfer.md'
+      - 'SSH客户端': 'manual/ssh.md'
 
     - '软件使用':
       - '共享集群': 'app/GPU-Cluster.md'

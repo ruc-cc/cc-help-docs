@@ -36,3 +36,42 @@ pip install lightgbm
 ![在JupyterLab的Terminal中安装软件](../images/jupyterlab_conda_install.png)
 
 安装好之后，我们就可以在Notebook中使用这些包了。
+
+## 创建新的环境
+
+如果想创建新的环境，并且在Notebook中使用这个环境，必须安装`ipykernel`包。`ipykernel`帮助我们管理多个环境中的Kernel。
+
+```bash
+conda create -n <env_name> python=3.7 ipykernel
+```
+
+上面的代码在创建环境时安装了Python 3.7，同时也安装了`ipykernel`包。`<env_name>` 即创建的环境名。建议以英文命名，且不加空格，名称两边不加尖括号“<>”。
+
+如果创建环境时忘了安装`ipykernel`，也可以后续手动安装这个包：
+
+```bash
+conda install -n <env_name> ipykernel
+```
+
+激活环境：
+
+```bash
+source activate <env_name>
+```
+
+将环境写入Notebook的Kernel中：
+
+```bash
+python -m ipykernel install --user --name <env_name> --display-name "<env_name>"
+```
+
+这时，我们已经将新环境中的安装好。在“我的资源”中重启这个Jupyter实例，如下图所示，先点击停止，等待关停后点击启动：
+
+![重启Jupyter实例](../images/jupyter_restart.png)
+
+重启这个Jupyter实例后，点击Jupyter左上角的“+”就可以启动一个`env_name`环境的Notebook，也可以在“Kernel”->“Change Kernel...”将当前Notebook切换为`env_name`。
+
+## 使用本地SSH客户端登录
+
+如果想使用本机的SSH客户端登录，需要参考[SSH客户端免密登录](../manual/ssh.md)中提供的方法。
+

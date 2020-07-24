@@ -46,7 +46,7 @@
 
 对于开放了SSH端口的集群或实例，用户可以通过SSH账户使用scp类的工具来传输数据。
 
-以公共集群项目为例，用户在`public_cluster`共享集群的页面里，选择**科研实例**，可以看到名为`public_cluster`的实例：
+以公共集群项目为例，用户在“public_cluster”共享集群的页面里，选择**科研实例**，可以看到名为`public_cluster`的实例：
 
 ![集群实例](../images/public_cluster_instance.png)
 

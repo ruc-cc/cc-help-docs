@@ -2,13 +2,13 @@
 
 ## 服务地址
 
-计算云的服务地址为：[http://cc.ruc.edu.cn/](http://cc.ruc.edu.cn/) ，在校内外可通过Chrome, Firefox浏览器直接访问。
+计算云的服务地址为：[https://cc.ruc.edu.cn/](https://cc.ruc.edu.cn/) ，在校内外可通过Chrome, Firefox浏览器直接访问。
 
 ## 注册流程
 
 计算云已经与学校微人大统一身份认证对接，所有具有中国人民大学微人大账号的用户均可自主完成注册，用户名和密码为微人大用户名密码。具体操作流程如下：
 
-1. 通过浏览器访问 http://cc.ruc.edu.cn/
+1. 通过浏览器访问 [https://cc.ruc.edu.cn/](https://cc.ruc.edu.cn/)
 2. 跳转至微人大登录
 3. 完善计算云上的信息
 4. 等待管理员审批
