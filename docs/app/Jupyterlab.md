@@ -1,6 +1,6 @@
 # JupyterLab
 
-JupyterLab是下一代Jupyter Notebook，它集成了更多功能，是一个集成开发环境。我们提供了CPU版本和GPU版本的实例，其中，GPU版本的实例使用的显卡为Nvidia GeForce 2080 Ti。
+JupyterLab是下一代Jupyter Notebook，它集成了更多功能，是一个集成开发环境。我们提供了CPU版本和GPU版本的实例，其中，GPU版本的实例使用的显卡为NVIDIA GeForce 2080 Ti。
 
 ## 申请实例
 
@@ -15,7 +15,7 @@ JupyterLab属于交互实例，在计算云上使用时，需要先申请资源�
 ![JupyterLab交互界面](../images/jupyterlab.png)
 
 !!! tip "提示"
-    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在 Jupyter 交互实例上安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。
+    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在 Jupyter 交互实例上安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。
 
 用户进入Jupyter后默认使用`/opt/conda/bin/`下的`conda`和`python`。其中，Python3为Anaconda`base`环境提供的Python。
 
@@ -70,6 +70,25 @@ python -m ipykernel install --user --name <env_name> --display-name "<env_name>"
 ![重启Jupyter实例](../images/jupyter_restart.png)
 
 重启这个Jupyter实例后，点击Jupyter左上角的“+”就可以启动一个`env_name`环境的Notebook，也可以在“Kernel”->“Change Kernel...”将当前Notebook切换为`env_name`。
+
+## 实例的关停与资源释放
+
+当不需要进行计算时，应及时关停这些计算资源。
+
+1.在“我的资源”中点击图中的停止按钮，对实例进行关停操作。
+
+![关停实例](../images/stop_instance.png)
+
+2.点击释放资源按钮释放所分配的资源。释放后，该实例进入回收站，可在“资源回收”中找到。
+
+![释放资源](../images/release_instance.png)
+
+3.下次使用时，可不必重新申请资源，只需在“资源回收”中点击“恢复分配”按钮。
+
+![在“资源回收”中恢复该镜像](../images/trash_bin.png)
+
+!!! note "软件和数据"
+    用户可以在实例中安装自己所需的软件或开发包、上传自己的数据，比如使用`conda`安装Python包。释放资源后，这些软件依然保存在镜像中，下次使用，可以在“资源回收”页面恢复，该实例将恢复至“我的资源”页面，这些软件和数据不会被清理删除，用户可继续使用它们。
 
 ## 使用本地SSH客户端登录
 

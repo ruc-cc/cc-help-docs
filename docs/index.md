@@ -2,7 +2,7 @@
 
 ## 简介
 
-中国人民大学校级公共计算云平台（Public Computing Cloud Platform, Renmin University of China）是为全校师生员工提供计算服务的开放性公共基础设施，由学校大型科学仪器共享平台管理和维护。
+中国人民大学校级公共计算云平台（Public Computing Cloud, Renmin University of China）是为全校师生员工提供计算服务的开放性公共基础设施，由学校大型科学仪器共享平台管理和维护。
 
 学校先后于2017年和2020年投资建设，目前共有计算节点93台（CPU节点72台、GPU计算节点21台），2台存储和4台管理节点组成。CPU理论计算峰值100Tflops，GPU理论计算峰值480Tflops，存储空间380TB。
 
@@ -18,7 +18,7 @@
 
 ## 致谢
 
-对在科研成果中明确致谢计算云并及时反馈成果产出的用户，计算云将返还一定奖励，用来抵消所产生的费用。建议用户在发布科研成果或发布论文时，在成果中注明（例如在致谢中注明）：**本研究工作得到中国人民大学校级公共计算云平台支持。（This work was supported by Public Computing Cloud Platform, Renmin University of China.）**
+对在科研成果中明确致谢计算云并及时反馈成果产出的用户，计算云将返还一定奖励，用来抵消所产生的费用。建议用户在发布科研成果或发布论文时，在成果中注明（例如在致谢中注明）：**本研究工作得到中国人民大学校级公共计算云平台支持。（This work was supported by Public Computing Cloud, Renmin University of China.）**
 学校将对标注平台支持的论文予以奖励。
 
 ## 联系我们
