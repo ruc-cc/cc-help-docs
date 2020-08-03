@@ -3,7 +3,36 @@
 [Anaconda][1] 是一个用于科学计算的Python发行版，支持 Linux、Mac、 Windows系统以及 Python、R等科学计算语言，提供了包（Package）管理与环境（Environment）管理的功能，可以很方便地解决多版本多环境并存的问题。用户可以为某项具体的任务创建单独的环境，环境之间相互隔离。这样可以避免同一环境中各类软件相互冲突的问题。Anaconda 利用`conda`命令来进行包和环境的管理，并且已经包含了Python和相关的配套工具。
 
 !!! tip "提示"
-    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算云的共享集群和 Jupyter 交互实例上都安装好了 Anaconda ，用户只需要根据自身需要安装所需软件。
+    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python。我们已经在计算云的共享集群和 Jupyter 交互实例上都安装好了 Anaconda ，用户只需要根据自身需要安装所需软件。
+
+## 软件与环境变量
+
+一般情况下，我们主要在JupyterLab和共享集群里使用`conda`，JupyterLab和共享集群是两个相互独立的模块，JupyterLab中安装的环境和包目前和共享集群不共用。
+
+### JupyterLab
+
+在JupyterLab中，我们已经安装好了 `conda`，可以直接在Terminal中使用，其位置位于：`/opt/conda/bin/conda`。
+
+### 共享集群
+
+共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+
+* 方法1：
+
+如果用户经常使用`conda`管理的Python环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再执行`source ~/.bashrc`，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
+
+```bash
+export PATH="/opt/app/anaconda3/bin:$PATH"
+```
+* 方法2：
+  
+可以使用`module`模块，每次使用前，将`conda`添加到环境变量：
+
+```bash
+module load anaconda3
+```
+
+这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
 
 ## 添加源
 

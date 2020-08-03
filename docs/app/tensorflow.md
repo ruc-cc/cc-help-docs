@@ -5,9 +5,7 @@ TensorFlow 是一个端到端开源机器学习平台。它拥有一个全面而
 !!! tip "提示"
     在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算云的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。
 
-## 在公共集群上使用
-
-### 安装
+## 安装
 
 用户可以使用`conda`创建属于自己版本的TensorFlow，环境名为`tf22`：
 
@@ -29,6 +27,8 @@ $ source activate tf22
 conda install tensorflow-gpu -n tf22
 ```
 
+## 在共享集群上使用
+
 ### 在Slurm中提交作业
 
 使用Slurm提交作业，首先编写一个作业提交脚本，将其命名为：`test.sh`：
@@ -45,7 +45,7 @@ conda install tensorflow-gpu -n tf22
 ### 指定该作业需要多少个CPU
 #SBATCH --ntasks=16
 
-### 队列名
+### 队列名，目前可用的GPU队列为tesla和titan
 #SBATCH --partition=titan
 
 ### 使用GPU数
@@ -53,9 +53,11 @@ conda install tensorflow-gpu -n tf22
 
 echo $CUDA_VISIBLE_DEVICES
 
-# 使用刚刚创建的tf2.2环境
+### Anaconda
 export PATH=/opt/app/anaconda3/bin:$PATH
-conda activate tf22
+
+### 假设创建的conda环境名为 tf22
+source activate tf22
 
 python tf_test.py
 ```
