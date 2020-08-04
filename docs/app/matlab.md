@@ -4,7 +4,7 @@ MATLAB（矩阵实验室）是MATrix LABoratory的缩写，是一款由美国 Ma
 
 ## 交互实例
 
-我们已经提供了交互实例版本的 MATLAB，如果需要图形化界面，请点击“申请资源”，寻找到名为“Matlab2019-Desktop”的实例。点击启动按钮：
+我们已经提供了交互实例版本的 MATLAB，如果需要图形化界面，请点击“申请资源”，寻找到名为“Matlab2019”的实例。点击启动按钮：
 
 ![启动图形化界面的MATLAB](./images/../../images/matlab_start.png)
 
