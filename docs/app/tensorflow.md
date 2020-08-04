@@ -7,6 +7,38 @@ TensorFlow 是一个端到端开源机器学习平台。它拥有一个全面而
 
 ## 安装
 
+!!! warning "Jupyter与共享集群"
+    共享集群与Jupyter等交互实例是相互独立的，在Jupyter中安装的一些软件包，并不能直接在共享集群里直接使用，两边都需要单独安装。
+
+### JupyterLab
+
+在JupyterLab中，我们已经安装好了 `conda`，可以直接在Terminal中使用，其位置位于：`/opt/conda/bin/conda`。
+
+### 共享集群
+
+在共享集群上，我们建议使用`conda`来创建和管理R环境，`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+
+使用`conda`前，先要将`conda`添加到环境变量中。
+
+* 方法1：
+
+如果用户经常使用`conda`管理各类环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再在Terminal命令行中执行`source ~/.bashrc`，这样之后，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
+
+```bash
+export PATH="/opt/app/anaconda3/bin:$PATH"
+```
+* 方法2：
+  
+可以使用`module`，每次使用前，将`conda`添加到环境变量：
+
+```bash
+module load anaconda3
+```
+
+这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
+
+### 创建环境并安装包
+
 用户可以使用`conda`创建属于自己版本的TensorFlow，环境名为`tf22`：
 
 ```
@@ -27,7 +59,7 @@ $ source activate tf22
 conda install tensorflow-gpu -n tf22
 ```
 
-## 在共享集群上使用
+## 在共享集群上提交作业
 
 ### 在Slurm中提交作业
 

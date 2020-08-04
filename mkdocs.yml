@@ -34,7 +34,10 @@ nav:
       - '共享集群': 'app/GPU-Cluster.md'
       - 'Jupyter': 'app/Jupyterlab.md'
       - 'conda': 'app/conda.md'
-      - 'TensorFlow': 'app/tensorflow.md'
-      - 'PyTorch': 'app/pytorch.md'
-      - 'RStudio': 'app/RStudio.md'
+      - 'Python和深度学习':
+        - 'TensorFlow': 'app/tensorflow.md'
+        - 'PyTorch': 'app/pytorch.md'
       - 'MATLAB': 'app/matlab.md'
+      - 'R' :
+        - '在共享集群上提交作业' : 'app/public-cluster-r.md'
+        - 'RStudio': 'app/RStudio.md'

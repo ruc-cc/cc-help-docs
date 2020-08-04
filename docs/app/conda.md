@@ -19,7 +19,7 @@
 
 * 方法1：
 
-如果用户经常使用`conda`管理的Python环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再执行`source ~/.bashrc`，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
+如果用户经常使用`conda`管理各类环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再在Terminal命令行中执行`source ~/.bashrc`，这样之后，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
 
 ```bash
 export PATH="/opt/app/anaconda3/bin:$PATH"

@@ -123,6 +123,8 @@ python test.py
 $ sbatch run.sh
 ```
 
+![使用sbatch提交作业](../images/sbatch.png)
+
 这个程序将提交至作业调度系统，作业调度系统会为作业生成一个作业ID，并分配相应节点执行该作业。同时，程序中各类输出结果也会生成到文件中，文件名为`slurm-jobid.out`。
 
 以上只是一个简单的案例，Slurm 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gres=gpu:1`指定使用一张GPU卡。
@@ -153,8 +155,6 @@ nvidia-smi
 ### 执行你的作业
 python test.py
 ```
-
-
 
 ### 管理作业
 
@@ -188,3 +188,17 @@ $ scancel -u `whoami`
 ```bash
 $ scancel -t PENDING -u `whoami`
 ```
+
+### 交互式debug
+
+前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu`队列申请1个节点，每个节点8个核心，时间为10分钟。
+
+```bash
+salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00
+```
+
+![salloc](../images/salloc.png)
+
+Slurm会分配给一个机器，比如图中分配机器为cpu5，接着我们可以`ssh cpu5`，来登录到这台机器上，执行相应的计算和并进行debug。比如，执行一个Python程序，查看输出：`python test.py`。在`test.py`中，我们可以增加一些打印语句，将一些信息打印出来，方便查看程序走到哪个位置。
+
+使用完后，我们需要先执行一次`exit`退出当前机器，这里是cpu5这台机器；再执行一次`exit`，提醒Slurm释放掉`salloc`所申请的资源。
