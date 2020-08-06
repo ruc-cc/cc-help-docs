@@ -5,7 +5,7 @@
 !!! tip "提示"
     在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python。我们已经在计算云的共享集群和 Jupyter 交互实例上都安装好了 Anaconda ，用户只需要根据自身需要安装所需软件。
 
-## 软件与环境变量
+## conda与环境变量
 
 一般情况下，我们主要在JupyterLab和共享集群里使用`conda`，JupyterLab和共享集群是两个相互独立的模块，JupyterLab中安装的环境和包目前和共享集群不共用。
 
