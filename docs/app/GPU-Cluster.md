@@ -36,10 +36,10 @@
 
 | 队列名 | CPU                         | 内存  | GPU                        | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- |
-| tesla  | 2 * Intel Gold 5218 (16 Core) | 256GB | 2 * Nvidia Tesla V100 32GB | 3    |
-| titan  | 2 * Intel Gold 5218 (16 Core) | 128GB | 2 * Nvidia Titan RTX       | 7    |
-| cpu    | 2 * Intel Gold 5218 (16 Core) | 192GB | 无                         | 6    |
-| fat    | 2 * Intel Gold 5218 (16 Core) | 384GB | 无                         | 2    |
+| tesla  | 2 * Intel Gold 5218 (16核心32线程) | 256GB | 2 * Nvidia Tesla V100 32GB | 3    |
+| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX       | 7    |
+| cpu    | 2 * Intel Gold 5218 (16核心32线程) | 192GB | 无                         | 6    |
+| fat    | 4 * Intel Gold 5218 (16核心32线程) | 384GB | 无                         | 2    |
 
 ## 调度系统
 
@@ -66,7 +66,7 @@
 我们可以使用`sinfo`查看集群信息和状态。
 
 ```bash
-$ sinfo
+[u20200002@workstation ~]$ sinfo
 ```
 
 得到当前集群的队列信息：
@@ -84,7 +84,7 @@ fat          up   infinite      2   idle fat[1-2]
 查看指定分区节点空闲状态：
 
 ```bash
-$ sinfo -p cpu
+[u20200002@workstation ~]$ sinfo -p cpu
 ```
 
 ### 提交作业
@@ -107,20 +107,24 @@ $ sinfo -p cpu
 
 ### 指定该作业在哪个队列上执行
 ### 目前可用的队列有 cpu/fat/titan/tesla
-#SBATCH --partition cpu
+#SBATCH --partition=cpu
 
-### 配置好环境变量
+### 本例使用Anaconda中的Python，先将Python添加到环境变量配置好环境变量
 export PATH=/opt/app/anaconda3/bin:$PATH
-conda activate tf22
+### 激活一个 Anaconda 环境 tf22
+source activate tf22
 
 ### 执行你的作业
 python test.py
 ```
 
+!!! warning "注释与井号"
+    上面这个脚本中，三个井号###表示注释，单个井号`#SBATCH`用来表示指定参数。用户不要把`#SBATCH`的井号删掉。
+
 假如我们想执行一个Python程序`test.py`，Python程序`test.py`也要放在`run.sh`相同的目录下。做好以上准备后，在该目录下提交这个作业：
 
 ```bash
-$ sbatch run.sh
+[u20200002@workstation ~]$ sbatch run.sh
 ```
 
 ![使用sbatch提交作业](../images/sbatch.png)
@@ -145,7 +149,7 @@ $ sbatch run.sh
 
 ### 指定该作业在哪个队列上执行
 ### 目前可用的GPU队列有 titan/tesla
-#SBATCH --partition tesla
+#SBATCH --partition=tesla
 
 ### 申请一块GPU卡
 #SBATCH --gres=gpu:1 
@@ -165,7 +169,7 @@ python test.py
 查看自己提交的作业信息：
 
 ```bash
-$ squeue -u `whoami`
+[u20200002@workstation ~]$ squeue -u `whoami`
 ```
 
 !!! tip "查看输出文件"
@@ -174,19 +178,19 @@ $ squeue -u `whoami`
 如果想取消某个作业，可以使用`scancel`命令，比如想取消ID为43的作业：
 
 ```bash
-$ scancel 43
+[u20200002@workstation ~]$ scancel 43
 ```
 
 取消当前用户的所有作业：
 
 ```bash
-$ scancel -u `whoami`
+[u20200002@workstation ~]$ scancel -u `whoami`
 ```
 
 取消当前用户下作业状态为PENDING的作业：
 
 ```bash
-$ scancel -t PENDING -u `whoami`
+[u20200002@workstation ~]$ scancel -t PENDING -u `whoami`
 ```
 
 ### 交互式debug
@@ -194,7 +198,7 @@ $ scancel -t PENDING -u `whoami`
 前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu`队列申请1个节点，每个节点8个核心，时间为10分钟。
 
 ```bash
-salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00
+[u20200002@workstation ~]salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00
 ```
 
 ![salloc](../images/salloc.png)
