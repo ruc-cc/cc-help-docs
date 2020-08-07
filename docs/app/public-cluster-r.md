@@ -1,6 +1,6 @@
 # 在共享集群上提交R作业
 
-!!! "RStudio与共享集群"
+!!! warning "RStudio与共享集群"
     共享集群与Jupyter、RStudio等交互实例是相互独立的，在Jupyter或RStudio中安装的一些软件包，并不能直接在共享集群里直接使用，两边都需要单独安装。
 
 ## 软件包安装

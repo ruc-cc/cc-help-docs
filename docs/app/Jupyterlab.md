@@ -21,9 +21,31 @@ JupyterLab属于交互实例，在计算云上使用时，需要先申请资源�
 
 ![创建新的程序](../images/jupyterlab_launcher.png)
 
-如果用户希望安装自己的软件包，需要启动一个Terminal，在Terminal中使用`conda install`或`pip install`命令来安装所需软件包。
+## 安装包
 
+如果用户希望安装自己的软件包，需要启动一个Terminal，在Terminal中执行下列操作。
+
+我们强烈建议用户使用`conda`创建属于自己版本的Python，这样有几个好处：
+
+1. Python生态中各个包版本迭代速度很快，基于不同的环境，可以使用不同的包版本。
+2. 可以为某项任务、某个工程创立单独的环境，环境之间相互隔离，方便相互切换。
+3. 如果不创建单独环境，当默认环境中的包越来越多时，包与包之间会产生一些冲突，导致整个环境不可用。创建单独的环境可以避免包冲突。
+
+```bash
+$ conda create -n <env_name> <package_names>
 ```
+
+`<env_name>` 即创建的环境名。建议以英文命名，且不加空格，名称两边不加尖括号“<>”。
+
+`<package_names>` 即安装在环境中的包名。名称两边不加尖括号“<>”。如果要在新创建的环境中创建多个包，则直接在`<package_names>`后以空格隔开，添加多个包名即可。例如，创建一个名为`python3`的环境，环境中安装版本为3.7的python，同时也安装了`numpy`和`pandas`：
+
+```bash
+$ conda create -n python3 python=3.7 numpy pandas
+```
+
+使用`conda install`或`pip install`命令来安装所需软件包。
+
+```bash
 # 使用 conda 安装
 conda install numpy
 
@@ -37,9 +59,9 @@ pip install lightgbm
 
 安装好之后，我们就可以在Notebook中使用这些包了。
 
-## 创建新的环境
+## 在多个环境之间切换
 
-如果想创建新的环境，并且在Notebook中使用这个环境，必须安装`ipykernel`包。`ipykernel`帮助我们管理多个环境中的Kernel。
+如果创建了新的环境，并且在Notebook中使用这个环境，必须安装`ipykernel`包。`ipykernel`帮助我们管理多个环境中的Kernel。
 
 ```bash
 conda create -n <env_name> python=3.7 ipykernel
