@@ -1,8 +1,13 @@
 # RStudio
 
-RStudio 是 RStudio 公司打造的一款基于 Web 的开源IDE。计算云提供了多人共享模式的RStudio容器实例，可供多人团队共享使用。
+RStudio 是 RStudio 公司打造的一款基于 Web 的开源IDE。计算云提供了两种模式的RStudio：
 
-## 创建共享项目
+1. 多人共享模式的RStudio容器实例，可供多人团队共享使用。
+2. 个人版RStudio，仅自己可用。
+
+## 多人共享模式的RStudio
+
+### 创建共享项目
 
 RStudio实例可以被多人共享，可以由课题组中一人创建，并邀请课题组其他人加入该RStudio实例。我们只对创建人进行计费。
 
@@ -22,12 +27,16 @@ RStudio实例可以被多人共享，可以由课题组中一人创建，并邀�
 
 当然，我们也可以创建一个共享项目，共享项目中只有自己本人。
 
-## 申请RStudio应用实例
+### 申请RStudio应用实例
 
 RStudio属于交互实例，在**申请资源**界面里申请：
 
 ![申请RStudio实例](../images/create_rstudio_instance.png)
 ![申请RStudio实例对话](../images/create_rstudio_instance_dialog.png)
+
+## 个人版RStudio
+
+RStudio个人版仅自己可见可用，申请资源时，注意选择“RStudio个人版”的实例。
 
 ## 启动与登录
 
