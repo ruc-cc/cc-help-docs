@@ -100,3 +100,7 @@ ERROR: dependency ‘xml2’ is not available for package ‘rvest’
 ![RStudio中切换到Terminal安装操作系统依赖包](../images/rstudio_terminal.png)
 
 安装好操作系统包后，再切换会R的Console，继续安装刚才报错的包`xml2`、`rvest`和`tidyverse`即可。
+
+### 数据上传
+
+我们可以使用RStudio自带的文件管理和上传工具，也可以用计算云提供的文件传输与数据管理功能，计算云的文件传输详见[文档](../manual/transfer.md)。
