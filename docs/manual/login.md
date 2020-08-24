@@ -2,7 +2,10 @@
 
 ## 服务地址
 
-计算云的服务地址为：[https://cc.ruc.edu.cn/](https://cc.ruc.edu.cn/) ，在校内外可通过Chrome, Firefox浏览器直接访问。
+计算云的服务地址为：[https://cc.ruc.edu.cn/](https://cc.ruc.edu.cn/) ，可通过Chrome, Firefox浏览器直接访问。
+
+! warning "校外访问请先登录学校VPN"
+   用户在校外使用计算云，需要先登录学校[VPN](https://vpn.ruc.edu.cn/)来使用本集群，本教程内所有IP均为校内网络，均需要先登入到校内VPN环境。
 
 ## 注册流程
 

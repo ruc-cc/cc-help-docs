@@ -58,19 +58,25 @@
 
 ![重置密码](../images/reset_passwd.png)
 
-用户在校内，能够直接访问计算云服务IP地址的情况下，可以使用scp, winscp之类的工具来传输数据：
+用户在校内，或者校外使用VPN，能够直接访问计算云服务IP地址的情况下，可以使用scp, winscp之类的工具来传输数据：
 
 ```bash
 scp -P 20014 some_data u20200002@10.77.90.101:/home/your-user-id/
 ```
 
-## WebDAV 协议访问
+## 大数据文件：使用WebDAV协议
 
-由于页面文件上传功能有限，每次只能上传下载单个文件。而SSH端口不是所有实例都提供的访问方式。平台还提供了WebDAV协议的文件访问方式。
+由于页面文件上传功能有限，每次只能上传下载单个文件，而且文件不能太大，**建议大量数据使用WebDAV协议传输**。WebDAV是一种通信协议，支持大批量的文件传输。对于用户来说，相当于将计算云的服务器以网盘的形式挂载到用户的个人电脑，用户将个人电脑里的数据拷贝或者上传到计算云的服务器上。
 
-WebDAV协议访问的地址是`https://10.77.90.102:4918`。用户验证请使用平台内部用户名（`u` + 学号， 例如u20200002）和密码。
+首先我们需要下载支持WebDAV协议的软件：Windows系统建议使用[RaiDrive](https://www.raidrive.com/)或[Cyberduck](https://cyberduck.io/)，Mac系统建议使用[Cyberduck](https://cyberduck.io/)。下文以Cyberduck为例介绍如何使用。
 
-Windows系统建议使用[RaiDrive](https://www.raidrive.com/)。Mac系统建议使用[Cyberduck](https://cyberduck.io/)。
+打开Cyberduck，点击“新建连接”，按照下图所示填写连接方式，要选择“WebDAV(HTTPS)”方式，WebDAV协议访问的地址是`https://10.77.90.102:4918`。用户验证请使用平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算云密码，首次使用需要设置一下：进入计算云页面，点击右上角用户名，重置密码。连接过程中出现任何提示，直接点“继续”。
+
+![Cyberduck示意图](../images/cyberduck.png)
+
+连接成功后，可以使用软件的创建文件夹、上传等功能。注意，使用共享实例，比如交互式的JupyterLab、RStudio、Stata、MATLAB的用户，目标文件夹是“MyData”文件夹。软件的“操作”按钮下有“新建文件夹”、“上传”等功能。
+
+![Cyberduck目标文件夹](../images/cyberduck_upload.png)
 
 ## 交互实例内访问共享集群Home目录
 
