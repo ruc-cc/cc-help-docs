@@ -27,7 +27,7 @@ nav:
     - '使用必读':
       - '用户登录': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
-      - '数据传输': 'manual/transfer.md'
+      - '数据管理与文件传输': 'manual/transfer.md'
       - 'SSH客户端': 'manual/ssh.md'
 
     - '软件使用':
@@ -40,3 +40,5 @@ nav:
       - 'R' :
         - 'RStudio': 'app/RStudio.md'
         - '在共享集群上提交作业' : 'app/public-cluster-r.md'
+      - '分子动力学':
+        - 'Amber': 'app/amber.md'
