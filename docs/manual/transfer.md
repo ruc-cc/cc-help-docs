@@ -2,10 +2,10 @@
 
 ## Linux的目录结构
 
-计算云主要基于Linux操作系统，在进行文件，每个用户都有属于自己的个人目录，在Linux中被称为HOME目录，例如：`/home/u20200002`，该目录是交互实例下的用户主目录，用户的数据和程序都应放在Home目录里。
+计算云主要基于Linux操作系统，在计算云上，每个用户都有属于自己的个人目录，例如：`/home/u20200002`，该目录在Linux中被称为Home目录。该目录是交互实例下的用户主目录，用户的数据和程序都应放在Home目录里。
 
 !!! warning "路径格式"
-    与Windows不同，Linux的目录使用`/`而非`\`。而且Linux下没有C盘、D盘的概念，个人数据和程序都应放在HOME目录下。例如，Windows下一个路径可以是：`C:\Documents\Summer2020.pdf`；Linux下，我们可以在HOME目录下创建`Documents`的目录，并文件上传到这个目录下，路径为：`/home/u20200002/Documents/Summer2020.pdf`。未使用过Linux的用户一定要注意这样的目录路径格式的变动。
+    与Windows不同，Linux的目录分隔符使用`/`而非`\`。而且Linux下没有C盘、D盘的概念，个人数据和程序都应放在Home目录下。例如，在Windows下，一个路径可以是：`C:\Documents\Summer2020.pdf`；在Linux下，我们可以在Home目录下创建`Documents`的目录，并文件上传到这个目录下，路径为：`/home/u20200002/Documents/Summer2020.pdf`。未使用过Linux的用户一定要注意这样的目录路径格式的变动。
 
 ## 用户数据存储空间
 

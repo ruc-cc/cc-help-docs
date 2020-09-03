@@ -8,9 +8,9 @@ MATLAB（矩阵实验室）是MATrix LABoratory的缩写，是一款由美国 Ma
 
 我们已经提供了交互实例版本的 MATLAB，如果需要图形化界面，请点击“申请资源”，寻找到名为“Matlab2019”的实例。点击启动按钮：
 
-![启动图形化界面的MATLAB](./images/../../images/matlab_start.png)
+![启动图形化界面的MATLAB](../images/matlab_start.png)
 
 之后点击“远程桌面”，登录到远程桌面，进入远程桌面后，MATLAB已经在启动。
 
 !!! tip "Linux MATLAB"
-    本MATLAB为Linux操作系统下的MATLAB，其功能与绝大多数的Windows、macOS操作系统下的MATLAB使用习惯几乎一致，只是在文件夹目录结构稍有区别。
+    本MATLAB为Linux操作系统下的MATLAB，其功能与绝大多数的Windows、macOS操作系统下的MATLAB使用习惯几乎一致，只是在文件夹目录结构稍有区别。详情参考[数据管理和文件传输](../manual/transfer.md#linux)部分。
