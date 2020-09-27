@@ -87,7 +87,7 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
 
 ![Cyberduck示意图](../images/cyberduck.png)
 
-连接过程中出现任何提示，直接点“继续”。连接成功后，可以使用软件的创建文件夹、上传等功能。注意，使用共享实例，比如交互式的JupyterLab、RStudio、Stata、MATLAB的用户，目标文件夹是“MyData”文件夹。软件的“操作”按钮下有“新建文件夹”、“上传”等功能。
+连接过程中出现任何提示，直接点“继续”。连接成功后，可以使用软件的创建文件夹、上传等功能。注意，使用交互实例，比如交互式的JupyterLab、RStudio、Stata、MATLAB的用户，目标文件夹是“MyData”文件夹。软件的“操作”按钮下有“新建文件夹”、“上传”等功能。
 
 ![Cyberduck目标文件夹](../images/cyberduck_upload.png)
 
