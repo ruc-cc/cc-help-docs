@@ -36,7 +36,9 @@ nav:
       - 'Python和深度学习':
         - 'Jupyter': 'app/Jupyterlab.md'
         - '在共享集群上提交作业': 'app/public-cluster-python.md'
-      - 'MATLAB': 'app/matlab.md'
+      - 'MATLAB': 
+        - '交互式MATLAB': 'app/matlab.md'
+        - '在共享集群上提交作业': 'app/public-cluster-matlab.md'
       - 'R' :
         - 'RStudio': 'app/RStudio.md'
         - '在共享集群上提交作业' : 'app/public-cluster-r.md'

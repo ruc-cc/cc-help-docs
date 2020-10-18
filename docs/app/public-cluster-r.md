@@ -79,6 +79,7 @@ conda install -c r r-data.table
 
 ### 指定该作业在哪个队列上执行
 ### 目前可用的CPU队列有 cpu/fat
+### cpu队列有64核，fat队列有128核
 #SBATCH --partition=cpu
 
 ### 加载Anaconda
