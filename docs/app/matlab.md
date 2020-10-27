@@ -31,10 +31,9 @@ MATLAB（矩阵实验室）是MATrix LABoratory的缩写，是一款由美国 Ma
 
 ```matlab
 parpool('local', 32)
-% parfor i = 1:2048
-A = zeros(100,1);
+
 parfor i = 1:100
- A(i) = sin(i*2*pi/20);
+    A(i) = sin(i*2*pi/20);
 end
 ```
 
