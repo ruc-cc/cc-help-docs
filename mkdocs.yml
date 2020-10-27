@@ -42,5 +42,6 @@ nav:
       - 'R' :
         - 'RStudio': 'app/RStudio.md'
         - '在共享集群上提交作业' : 'app/public-cluster-r.md'
+      - 'Stata': 'app/stata.md'
       - '分子动力学':
         - 'Amber': 'app/amber.md'

@@ -50,3 +50,27 @@ $ squeue -u `whoami`
 用户可能一开始使用交互式的MATLAB，然后逐渐迁移到共享集群上。在交互式MATLAB中，计算云平台会自动将共享集群的Home目录挂载到`/group_homes`下。 用户可以在交互式的MATLAB里把脚本和数据直接复制或移动到共享集群模式的Home目录中。
 
 例如，在一个交互MATLAB实例里，鼠标点击右键，启动Terminal。下面的命令将交互式MATLAB中的HOME目录数据的拷贝到共享集群中：`cp ~/files-to-copy /group_homes/public_cluster/home/u20200002/`。注意，将里面的学工号改为自己的学工号。
+
+## 并行加速
+
+为了利用服务器的多个CPU核心，对于计算密集型的任务，可以考虑使用MATLAB提供的并行工具箱，下面做一些简单的介绍，更多使用方法请阅读官方文档：[Parallel Computing Toolbox][1]。
+
+一般地，我们可以使用 `parfor` 来替换原来的 `for` 来做循环。大致步骤为：
+
+1. 创建一个 MATLAB parpool
+2. 初始 parpool 参数，包括并行处理器数，临时文件地址等
+3. 将代码中所有 `for` 替换为 `parfor` 
+
+一个使用 `parfor` 的简单例子：
+
+```matlab
+parpool('local', 32)
+
+parfor i = 1:100
+    A(i) = sin(i*2*pi/20);
+end
+```
+
+注意，上面代码中的 `parpool()` 函数第二个参数要输入并行所使用的CPU核心数。一般是“申请资源”模块中，申请时填写的CPU核数。
+
+[1]: https://ww2.mathworks.cn/products/parallel-computing.html
