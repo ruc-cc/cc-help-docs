@@ -36,8 +36,8 @@
 
 | 队列名 | CPU                         | 内存  | GPU                        | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- |
-| tesla  | 2 * Intel Gold 5218 (16核心32线程) | 256GB | 2 * Nvidia Tesla V100 32GB | 3    |
-| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX       | 7    |
+| tesla  | 2 * Intel Gold 5218 (16核心32线程) | 256GB | 2 * Nvidia Tesla V100 显存32GB | 3    |
+| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX 显存24GB  | 7    |
 | cpu    | 2 * Intel Gold 5218 (16核心32线程) | 192GB | 无                         | 6    |
 | fat    | 4 * Intel Gold 5218 (16核心32线程) | 384GB | 无                         | 2    |
 

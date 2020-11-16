@@ -1,4 +1,4 @@
-site_name: 校级公共计算云平台用户手册
+site_name: 校级智能计算平台用户手册
 site_url: 'https://cc.ruc.edu.cn/help/'
 
 theme:
@@ -45,3 +45,5 @@ nav:
       - 'Stata': 'app/stata.md'
       - '分子动力学':
         - 'Amber': 'app/amber.md'
+    
+    - '系列培训及相关资料': 'tutorials.md'
