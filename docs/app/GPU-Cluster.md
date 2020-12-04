@@ -36,9 +36,9 @@
 
 | 队列名 | CPU                         | 内存  | GPU                        | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- |
-| tesla  | 2 * Intel Gold 5218 (16核心32线程) | 256GB | 2 * Nvidia Tesla V100 显存32GB | 3    |
-| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX 显存24GB  | 7    |
-| cpu    | 2 * Intel Gold 5218 (16核心32线程) | 192GB | 无                         | 6    |
+| tesla  | 2 * Intel Gold 5218 (16核心32线程) | 256GB | 2 * Nvidia Tesla V100 PCI-E 32GB | 3    |
+| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX PCI-E 24GB | 7    |
+| cpu    | 2 * Intel Gold 5218 (16核心32线程) | 192GB | 无                         | 3   |
 | fat    | 4 * Intel Gold 5218 (16核心32线程) | 384GB | 无                         | 2    |
 
 ## 调度系统
@@ -100,9 +100,11 @@ fat          up   infinite      2   idle fat[1-2]
 #SBATCH --job-name=example
 
 ### 指定该作业需要多少个节点
+### 注意！没有使用多机并行（MPI/NCCL等），下面参数写1！不要多写，多写了也不会加速程序！
 #SBATCH --nodes=1
 
-### 指定该作业需要多少个CPU
+### 指定该作业需要多少个CPU核心
+### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
 #SBATCH --ntasks=4
 
 ### 指定该作业在哪个队列上执行
@@ -142,9 +144,11 @@ python test.py
 #SBATCH --job-name=gpu-example
 
 ### 指定该作业需要多少个节点
+### 注意！没有使用多机并行（MPI/NCCL等），下面参数写1！不要多写，多写了也不会加速程序！
 #SBATCH --nodes=1
 
-### 指定该作业需要多少个CPU
+### 指定该作业需要多少个CPU核心
+### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
 #SBATCH --ntasks=16
 
 ### 指定该作业在哪个队列上执行
@@ -152,6 +156,7 @@ python test.py
 #SBATCH --partition=tesla
 
 ### 申请一块GPU卡
+### 注意！程序没有使用多卡并行优化的，下面参数写1！不要多写，多写也不会加速程序！
 #SBATCH --gres=gpu:1 
 
 nvidia-smi
@@ -206,3 +211,15 @@ python test.py
 Slurm会分配给一个机器，比如图中分配机器为cpu5，接着我们可以`ssh cpu5`，来登录到这台机器上，执行相应的计算和并进行debug。比如，执行一个Python程序，查看输出：`python test.py`。在`test.py`中，我们可以增加一些打印语句，将一些信息打印出来，方便查看程序走到哪个位置。
 
 使用完后，我们需要先执行一次`exit`退出当前机器，这里是cpu5这台机器；再执行一次`exit`，提醒Slurm释放掉`salloc`所申请的资源。
+
+## 资源划分
+
+
+
+| 队列名 | 队列属性                  | CPU核数             | GPU               | 使用方式 | 台数 |
+| ------ | --------------------------- | ----- | -------------------------- | ---- | ---- |
+| tesla  | GPU队列 - 共享式 | 64 | 2 张 Nvidia Tesla V100 PCI-E 32GB | 用户1可以使用 --gres=gpu:1 申请单独的1张卡，用户2可以使用使用 --gres=gpu:1 申请第二张卡。 | 3    |
+| titan  | GPU队列 - 独占式 | 64 | 2 张 Nvidia Titan RTX PCI-E 24GB | 用户1可以使用 --gres=gpu:1 申请单独的1张卡，用户2可以使用使用 --gres=gpu:1 申请第二张卡。 | 7    |
+| cpu    | CPU队列 | 64 | 无 | 用户1可以使用 --ntasks=32 申请CPU核数，申请到后该机器被用户1独占，其他人无法在申请CPU资源。建议用户在该节点上使用所有的64核CPU。 | 3   |
+| fat    | CPU队列 | 128 | 无 | 用户1可以使用 --ntasks=32 申请CPU核数，申请到后该机器被用户1独占，其他人无法在申请CPU资源。建议用户在该节点上使用所有的128核CPU。 | 2    |
+

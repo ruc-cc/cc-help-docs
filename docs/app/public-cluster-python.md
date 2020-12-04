@@ -81,15 +81,18 @@ $ conda install tensorflow-gpu -n tf22
 #SBATCH --job-name=tf-example
 
 ### 指定该作业需要多少个节点
+### 注意！没有使用多机并行（MPI/NCCL等），下面参数写1！不要多写，多写了也不会加速程序！
 #SBATCH --nodes=1
 
-### 指定该作业需要多少个CPU
+### 指定该作业需要多少个CPU核心
+### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
 #SBATCH --ntasks=16
 
 ### 队列名，目前可用的GPU队列为tesla和titan
 #SBATCH --partition=titan
 
 ### 使用GPU数
+### 注意！程序没有使用多卡并行优化的，下面参数写1！不要多写，多写也不会加速程序！
 #SBATCH --gres=gpu:1
 
 echo $CUDA_VISIBLE_DEVICES
