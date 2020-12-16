@@ -25,7 +25,7 @@ extra_css:
 nav:
     - '首页': 'index.md'
     - '使用必读':
-      - '用户登录': 'manual/login.md'
+      - '用户注册': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
       - '数据管理与文件传输': 'manual/transfer.md'
       - 'SSH客户端': 'manual/ssh.md'
