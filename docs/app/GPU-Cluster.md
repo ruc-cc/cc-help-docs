@@ -203,7 +203,7 @@ python test.py
 前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu`队列申请1个节点，每个节点8个核心，时间为10分钟。
 
 ```bash
-[u20200002@workstation ~]salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00
+[u20200002@workstation ~]$ salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00
 ```
 
 ![salloc](../images/salloc.png)
@@ -214,12 +214,9 @@ Slurm会分配给一个机器，比如图中分配机器为cpu5，接着我们�
 
 ## 资源划分
 
-
-
 | 队列名 | 队列属性                  | CPU核数             | GPU               | 使用方式 | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- | ---- |
 | tesla  | GPU队列 - 共享式 | 64 | 2 张 Nvidia Tesla V100 PCI-E 32GB | 用户1可以使用 --gres=gpu:1 申请单独的1张卡，用户2可以使用使用 --gres=gpu:1 申请第二张卡。 | 3    |
 | titan  | GPU队列 - 独占式 | 64 | 2 张 Nvidia Titan RTX PCI-E 24GB | 用户1可以使用 --gres=gpu:1 申请单独的1张卡，用户2可以使用使用 --gres=gpu:1 申请第二张卡。 | 7    |
 | cpu    | CPU队列 | 64 | 无 | 用户1可以使用 --ntasks=32 申请CPU核数，申请到后该机器被用户1独占，其他人无法在申请CPU资源。建议用户在该节点上使用所有的64核CPU。 | 3   |
 | fat    | CPU队列 | 128 | 无 | 用户1可以使用 --ntasks=32 申请CPU核数，申请到后该机器被用户1独占，其他人无法在申请CPU资源。建议用户在该节点上使用所有的128核CPU。 | 2    |
-

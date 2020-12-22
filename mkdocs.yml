@@ -31,7 +31,10 @@ nav:
       - 'SSH客户端': 'manual/ssh.md'
 
     - '软件使用':
-      - '共享集群': 'app/GPU-Cluster.md'
+      - '共享集群': 
+        - '共享集群': 'app/GPU-Cluster.md'
+        - 'Slurm进阶': 'app/slurm-advanced.md'
+        - 'module/spack': 'app/module-spack.md'
       - 'conda': 'app/conda.md'
       - 'Python和深度学习':
         - 'Jupyter': 'app/Jupyterlab.md'
