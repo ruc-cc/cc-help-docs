@@ -133,7 +133,22 @@ python test.py
 
 这个程序将提交至作业调度系统，作业调度系统会为作业生成一个作业ID，并分配相应节点执行该作业。同时，程序中各类输出结果也会生成到文件中，文件名为`slurm-jobid.out`。
 
-以上只是一个简单的案例，Slurm 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gres=gpu:1`指定使用一张GPU卡。
+以上只是一个简单的案例，Slurm 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gres=gpu:1`指定使用一张GPU卡。请参考[Slurm进阶](./slurm-advanced.md#)，或者作业参数信息，请参考[官方文档](https://slurm.schedmd.com/sbatch.html)。
+
+### 登录到计算节点
+
+用户在登录节点（workstation）不能进行计算，否则影响其他人登录。我们已经做了一些限制，进程无法长时间运行；同时，如果发现，我们将直接杀死进程。
+
+用户无法直接登录到计算节点，需要使用`sbatch`或者`salloc`提交作业后，使用`ssh hostname`来登录目标节点。比如，分配的节点为`cpu1`，`ssh cpu1`可登录到计算节点。
+
+### GPU
+
+使用GPU，请使用`--gres=gpu:1`参数，程序未使用多卡并行优化，此参数设置为1！
+
+!!! warning
+    登录节点上没有GPU，无法使用`nvidia-smi`，也无法跑任何GPU相关运算，一切GPU运算都应该在相应的GPU队列上。可以使用`sbatch`或者下文提到的`salloc`交互式方式，将作业提交到GPU队列。
+    
+    SSH登录到GPU节点上，请使用`/opt/app/eaas/eaas_smi`查看完整的`nvidia-smi`信息。
 
 一个使用GPU的作业提交脚本：
 
