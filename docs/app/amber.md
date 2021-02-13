@@ -9,11 +9,10 @@
 
 #SBATCH --job-name=amber
 #SBATCH --nodes=1
-#SBATCH --ntasks=2
 
 ### GPU partition: titan/tesla
 #SBATCH --partition=titan
-#SBATCH --gres=gpu:2
+#SBATCH --gpus=2
 
 . /opt/intel/bin/compilervars.sh intel64
 . /opt/app/Amber/18_gpu/amber.sh

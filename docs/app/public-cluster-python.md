@@ -15,9 +15,7 @@ Python是数据分析、数据挖掘和机器学习领域经常使用的一种�
 ### conda与环境变量
 
 !!! tip "提示"
-    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算云的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。
-
-在共享集群上，我们建议使用`conda`来创建和管理R环境，`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算云的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
 
 使用`conda`前，先要将`conda`添加到环境变量中。
 
@@ -30,6 +28,7 @@ export PATH="/opt/app/anaconda3/bin:$PATH"
 ```
 * 方法2：
   
+
 可以使用`module`，每次使用前，将`conda`添加到环境变量：
 
 ```bash
@@ -84,16 +83,15 @@ $ conda install tensorflow-gpu -n tf22
 ### 注意！没有使用多机并行（MPI/NCCL等），下面参数写1！不要多写，多写了也不会加速程序！
 #SBATCH --nodes=1
 
-### 指定该作业需要多少个CPU核心
-### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
-#SBATCH --ntasks=16
-
 ### 队列名，目前可用的GPU队列为tesla和titan
 #SBATCH --partition=titan
 
-### 使用GPU数
+### 使用GPU数，一块GPU卡默认配置了一定数量的CPU核
 ### 注意！程序没有使用多卡并行优化的，下面参数写1！不要多写，多写也不会加速程序！
-#SBATCH --gres=gpu:1
+#SBATCH --gpus=1
+
+### 以上参数用来申请所需资源
+### 以下命令将在计算节点执行
 
 echo $CUDA_VISIBLE_DEVICES
 
@@ -140,15 +138,7 @@ export LD_LIBRARY_PATH=/opt/pkgs/cuda/cuda-toolkit/lib64:$LD_LIBRARY_PATH
 
 #### 多卡并行
 
-如果需要多个节点提供计算，需要在代码中加入多机多卡的API。
-
-```python
-trainer = Trainer(gpus=8, num_nodes=4, distributed_backend=’ddp’)
-```
-
-详细信息参考官方API文档：
-
-[https://pytorch-lightning.readthedocs.io/en/latest/slurm.html?highlight=slurm](https://pytorch-lightning.readthedocs.io/en/latest/slurm.html?highlight=slurm)
+如果需要多个节点提供计算，需要在代码中加入多机多卡的API。同时，在Slurm脚本中申请资源时，按需申请多机多卡。
 
 ### TensorFlow
 
@@ -162,17 +152,30 @@ $ conda install tensorflow-gpu -n tf22
 
 #### 多卡并行
 
-如果需要多个节点多个GPU进行并行计算，则需要在Python代码中添加TensorFlow提供的分布式计算API：
-
-```python
-tf.distribute.cluster_resolver.SlurmClusterResolver(
-    jobs=None, port_base=8888, gpus_per_node=None, gpus_per_task=None,
-    tasks_per_node=None, auto_set_gpu=True, rpc_layer='grpc'
-)
-```
-
-TensorFlow 多卡并行 API：
-
-[https://tensorflow.google.cn/api_docs/python/tf/distribute/cluster_resolver/SlurmClusterResolver](https://tensorflow.google.cn/api_docs/python/tf/distribute/cluster_resolver/SlurmClusterResolver)
+如果需要多个节点多个GPU进行并行计算，则需要在Python代码中添加TensorFlow提供的分布式计算API。
 
 同时，在Slurm申请资源时要根据需求申请多节点多GPU卡资源。
+
+## TensorBoard
+
+在共享集群上可以使用TensorBoard，需要在SSH登录时进行端口转发。
+
+### SSH登录
+
+```bash
+$ ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101
+```
+
+以上命令登录的同时，也转发了10060端口，我们下面使用这个端口来启动TensorBoard服务。
+
+用户需要先安装TensorBoard，可以使用`conda`或者`pip`，这里不再赘述。安装好后，可以在登录节点启动：
+
+```bash
+$ tensorboard --port=10060 --logdir=./
+```
+
+这里使用了`--port`参数，且端口号与刚刚端口转发的端口号保持一致，建议使用一个较大的数字，避免和其他用户相冲突。
+
+### VSCode Remote
+
+VSCode的Remote插件在SSH登录时，会把所有端口都进行转发，启动TensorBoard后，会直接监测到端口启动，无需`ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101`这样逐个端口转发。

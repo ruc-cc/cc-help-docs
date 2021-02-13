@@ -37,7 +37,7 @@
 | 队列名 | CPU                         | 内存  | GPU                        | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- |
 | tesla  | 2 * Intel Gold 5218 (16核心32线程) | 256GB | 2 * Nvidia Tesla V100 PCI-E 32GB | 3    |
-| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX PCI-E 24GB | 7    |
+| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX PCI-E 24GB | 6   |
 | cpu    | 2 * Intel Gold 5218 (16核心32线程) | 192GB | 无                         | 3   |
 | fat    | 4 * Intel Gold 5218 (16核心32线程) | 384GB | 无                         | 2    |
 
@@ -111,6 +111,9 @@ fat          up   infinite      2   idle fat[1-2]
 ### 目前可用的队列有 cpu/fat/titan/tesla
 #SBATCH --partition=cpu
 
+### 以上参数用来申请所需资源
+### 以下命令将在计算节点执行
+
 ### 本例使用Anaconda中的Python，先将Python添加到环境变量配置好环境变量
 export PATH=/opt/app/anaconda3/bin:$PATH
 ### 激活一个 Anaconda 环境 tf22
@@ -133,7 +136,7 @@ python test.py
 
 这个程序将提交至作业调度系统，作业调度系统会为作业生成一个作业ID，并分配相应节点执行该作业。同时，程序中各类输出结果也会生成到文件中，文件名为`slurm-jobid.out`。
 
-以上只是一个简单的案例，Slurm 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gres=gpu:1`指定使用一张GPU卡。请参考[Slurm进阶](./slurm-advanced.md#)，或者作业参数信息，请参考[官方文档](https://slurm.schedmd.com/sbatch.html)。
+以上只是一个简单的案例，Slurm 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gpus=1`指定使用一张GPU卡。请参考[Slurm进阶](./slurm-advanced.md#)，或者作业参数信息，请参考[官方文档](https://slurm.schedmd.com/sbatch.html)。
 
 ### 登录到计算节点
 
@@ -143,11 +146,12 @@ python test.py
 
 ### GPU
 
-使用GPU，请使用`--gres=gpu:1`参数，程序未使用多卡并行优化，此参数设置为1！
+使用GPU，请使用`--gpus=1`参数，程序未使用多卡并行优化，此参数设置为1！
 
 !!! warning
     登录节点上没有GPU，无法使用`nvidia-smi`，也无法跑任何GPU相关运算，一切GPU运算都应该在相应的GPU队列上。可以使用`sbatch`或者下文提到的`salloc`交互式方式，将作业提交到GPU队列。
     
+
     SSH登录到GPU节点上，请使用`/opt/app/eaas/eaas_smi`查看完整的`nvidia-smi`信息。
 
 一个使用GPU的作业提交脚本：
@@ -162,17 +166,16 @@ python test.py
 ### 注意！没有使用多机并行（MPI/NCCL等），下面参数写1！不要多写，多写了也不会加速程序！
 #SBATCH --nodes=1
 
-### 指定该作业需要多少个CPU核心
-### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
-#SBATCH --ntasks=16
-
 ### 指定该作业在哪个队列上执行
 ### 目前可用的GPU队列有 titan/tesla
 #SBATCH --partition=tesla
 
-### 申请一块GPU卡
+### 申请一块GPU卡，一块GPU卡默认配置了一定数量的CPU核
 ### 注意！程序没有使用多卡并行优化的，下面参数写1！不要多写，多写也不会加速程序！
-#SBATCH --gres=gpu:1 
+#SBATCH --gpus=1 
+
+### 以上参数用来申请所需资源
+### 以下命令将在计算节点执行
 
 nvidia-smi
 
@@ -229,9 +232,43 @@ Slurm会分配给一个机器，比如图中分配机器为cpu5，接着我们�
 
 ## 资源划分
 
-| 队列名 | 队列属性                  | CPU核数             | GPU               | 使用方式 | 台数 |
+在当前的Slurm共享集群中，我们将所有的计算资源（CPU、GPU）都定义为TRES（Trackable RESources），也就是说，计算资源是按需申请的，Slurm分配好资源后，会通过cgroups的方式对申请到的资源进行限制。同时，Slurm会根据所申请的资源进行计费。
+
+### CPU队列
+
+对于CPU队列，用户1使用`--ntasks=2`在队列cpu上某1个节点上申请了2个CPU核，无论代码中使用了多少线程，Slurm会限制该用户只能使用2个CPU核，即使该节点上剩下的62个CPU核都空闲，用户也只能使用2个CPU核；假如另外一个用户2使用`--ntasks=8`也在cpu队列上申请1个节点的8个CPU核，Slurm很有可能将第二个作业分配到同一个节点。两个作业在同一个物理节点上运行。直到物理节点上空闲的CPU核无法满足新作业的需求，Slurm将不在该物理节点上分配作业。
+
+### GPU队列
+
+GPU作业更加复杂，既要满足CPU资源，又要满足GPU资源。为了简化配置，用户可以只使用`--gpus=<gpus>`来申请GPU卡数量，不需要设置CPU资源。校级计算平台已经根据当前CPU核和GPU卡的数量配比，已经给GPU队列设置了一张GPU卡对应的CPU的默认配比数量，即`CPU核数÷GPU卡数`，因此，不需要使用`--ntasks=<ncpus>`。当然，用户可以根据自身需要使用`--ntasks=<ncpus>`申请CPU核，使用`--ntasks=<ncpus>`后将覆盖默认的配比。
+
+假如用户不设置`--gpus=<ngpus>`，则用户无法获取到GPU资源；假如`--gpus=1`，Slurm会使用cgroups限制用户只能使用1张GPU卡。直到物理节点上空闲的CPU核或空闲的GPU卡无法满足新作业的需求，Slurm将不再该物理节点上分配作业。
+
+目前的这种方式对计算资源进行了细粒度的划分，并允许多个作业运行在1个物理节点上，可以充分利用资源。但是，多个作业运行在1个物理节点上，作业之间在内存、IO等地方有争抢。1个物理节点上运行的作业越多，作业之间争抢可能就越严重，作业运行速度就可能越慢。如果不希望别人争抢自己的资源，那么用户需要参考下表，在提交作业时申请该队列的所有CPU核或GPU卡。当然，申请更多的资源意味着计费时成本更高。以GPU队列tesla为例，用户需要申请`--gpus=2`，这样才能独占该节点，其他作业才不会与之共享运行在同一物理节点上。
+
+| 队列名 | 队列属性                  | CPU核数             | 内存             | GPU               | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- | ---- |
-| tesla  | GPU队列 - 共享式 | 64 | 2 张 Nvidia Tesla V100 PCI-E 32GB | 用户1可以使用 --gres=gpu:1 申请单独的1张卡，用户2可以使用使用 --gres=gpu:1 申请第二张卡。 | 3    |
-| titan  | GPU队列 - 独占式 | 64 | 2 张 Nvidia Titan RTX PCI-E 24GB | 用户1可以使用 --gres=gpu:1 申请单独的1张卡，用户2可以使用使用 --gres=gpu:1 申请第二张卡。 | 7    |
-| cpu    | CPU队列 | 64 | 无 | 用户1可以使用 --ntasks=32 申请CPU核数，申请到后该机器被用户1独占，其他人无法在申请CPU资源。建议用户在该节点上使用所有的64核CPU。 | 3   |
-| fat    | CPU队列 | 128 | 无 | 用户1可以使用 --ntasks=32 申请CPU核数，申请到后该机器被用户1独占，其他人无法在申请CPU资源。建议用户在该节点上使用所有的128核CPU。 | 2    |
+| tesla  | GPU队列 | 64 | 256G | 2 张 Nvidia Tesla V100 PCI-E 32GB | 3    |
+| titan  | GPU队列 | 64 | 128G | 2 张 Nvidia Titan RTX PCI-E 24GB | 6   |
+| cpu    | CPU队列 | 64 | 192G | 无 | 3   |
+| fat    | CPU队列 | 128 | 384G | 无 | 2    |
+
+## 如何合理设置CPU/GPU资源数
+
+到底如何设置CPU和GPU的资源？目前没有一个标准化的答案。所申请的CPU和GPU资源的数目与具体的作业任务有关。有些计算任务是高度依赖CPU的，有些是GPU密集型的，有些既需要CPU又需要GPU。用户需要了解自己作业中的瓶颈。
+
+!!! tip "提示"
+		并不是申请的资源越多，速度就越快，申请更多的资源，就需要在自己的代码层面利用好这些资源；申请的资源越少，计费成本越低，但有可能影响作业的速度。
+
+申请了更多资源后，用户自己的代码中也需要充分利用这些资源，对于CPU程序，代码中应使用多线程；对于GPU程序，代码中应使用多卡并行。
+
+也有一些工具可以帮忙监测作业的运行情况，这里简单介绍两个工具：`htop`用来查看CPU利用率和`nvidia-smi`用来查看GPU利用率。
+
+使用`sbatch`提交作业后，可以用`squeue`查看该作业运行到哪个节点上，假如该作业被分配到tesla1节点。可以`ssh tesla1`登录到该节点。
+
+然后使用`htop`命令查看该节点的运行情况。`htop`会实时显示各个CPU核的负载。
+
+![htop](../images/htop.png)
+
+`nvidia-smi`是英伟达提供的GPU管理工具，在我们的计算云上，`nvidia-smi`稍有不同，无法显示进程ID，是因为GPU被映射到容器里，我们可以使用`/opt/app/eaas/eaas_smi`查看到进程ID。
+

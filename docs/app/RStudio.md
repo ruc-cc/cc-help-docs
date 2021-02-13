@@ -2,8 +2,21 @@
 
 RStudio 是 RStudio 公司打造的一款基于 Web 的开源IDE。计算云提供了两种模式的RStudio：
 
-1. 多人共享模式的RStudio容器实例，可供多人团队共享使用。
-2. 个人版RStudio，仅自己可用。
+1. 个人版RStudio，仅自己可用。
+
+2. 多人共享模式的RStudio容器实例，可供多人团队共享使用。
+
+## 个人版RStudio
+
+RStudio个人版仅自己可见可用，申请资源时，注意选择“RStudio个人版”的实例。
+
+RStudio属于交互实例，在**申请资源**界面里申请：
+
+![申请RStudio实例](../images/create_rstudio_instance.png)
+
+创建实例时，填写“名称”和“邮箱”；“BindCPU”最好设置为“true”，表示该实例绑定在所申请的CPU上；“CPU”可以选择不同的核数，系统会根据核数计费，“Memory”选择不同的内存大小。
+
+![申请RStudio实例对话](../images/create_rstudio_instance_dialog.png)
 
 ## 多人共享模式的RStudio
 
@@ -25,19 +38,6 @@ RStudio实例可以被多人共享，可以由课题组中一人创建，并邀�
 
 ![邀请加入项目](../images/invite_to_share_project.png)
 
-当然，我们也可以创建一个共享项目，共享项目中只有自己本人。
-
-### 申请RStudio应用实例
-
-RStudio属于交互实例，在**申请资源**界面里申请：
-
-![申请RStudio实例](../images/create_rstudio_instance.png)
-![申请RStudio实例对话](../images/create_rstudio_instance_dialog.png)
-
-## 个人版RStudio
-
-RStudio个人版仅自己可见可用，申请资源时，注意选择“RStudio个人版”的实例。
-
 ## 启动与登录
 
 ![启动RStudio实例](../images/start_rstudio_instance.png)
@@ -57,7 +57,7 @@ RStudio个人版仅自己可见可用，申请资源时，注意选择“RStudio
 ## 软件包和数据
 
 !!! note "软件和数据"
-    用户可以在 RStudio 实例中安装自己所需的包、上传自己的数据。释放资源后，这些软件依然保存在镜像中，下次使用，可以在“资源回收”页面恢复，该实例将恢复至“我的资源”页面，这些包和数据不会被清理删除，用户可继续使用它们。
+    用户可以在 RStudio 实例中安装自己所需的包、上传自己的数据。释放资源后，这些包依然保存在镜像中，下次使用，可以在“资源回收”页面恢复，该实例将恢复至“我的资源”页面，这些包和数据不会被清理删除，用户可继续使用它们。
 
 ### 软件包安装
 
@@ -99,7 +99,7 @@ ERROR: dependency ‘xml2’ is not available for package ‘rvest’
 
 ![RStudio中切换到Terminal安装操作系统依赖包](../images/rstudio_terminal.png)
 
-安装好操作系统包后，再切换会R的Console，继续安装刚才报错的包`xml2`、`rvest`和`tidyverse`即可。
+安装好操作系统包后，再切换回R的Console，继续安装刚才报错的包`xml2`、`rvest`和`tidyverse`即可。
 
 ### 数据上传
 

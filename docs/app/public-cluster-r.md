@@ -84,6 +84,9 @@ conda install -c r r-data.table
 ### cpu队列有64核，fat队列有128核
 #SBATCH --partition=cpu
 
+### 以上参数用来申请所需资源
+### 以下命令将在计算节点执行
+
 ### 加载Anaconda
 export PATH=/opt/app/anaconda3/bin:$PATH
 
