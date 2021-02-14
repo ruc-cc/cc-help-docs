@@ -4,7 +4,7 @@
 
 我们已经在共享集群上安装好了MATLAB，只要用户自己上传好个人数据和程序，即可向共享集群提交作业。在共享集群上，我们使用Slurm作为调度软件，不了解共享集群和调度软件的可以先阅读我们提供的[共享集群快速入门文档](./GPU-Cluster.md)。
 
-例如，我们在`/home/your-id/`的HOME目录下准备好相关的MATLAB代码，名为`test.m`，这段程序创建了一个矩阵。准备一个作业提交脚本 `submit_matlab.sh`，<font color=red >将`submit_matlab.sh`脚本跟你的MATLAB放在同一个文件夹下</font>。其中 `-nodisplay` 表示不使用图形化界面， `-nosplash` 表示启动matlab时不显示闪屏版权信息：
+例如，我们在`/home/your-id/`的HOME目录下准备好相关的MATLAB代码，名为`test.m`，这段程序创建了一个矩阵。准备一个作业提交脚本 `run.sh`，<font color=red >将`run.sh`脚本跟你的MATLAB放在同一个文件夹下</font>。其中 `-nodisplay` 表示不使用图形化界面， `-nosplash` 表示启动matlab时不显示闪屏版权信息：
 
 ```bash
 #!/bin/bash
@@ -36,7 +36,7 @@ module load matlab/2020a
 matlab -nodisplay -nosplash < test.m
 ```
 
-接着，我们就可以在Terminal命令行中提交这个作业：`sbatch submit_matlab.sh`。
+接着，我们就可以在Terminal命令行中提交这个作业：`sbatch run.sh`。
 
 ![在命令行中提交作业](../imaegs/../images/sbatch.png)
 
@@ -76,6 +76,6 @@ parfor i = 1:100
 end
 ```
 
-注意，上面代码中的 `parpool()` 函数第二个参数要输入并行所使用的CPU核心数。一般是“申请资源”模块中，申请时填写的CPU核数。
+注意，上面代码中的 `parpool()` 函数第二个参数要输入并行所使用的CPU核心数。一般是Slurm脚本中申请时填写的CPU核数。
 
 [1]: https://ww2.mathworks.cn/products/parallel-computing.html

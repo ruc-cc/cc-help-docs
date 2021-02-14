@@ -4,6 +4,10 @@
 
 ![目标实例的各项操作](../images/public_cluster.png)
 
+## VSCode
+
+VSCode、PyCharm等IDE提供了SSH登录的功能，十分方便。VSCode可免费下载，再安装Remote插件，非常适合用来开发调试。
+
 ## 免密码登录
 
 SSH免密码登录需要一对密钥对，包括一个公钥和一个私钥，其中私钥放在用户本机，公钥放在目标实例的`~/.ssh/authorized_keys`目录。下次登录时，用户本机的私钥和远程集群的公钥通过加密协议验证配对，验证成功后将不需要密码直接登录成功。所以这里需要生成公私钥，并将公钥上传到目标实例的指定位置。
@@ -58,6 +62,4 @@ echo "ssh-rsa AAAA..." >> ~/.ssh/authorized_keys
 我们提供了一个[MobaXterm](./../files/MobaXterm_Portable_v20.3.zip)的校内下载链接。
 
 MobaXterm也提供了生成公私钥的功能。
-
-### 
 
