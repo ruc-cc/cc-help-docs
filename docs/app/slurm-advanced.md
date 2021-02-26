@@ -60,8 +60,9 @@ $ squeue -o "%.10i %.9P %.12j %.12u %.8T %.10M %.9l %.6D %R"
 | Reason Code               | Explaination                                                 |
 | ------------------------- | ------------------------------------------------------------ |
 | `Priority`                | One or more higher priority jobs is in queue for running. Your job will eventually run. |
-| `Dependency`              | This job is waiting for a dependent job to complete and will run afterwards. |
 | `Resources`               | The job is waiting for resources to become available and will eventually run. |
+| `QOSMaxGRESPerUser`       | Maximum number of General Resources(usually GPUs) for your job’s QoS have been met; job will run eventually. |
+| `Dependency`              | This job is waiting for a dependent job to complete and will run afterwards. |
 | `InvalidAccount`          | The job’s account is invalid. Cancel the job and rerun with correct account. |
 | `InvaldQoS`               | The job’s QoS is invalid. Cancel the job and rerun with correct account. |
 | `QOSGrpCpuLimit`          | All CPUs assigned to your job’s specified QoS are in use; job will run eventually. |

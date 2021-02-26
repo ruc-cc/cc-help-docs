@@ -160,7 +160,7 @@ $ conda install tensorflow-gpu -n tf22
 
 在共享集群上可以使用TensorBoard，需要在SSH登录时进行端口转发。
 
-### SSH登录
+* SSH登录
 
 ```bash
 $ ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101
@@ -176,6 +176,8 @@ $ tensorboard --port=10060 --logdir=./
 
 这里使用了`--port`参数，且端口号与刚刚端口转发的端口号保持一致，建议使用一个较大的数字，避免和其他用户相冲突。
 
-### VSCode Remote
+* VSCode Remote
 
 VSCode的Remote插件在SSH登录时，会把所有端口都进行转发，启动TensorBoard后，会直接监测到端口启动，无需`ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101`这样逐个端口转发。
+
+在浏览器里直接访问：http://127.0.0.1:10060/ 即可打开TensorBoard界面。
