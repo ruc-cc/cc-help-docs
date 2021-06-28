@@ -68,6 +68,10 @@ conda install -c r r-data.table
 
 ```bash
 #!/bin/bash
+
+### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
+#SBATCH --comment=tutor_project
+
 ### 给你这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=r-test
 
@@ -76,7 +80,7 @@ conda install -c r r-data.table
 #SBATCH --nodes=1
 
 ### 指定该作业需要多少个CPU核心
-### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
+### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请<=64核！
 #SBATCH --ntasks=16
 
 ### 指定该作业在哪个队列上执行
@@ -104,5 +108,5 @@ Rscript test.R
 然后可以使用`squeue`查看所有人的作业。查看自己提交的作业信息：
 
 ```bash
-$ squeue -u `whoami`
+squeue -u `whoami`
 ```

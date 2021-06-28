@@ -9,6 +9,9 @@
 ```bash
 #!/bin/bash
 
+### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
+#SBATCH --comment=tutor_project
+
 ### 给你这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=matlab-example
 
@@ -17,7 +20,7 @@
 #SBATCH --nodes=1
 
 ### 指定该作业需要多少个CPU核心
-### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
+### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请<=64核！
 #SBATCH --ntasks=64
 
 ### 指定该作业在哪个队列上执行
@@ -45,14 +48,14 @@ matlab -nodisplay -nosplash < test.m
 然后可以使用`squeue`查看所有人的作业。查看自己提交的作业信息：
 
 ```bash
-$ squeue -u `whoami`
+squeue -u `whoami`
 ```
 
 等程序执行完，一些输出会打印到相同目录的`slurm-xxxx.out`的文件中。
 
 ## 在交互式MATLAB与共享集群间拷贝数据
 
-用户可能一开始使用交互式的MATLAB，然后逐渐迁移到共享集群上。在交互式MATLAB中，计算云平台会自动将共享集群的Home目录挂载到`/group_homes`下。 用户可以在交互式的MATLAB里把脚本和数据直接复制或移动到共享集群模式的Home目录中。
+用户可能一开始使用交互式的MATLAB，然后逐渐迁移到共享集群上。在交互式MATLAB中，计算平台平台会自动将共享集群的Home目录挂载到`/group_homes`下。 用户可以在交互式的MATLAB里把脚本和数据直接复制或移动到共享集群模式的Home目录中。
 
 例如，在一个交互MATLAB实例里，鼠标点击右键，启动Terminal。下面的命令将交互式MATLAB中的HOME目录数据的拷贝到共享集群中：`cp ~/files-to-copy /group_homes/public_cluster/home/u20200002/`。注意，将里面的学工号改为自己的学工号。
 

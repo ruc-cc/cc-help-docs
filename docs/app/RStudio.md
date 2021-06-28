@@ -1,6 +1,6 @@
 # RStudio
 
-RStudio 是 RStudio 公司打造的一款基于 Web 的开源IDE。计算云提供了两种模式的RStudio：
+RStudio 是 RStudio 公司打造的一款基于 Web 的开源IDE。计算平台提供了两种模式的RStudio：
 
 1. 个人版RStudio，仅自己可用。
 
@@ -30,7 +30,7 @@ RStudio实例可以被多人共享，可以由课题组中一人创建，并邀�
 
 ![创建共享项目对话](../images/create_share_project_dialog.png)
 
-计算云后端会为**共享项目**在系统中创建一个用户组，并给这个用户组在共享文件系统上分配一个组Home目录。**共享项目**适用于某个团队或某个课题组共用某些实例的场景。
+计算平台后端会为**共享项目**在系统中创建一个用户组，并给这个用户组在共享文件系统上分配一个组Home目录。**共享项目**适用于某个团队或某个课题组共用某些实例的场景。
 
 ### 邀请其他用户共享使用
 
@@ -42,7 +42,7 @@ RStudio实例可以被多人共享，可以由课题组中一人创建，并邀�
 
 ![启动RStudio实例](../images/start_rstudio_instance.png)
 
-由于RStudio是共享交互实例，需要用计算云的用户名和密码登录。
+由于RStudio是共享交互实例，需要用计算平台的用户名和密码登录。
 
 !!! warning "用户名和密码"
     首次登录需要设置登录密码，密码在右上角用户名下“重置密码”处设置。
@@ -103,4 +103,4 @@ ERROR: dependency ‘xml2’ is not available for package ‘rvest’
 
 ### 数据上传
 
-我们可以使用RStudio自带的文件管理和上传工具，也可以用计算云提供的文件传输与数据管理功能，计算云的文件传输详见[文档](../manual/transfer.md)。
+我们可以使用RStudio自带的文件管理和上传工具，也可以用计算平台提供的文件传输与数据管理功能，计算平台的文件传输详见[文档](../manual/transfer.md)。

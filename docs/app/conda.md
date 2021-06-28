@@ -3,7 +3,7 @@
 [Anaconda][1] 是一个用于科学计算的Python发行版，支持 Linux、Mac、 Windows系统以及 Python、R等科学计算语言，提供了包（Package）管理与环境（Environment）管理的功能，可以很方便地解决多版本多环境并存的问题。用户可以为某项具体的任务创建单独的环境，环境之间相互隔离。这样可以避免同一环境中各类软件相互冲突的问题。Anaconda 利用`conda`命令来进行包和环境的管理，并且已经包含了Python和相关的配套工具。
 
 !!! tip "提示"
-    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python。我们已经在计算云的共享集群和 Jupyter 交互实例上都安装好了 Anaconda ，用户只需要根据自身需要安装所需软件。
+    在计算平台上，我们强烈建议用户使用 Anaconda 来管理和使用Python。我们已经在计算平台的共享集群和 Jupyter 交互实例上都安装好了 Anaconda ，用户只需要根据自身需要安装所需软件。
 
 ## conda与环境变量
 
@@ -40,11 +40,11 @@ Anaconda 默认的软件源在国外，速度比较慢，我们可以将其更�
 
 ```bash
 # Anaconda官方库镜像
-$ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-$ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
 
 # Anaconda第三方库 conda-forge 镜像
-$ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
 ```
 
 ## 环境管理
@@ -54,7 +54,7 @@ $ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/clou
 ### 创建新环境
 
 ```bash
-$ conda create -n <env_name> <package_names>
+conda create -n <env_name> <package_names>
 ```
 
 `<env_name>` 即创建的环境名。建议以英文命名，且不加空格，名称两边不加尖括号“<>”。
@@ -62,7 +62,7 @@ $ conda create -n <env_name> <package_names>
 `<package_names>` 即安装在环境中的包名。名称两边不加尖括号“<>”。如果要在新创建的环境中创建多个包，则直接在`<package_names>`后以空格隔开，添加多个包名即可。例如，创建一个名为`python3`的环境，环境中安装版本为3.7的python，同时也安装了`numpy`和`pandas`：
 
 ```bash
-$ conda create -n python3 python=3.7 numpy pandas
+conda create -n python3 python=3.7 numpy pandas
 ```
 
 新的环境以及环境内的包会被安装到`/home/your-id/.conda/envs/`目录下。
@@ -72,7 +72,7 @@ $ conda create -n python3 python=3.7 numpy pandas
 切换环境：
 
 ```bash
-$ source activate <env_name>
+source activate <env_name>
 ```
 
 当成功切换环境之后，在该行行首将以“(env_name)”开头。其中，“env_name”为切换到的环境名。
@@ -80,19 +80,19 @@ $ source activate <env_name>
 退出环境：
 
 ```bash
-$ source deactivate
+source deactivate
 ```
 
 ### 显示环境
 
 ```bash
-$ conda info --envs
+conda info --envs
 ```
 
 ### 删除环境
 
 ```bash
-$ conda remove --name <env_name> --all
+conda remove --name <env_name> --all
 ```
 
 注意： <env_name> 为被删除环境的名称。环境名两边不加尖括号“<>”。
@@ -102,13 +102,13 @@ $ conda remove --name <env_name> --all
 ### 获取当前环境中已安装的包信息
 
 ```bash
-$ conda list
+conda list
 ```
 
 ### 在指定环境中安装包
 
 ```bash
-$ conda install -n <env_name> <package_name>
+conda install -n <env_name> <package_name>
 ```
 
 注意：
@@ -120,7 +120,7 @@ $ conda install -n <env_name> <package_name>
 ### 卸载包
 
 ```bash
-$ conda remove -n <env_name> <package_name>
+conda remove -n <env_name> <package_name>
 ```
 
 ## pip

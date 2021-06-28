@@ -4,7 +4,7 @@ JupyterLab是下一代Jupyter Notebook，它集成了更多功能，是一个集
 
 ## 申请实例
 
-JupyterLab属于交互实例，在计算云上使用时，需要先申请资源。首先点击“申请资源”，然后在所有应用中过滤出Jupyter。我们准备了CPU版和GPU版的镜像，用户按需申请。
+JupyterLab属于交互实例，在计算平台上使用时，需要先申请资源。首先点击“申请资源”，然后在所有应用中过滤出Jupyter。我们准备了CPU版和GPU版的镜像，用户按需申请。
 
 ![申请JupyterLab交互实例](../images/apply_jupyterlab.png)
 
@@ -15,7 +15,7 @@ JupyterLab属于交互实例，在计算云上使用时，需要先申请资源�
 ![JupyterLab交互界面](../images/jupyterlab.png)
 
 !!! tip "提示"
-    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在 Jupyter 交互实例上安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。
+    在计算平台上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在 Jupyter 交互实例上安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。
 
 用户进入Jupyter后默认使用`/opt/conda/bin/`下的`conda`和`python`。其中，Python3为Anaconda`base`环境提供的Python。
 
@@ -32,7 +32,7 @@ JupyterLab属于交互实例，在计算云上使用时，需要先申请资源�
 3. 如果不创建单独环境，当默认环境中的包越来越多时，包与包之间会产生一些冲突，导致整个环境不可用。创建单独的环境可以避免包冲突。
 
 ```bash
-$ conda create -n <env_name> <package_names>
+conda create -n <env_name> <package_names>
 ```
 
 `<env_name>` 即创建的环境名。建议以英文命名，且不加空格，名称两边不加尖括号“<>”。
@@ -40,7 +40,7 @@ $ conda create -n <env_name> <package_names>
 `<package_names>` 即安装在环境中的包名。名称两边不加尖括号“<>”。如果要在新创建的环境中创建多个包，则直接在`<package_names>`后以空格隔开，添加多个包名即可。例如，创建一个名为`python3`的环境，环境中安装版本为3.7的python，同时也安装了`numpy`和`pandas`：
 
 ```bash
-$ conda create -n python3 python=3.7 numpy pandas
+conda create -n python3 python=3.7 numpy pandas
 ```
 
 使用`conda install`或`pip install`命令来安装所需软件包。

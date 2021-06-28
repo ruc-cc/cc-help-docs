@@ -1,6 +1,6 @@
 # Python
 
-Python是数据分析、数据挖掘和机器学习领域经常使用的一种编程语言。在计算云平台上，有两种使用Python的方式：
+Python是数据分析、数据挖掘和机器学习领域经常使用的一种编程语言。在计算平台平台上，有两种使用Python的方式：
 
 1. Jupyter，使用方式详见[文档](Jupyterlab.md)
 2. 在共享集群中提交作业，介绍和使用方式详见[文档](GPU-Cluster.md)
@@ -15,7 +15,7 @@ Python是数据分析、数据挖掘和机器学习领域经常使用的一种�
 ### conda与环境变量
 
 !!! tip "提示"
-    在计算云上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算云的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+    在计算平台上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算平台的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
 
 使用`conda`前，先要将`conda`添加到环境变量中。
 
@@ -32,7 +32,7 @@ export PATH="/opt/app/anaconda3/bin:$PATH"
 可以使用`module`，每次使用前，将`conda`添加到环境变量：
 
 ```bash
-$ module load anaconda3
+module load anaconda3
 ```
 
 这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
@@ -48,7 +48,7 @@ $ module load anaconda3
 比如，我们想创建Python3.8、TensorFlow 2.2的环境，环境名为`tf22`：
 
 ```bash
-$ conda create --name tf22 python=3.8
+conda create --name tf22 python=3.8
 ```
 
 相关包将安装到`/home/your-id/.conda/envs/...`下。
@@ -56,13 +56,13 @@ $ conda create --name tf22 python=3.8
 激活这个环境：
 
 ```bash
-$ source activate tf22
+source activate tf22
 ```
 
 在环境上安装 TensorFlow：
 
 ```bash
-$ conda install tensorflow-gpu -n tf22
+conda install tensorflow-gpu -n tf22
 ```
 
 ## 在共享集群上提交作业
@@ -75,6 +75,9 @@ $ conda install tensorflow-gpu -n tf22
 
 ```bash
 #!/bin/bash
+
+### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
+#SBATCH --comment=tutor_project
 
 ### 给你这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=tf-example
@@ -107,7 +110,7 @@ python tf_test.py
 然后在命令行中使用`sbatch`提交作业：
 
 ```
-[u20200002@workstation ~]$ sbatch test.sh
+sbatch test.sh
 ```
 
 ![使用sbatch提交作业](../images/sbatch.png)
@@ -121,19 +124,14 @@ python tf_test.py
 #### CUDA & 安装
 
 !!! warning "CUDA版本"
-    目前，我们在共享集群的各个GPU节点上提供的CUDA版本为10.1，CUDA路径为：`/opt/pkgs/cuda`。请务必安装与 CUDA 10.1版本匹配的PyTorch。
+    目前，我们在共享集群的各个GPU节点上提供的CUDA版本为11.2，CUDA路径为：`/opt/pkgs/cuda`。请务必安装与CUDA版本兼容的PyTorch，即PyTorch所依赖的CUDA应该<=11.2的。
+
+    更多CUDA安装和兼容性知识，详见[CUDA](./cuda.md)。
 
 创建自己的环境，激活环境后，在环境上安装PyTorch：
 
 ```
-$ conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
-```
-
-安装好PyTorch后，为了让PyTorch使用该CUDA，需要将下面两行添加到 `~/.bashrc`:
-
-```bash
-export PATH=/opt/pkgs/cuda/cuda-toolkit/bin/:$PATH
-export LD_LIBRARY_PATH=/opt/pkgs/cuda/cuda-toolkit/lib64:$LD_LIBRARY_PATH
+conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c nvidia
 ```
 
 #### 多卡并行
@@ -147,7 +145,7 @@ export LD_LIBRARY_PATH=/opt/pkgs/cuda/cuda-toolkit/lib64:$LD_LIBRARY_PATH
 创建自己的环境，激活环境后，在环境上安装TensorFlow：
 
 ```bash
-$ conda install tensorflow-gpu -n tf22
+conda install tensorflow-gpu -n tf22
 ```
 
 #### 多卡并行
@@ -163,7 +161,7 @@ $ conda install tensorflow-gpu -n tf22
 * SSH登录
 
 ```bash
-$ ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101
+ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101
 ```
 
 以上命令登录的同时，也转发了10060端口，我们下面使用这个端口来启动TensorBoard服务。
@@ -171,7 +169,7 @@ $ ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101
 用户需要先安装TensorBoard，可以使用`conda`或者`pip`，这里不再赘述。安装好后，可以在登录节点启动：
 
 ```bash
-$ tensorboard --port=10060 --logdir=./
+tensorboard --port=10060 --logdir=./
 ```
 
 这里使用了`--port`参数，且端口号与刚刚端口转发的端口号保持一致，建议使用一个较大的数字，避免和其他用户相冲突。

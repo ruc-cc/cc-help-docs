@@ -1,4 +1,4 @@
-site_name: 校级智能计算平台用户手册
+site_name: 校级计算平台用户手册
 site_url: 'https://cc.ruc.edu.cn/help/'
 
 theme:
@@ -10,7 +10,10 @@ copyright: Copyright © 中国人民大学大型科学仪器共享平台
 
 markdown_extensions:
     - admonition
-    - codehilite
+    - pymdownx.highlight
+    - pymdownx.superfences
+    - pymdownx.arithmatex:
+        generic: true
     - toc:
         permalink: True
 
@@ -27,6 +30,8 @@ nav:
     - '使用必读':
       - '用户注册': 'manual/login.md'
       - '使用模式': 'manual/usage-mode.md'
+      - '课题组团队管理': 'manual/project.md'
+      - '计费统计': 'manual/bill.md'
       - '数据管理与文件传输': 'manual/transfer.md'
       - 'SSH客户端': 'manual/ssh.md'
 
@@ -36,6 +41,7 @@ nav:
         - 'Slurm进阶': 'app/slurm-advanced.md'
         - 'module/spack': 'app/module-spack.md'
       - 'conda': 'app/conda.md'
+      - 'CUDA': 'app/cuda.md'
       - 'Python和深度学习':
         - 'Jupyter': 'app/Jupyterlab.md'
         - '在共享集群上提交作业': 'app/public-cluster-python.md'
@@ -50,3 +56,4 @@ nav:
         - 'Amber': 'app/amber.md'
     
     - '系列培训及相关资料': 'tutorials.md'
+    - '管理办法与收费奖励标准': 'regulation.md'

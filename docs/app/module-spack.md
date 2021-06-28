@@ -32,19 +32,19 @@ Linux操作系统的某个发行版一般会提供一些默认的软件，比如
 用户可以先查看共享集群已经安装了哪些软件：
 
 ```bash
-$ module avail
+module avail
 ```
 
 目前已经基于不同版本的编译器安装了众多软件，`module avail`显示的每个条目为某个具体的软件环境，这里以使用GCC 9.3.0为例，加载这个软件环境：
 
 ```bash
-$ module load gcc-9.3.0-gcc-4.8.5-oxjixak
+module load gcc-9.3.0-gcc-4.8.5-oxjixak
 ```
 
 这时，当前Session将使用GCC 9.3.0。使用`which gcc`可以查看`gcc`可执行文件的路径。
 
 ```bash
-$ which gcc
+which gcc
 /opt/app/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/gcc-9.3.0-oxjixak2sy5mudydbjatzvj4bpveh5jl/bin/gcc
 ```
 
@@ -106,7 +106,7 @@ $ which gcc
 我们可以查看系统已经安装了哪些软件：
 
 ```bash
-$ spack find
+spack find
 
 -- linux-centos7-cascadelake / gcc@9.3.0 ------------------------
 autoconf@2.69                cuda@10.2.89       gettext@0.20.2   ...
@@ -117,7 +117,7 @@ autoconf@2.69                cuda@10.2.89       gettext@0.20.2   ...
 也可以加载某个软件：
 
 ```bash
-$ spack load cuda@10.2.89%gcc@9.3.0
+spack load cuda@10.2.89%gcc@9.3.0
 ```
 
 `spack`中，`@`表示使用哪个版本，`%`表示某个软件依赖哪个编译器。

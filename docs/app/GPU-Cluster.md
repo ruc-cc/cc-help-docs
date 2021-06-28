@@ -6,14 +6,14 @@
 
 ![集群架构](../images/cluster.png)
 
-用户需要先连接到登录节点，登录节点是连接整个集群的入口。用户通过登录节点来进一步访问计算节点和存储节点。计算节点，是提供计算服务的计算机节点，可以是CPU节点或GPU节点。通常情况下，一个用户作业任务需要一台或多台计算节点来支持其计算服务。将某个计算作业任务分配到不同计算节点上进行计算的工具被称为**作业调度系统**。计算作业一般需要读写文件，我们采用了**共享存储系统**，将存储节点的磁盘空间映射到所有计算节点上。共享存储的可用磁盘容量非常大，这样一个大容量的磁盘空间被映射到用户的目录上。映射后，用户可以像操作本地的文件一样操作远程的存储节点上的文件。
+用户需要先连接到登录节点，登录节点是连接整个集群的入口。用户通过登录节点来进一步访问计算节点和存储节点。计算节点，是提供计算服务的计算机节点，可以是CPU节点或GPU节点。通常情况下，一个用户作业任务需要一台或多台计算节点来支持其计算服务。将某个计算作业任务分配到不同计算节点上进行计算的工具被称为**作业调度系统**。计算作业一般需要读写文件，我们采用了**共享存储系统**，将存储节点的磁盘空间映射到所有计算节点上。共享存储的可用磁盘容量非常大，用户可以像操作本地的文件一样操作远程的存储节点上的文件。
 
 !!! warning "请勿在登录节点执行计算任务！"
     共享集群的登陆节点配置了资源限制，请勿在共享集群的登陆节点执行大的计算任务。
 
 ## 共享集群
 
-在计算云平台上，我们已经创建了一个共享集群，名为“public_cluster”。在计算云上，点击“共享资源”，选择`public_cluster`进入该集群。
+在计算平台平台上，我们已经创建了一个共享集群，名为“public_cluster”。在计算平台上，点击“共享资源”，选择`public_cluster`进入该集群。
 
 ![共享集群入口](../images/public_cluster_entry.png)
 
@@ -36,11 +36,11 @@
 
 | 队列名 | CPU                         | 内存  | GPU                        | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- |
-| tesla  | 2 * Intel Gold 5218 (16核心32线程) | 256GB | 2 * Nvidia Tesla V100 PCI-E 32GB | 3    |
-| titan  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia Titan RTX PCI-E 24GB | 6   |
-| 2080ti  | 2 * Intel Gold 5218 (16核心32线程) | 128GB | 2 * Nvidia 2080Ti PCI-E 11GB | 4   |
-| cpu    | 2 * Intel Gold 5218 (16核心32线程) | 192GB | 无                         | 3   |
-| fat    | 4 * Intel Gold 5218 (16核心32线程) | 384GB | 无                         | 2    |
+| tesla  | 64（2 * Intel Gold 5218 16核心32线程） | 256GB | 2 * Nvidia Tesla V100 PCI-E 32GB | 3    |
+| titan  | 64（2 * Intel Gold 5218 16核心32线程) | 128GB | 2 * Nvidia Titan RTX PCI-E 24GB | 6   |
+| 2080ti  | 64 (2 * Intel Gold 5218 16核心32线程) | 128GB | 2 * Nvidia 2080Ti PCI-E 11GB | 4   |
+| cpu    | 64 (2 * Intel Gold 5218 16核心32线程) | 192GB | 无                         | 3   |
+| fat    | 128 (4 * Intel Gold 5218 16核心32线程) | 384GB | 无                         | 2    |
 
 ## 调度系统
 
@@ -67,7 +67,7 @@
 我们可以使用`sinfo`查看集群信息和状态。
 
 ```bash
-[u20200002@workstation ~]$ sinfo
+sinfo
 ```
 
 得到当前集群的队列信息：
@@ -85,7 +85,7 @@ fat          up   infinite      2   idle fat[1-2]
 查看指定分区节点空闲状态：
 
 ```bash
-[u20200002@workstation ~]$ sinfo -p cpu
+sinfo -p cpu
 ```
 
 ### 提交作业
@@ -96,6 +96,9 @@ fat          up   infinite      2   idle fat[1-2]
 
 ```bash
 #!/bin/bash
+
+### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
+#SBATCH --comment=tutor_project
 
 ### 给你这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=example
@@ -124,13 +127,19 @@ source activate tf22
 python test.py
 ```
 
+!!! warning "计费问题"
+    提交作业时如果报错`Batch job submission failed: Access/permission denied`，可能的原因有：
+    
+    1. `#SBATCH --comment=tutor_project`中的`tutor_project`名称没写对，要注意大小写一致。
+    2. 账户余额不足，超过透支额度。
+
 !!! warning "注释与井号"
-    上面这个脚本中，三个井号###表示注释，单个井号`#SBATCH`用来表示指定参数。用户不要把`#SBATCH`的井号删掉。
+    上面这个脚本中，三个井号###表示注释，单个井号`#SBATCH`用来表示指定参数。不要把`#SBATCH`中的井号删掉。
 
 假如我们想执行一个Python程序`test.py`，Python程序`test.py`也要放在`run.sh`相同的目录下。做好以上准备后，在该目录下提交这个作业：
 
 ```bash
-[u20200002@workstation ~]$ sbatch run.sh
+sbatch run.sh
 ```
 
 ![使用sbatch提交作业](../images/sbatch.png)
@@ -159,6 +168,9 @@ python test.py
 
 ```bash
 #!/bin/bash
+
+### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
+#SBATCH --comment=tutor_project
 
 ### 给你这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=gpu-example
@@ -193,7 +205,7 @@ python test.py
 查看自己提交的作业信息：
 
 ```bash
-[u20200002@workstation ~]$ squeue -u `whoami`
+squeue -u `whoami`
 ```
 
 !!! tip "查看输出文件"
@@ -202,27 +214,27 @@ python test.py
 如果想取消某个作业，可以使用`scancel`命令，比如想取消ID为43的作业：
 
 ```bash
-[u20200002@workstation ~]$ scancel 43
+scancel 43
 ```
 
 取消当前用户的所有作业：
 
 ```bash
-[u20200002@workstation ~]$ scancel -u `whoami`
+scancel -u `whoami`
 ```
 
 取消当前用户下作业状态为PENDING的作业：
 
 ```bash
-[u20200002@workstation ~]$ scancel -t PENDING -u `whoami`
+scancel -t PENDING -u `whoami`
 ```
 
 ### 交互式debug
 
-前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu`队列申请1个节点，每个节点8个核心，时间为10分钟。
+前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu`队列申请1个节点，每个节点8个核心，时间为10分钟，`tutor_project`为你所在的计费课题组。
 
 ```bash
-[u20200002@workstation ~]$ salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00
+salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00 --comment=tutor_project
 ```
 
 ![salloc](../images/salloc.png)
@@ -278,4 +290,4 @@ GPU作业更加复杂，既要满足CPU资源，又要满足GPU资源。为了�
 
 ![htop](../images/htop.png)
 
-`nvidia-smi`是英伟达提供的GPU管理工具，在我们的计算云上，`nvidia-smi`稍有不同，无法显示进程ID，是因为GPU被映射到容器里，我们可以使用`/opt/app/eaas/eaas_smi`查看到进程ID。
+`nvidia-smi`是英伟达提供的GPU管理工具，在我们的计算平台上，`nvidia-smi`稍有不同，无法显示进程ID，是因为GPU被映射到容器里，我们可以使用`/opt/app/eaas/eaas_smi`查看到进程ID。
