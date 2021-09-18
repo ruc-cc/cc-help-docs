@@ -1,5 +1,6 @@
 site_name: 校级计算平台用户手册
 site_url: 'https://cc.ruc.edu.cn/help/'
+repo_url: 'https://github.com/ruc-cc/cc-help-docs'
 
 theme:
   name: 'material'
