@@ -21,6 +21,7 @@ plugins:
     - redirects:
         redirect_maps:
             'app/Jupyterlab-With-GPU.md': 'app/Jupyterlab.md'
+    - mkdocs-video
         
 extra_css:
   - stylesheets/extra.css
@@ -55,6 +56,7 @@ nav:
       - 'Windows虚拟机': 'app/windows.md'
       - '分子动力学':
         - 'Amber': 'app/amber.md'
+      - '容器：Docker与Singularity': 'app/docker-singularity.md'
     
     - '系列培训及相关资料': 'tutorials.md'
     - '管理办法与收费奖励标准': 'regulation.md'

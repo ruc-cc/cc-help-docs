@@ -1,5 +1,13 @@
 # 数据管理与文件传输
 
+向计算平台上传数据有几种方式：
+
+* 使用计算平台提供的Web页面
+* 使用SSH协议和命令行（`scp`、`rsync`）
+* 使用基于WebDAV的客户端软件（Cyberduck或RaiDrive）
+
+本页面先介绍Linux目录入门知识，再介绍计算平台的存储空间目录，最后分别介绍上述三种上传和管理数据的方式。
+
 ## Linux的目录结构
 
 计算平台主要基于Linux操作系统，在计算平台上，每个用户都有属于自己的个人目录，例如：`/home/u20200002`，该目录在Linux中被称为Home目录。该目录是交互实例下的用户主目录，用户的数据和程序都应放在Home目录里。
@@ -11,10 +19,10 @@
 
 在计算平台上，系统会为用户在共享文件系统上分配两种目录：
 
-  * 每个用户分配一个共享文件系统上的目录，作为**交互实例**里的Home目录。比如，JupyterLab、MATLAB、RStudio个人版的HOME目录都是基于这样的目录。
+  * 每个用户分配一个共享文件系统上的目录，作为**交互实例**里的Home目录。比如，JupyterLab、MATLAB、Stata实例的HOME目录都是基于这样的目录。
   * 对于加入**共享集群**的用户，系统会为用户在共享集群中分配一个Home目录。
 
-交互实例的Home目录可以和共享集群的Home目录之间相互拷贝数据，详见[如何从共享集群的Home目录向交互实例拷贝数据](#home_2)。
+交互实例的Home目录可以和共享集群的Home目录之间相互拷贝数据，在交互实例中，可以通过/group_homes目录访问到在共享集群里的数据。详见[如何从共享集群的Home目录向交互实例拷贝数据](#home_2)。
 
 ## Web页面访问
 
@@ -24,17 +32,27 @@
 
 点击**我的资源**
 
-![我的资源](../images/click_my_resource.png)
+* 已分配计算资源的交互实例：
 
-点击**数据管理**, 可以看到Home目录下的子目录和文件。
+已经分配到计算资源的交互实例，从交互实例右侧“操作区”数据按钮进入数据管理界面，如下图所示：
 
-![数据管理](../images/click_my_resource_data.png)
+![从交互实例右侧“操作区”数据按钮进入](../images/data_instance.png)
+
+* 已过期的交互实例：
+  
+已过期的交互实例，从“资源回收”页面中找到实例，点击进入该实例，如下图所示：
+
+![点击进入实例](../images/click_my_instance.png)
+
+右侧有“数据管理”按钮：
+
+![从“数据管理”按钮进入数据管理界面](../images/instance_data_management.png)
+
+可以看到交互实例的Home目录下的子目录和文件：
 
 点击**上传**, 会弹出上传文件对话框。
 
-![数据管理](../images/click_upload_button.png)
-
-![数据管理](../images/upload_dialog.png)
+![数据管理](../images/data_management.png)
 
 #### 下载文件
 
@@ -50,7 +68,7 @@
 
 ![在共享集群视图中进入数据管理页面](../images/public_cluster_data_management.png)
 
-## 通过SSH账户访问
+## 通过SSH访问
 
 对于开放了SSH端口的集群或实例，用户可以通过SSH账户使用scp类的工具来传输数据。
 
@@ -79,7 +97,7 @@ scp -P 20014 some_data u20200002@10.77.90.101:/home/your-user-id/
 我们需要下载支持WebDAV协议的软件：Windows系统建议使用[RaiDrive](https://www.raidrive.com/)或[Cyberduck](https://cyberduck.io/)，macOS系统建议使用[Cyberduck](https://cyberduck.io/)。
 
 
-WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算平台密码，首次使用需要设置一下：进入计算平台页面，点击右上角用户名，重置密码。
+WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算平台密码，首次使用密码需要设置一下：进入计算平台页面，点击右上角用户名，重置密码。
 
 #### Cyberduck 使用简介
 
@@ -97,7 +115,7 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
 
 ![Raidrive示意图](../images/raidrive_config.png)
 
-点击确定后，会跳出一个Windows资源浏览器窗口。可以看到RaiDrive已经把新添加的WebDAV连接创建成了一个网络存储驱动器。我们可以像操作本地磁盘一样从其他驱动器里拖拽文件或者拷贝到这个驱动器下的子目录中。
+点击确定后，会跳出一个Windows文件管理器窗口。可以看到RaiDrive已经把新添加的WebDAV连接创建成了一个网络存储驱动器。我们可以像操作本地磁盘一样从其他驱动器里拖拽文件或者拷贝到这个驱动器下的子目录中。
 
 ![Raidrive浏览器](../images/raidrive_explorer.png)
 
@@ -119,33 +137,9 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
 平台内的虚拟机实例访问共享文件系统上的Home目录的机制类似于用户从外部访问WebDAV服务。目前平台上的虚拟机镜像预先做好了WebDAV卷的自动挂载，挂载点是/webdav。
 
 ```bash
-root@ruc2:~# ssh -p 20017 root@10.77.90.101
-root@10.77.90.101's password:
-Welcome to Ubuntu 18.04.3 LTS (GNU/Linux 4.15.0-66-generic x86_64)
-
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
-
-  System information as of Sun Jul 12 09:20:59 UTC 2020
-
-  System load:  0.65              Processes:           105
-  Usage of /:   8.0% of 19.21GB   Users logged in:     0
-  Memory usage: 11%               IP address for ens4: 10.0.0.1
-  Swap usage:   0%
-
- * "If you've been waiting for the perfect Kubernetes dev solution for
-   macOS, the wait is over. Learn how to install Microk8s on macOS."
-
-   https://www.techrepublic.com/article/how-to-install-microk8s-on-macos/
-
-88 packages can be updated.
-0 updates are security updates.
-
-
-*** System restart required ***
-Last login: Sun Jul 12 09:12:39 2020 from 10.0.255.254
+# 登录Linux虚拟机
+ssh -p 20017 root@10.77.90.101
+# 查看 /webdav 目录
 root@ubuntu:~# ls /webdav/
  MyData  'ProjectGroup(hpctest)'  'ProjectGroup(public_cluster)'   lost+found
-root@ubuntu:~#
 ```

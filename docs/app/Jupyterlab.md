@@ -87,11 +87,7 @@ source activate <env_name>
 python -m ipykernel install --user --name <env_name> --display-name "<env_name>"
 ```
 
-这时，我们已经将新环境中的安装好。在“我的资源”中重启这个Jupyter实例，如下图所示，先点击停止，等待关停后点击启动：
-
-![重启Jupyter实例](../images/jupyter_restart.png)
-
-重启这个Jupyter实例后，点击Jupyter左上角的“+”就可以启动一个`env_name`环境的Notebook，也可以在“Kernel”->“Change Kernel...”将当前Notebook切换为`env_name`。
+这时，我们已经将新环境中的安装好。关闭当前JupyterLab页面，并在“我的资源”中重新打开这个JupyterLab交互界面。点击JupyterLab左上角的“+”就可以启动一个`env_name`环境的Notebook，也可以在“Kernel”->“Change Kernel...”将当前Notebook切换为`env_name`。
 
 ## 实例的关停与资源释放
 

@@ -17,7 +17,7 @@
 . /opt/intel/bin/compilervars.sh intel64
 . /opt/app/Amber/18_gpu/amber.sh
 
-export LD_LIBRARY_PATH=/opt/pkgs/cuda/cuda-toolkit/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/opt/app/cuda_10.1/cuda-toolkit/lib64:$LD_LIBRARY_PATH
 
 mpirun /opt/app/Amber/18_gpu/bin/pmemd.cuda.MPI -O -i md.in -o md1.out -p 5myr_w.prmtop -c eq5.rst -r md1.rst -x md1.mdcrd
 ```

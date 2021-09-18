@@ -6,7 +6,7 @@
 
 ## VSCode
 
-VSCode、PyCharm等IDE提供了SSH登录的功能，十分方便。VSCode可免费下载，再安装Remote插件，非常适合用来开发调试。
+VSCode、PyCharm等IDE提供了SSH登录的功能，十分方便。下载安装VSCode后，再安装Remote插件，非常适合用来开发和调试。
 
 ## 免密码登录
 
