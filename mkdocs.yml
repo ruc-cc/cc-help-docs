@@ -42,6 +42,7 @@ nav:
         - 'Slurm共享集群': 'app/GPU-Cluster.md'
         - 'Slurm进阶': 'app/slurm-advanced.md'
         - 'module/spack': 'app/module-spack.md'
+        - '编译器': 'app/compilers.md'
       - 'conda': 'app/conda.md'
       - 'CUDA': 'app/cuda.md'
       - 'Python和深度学习':
