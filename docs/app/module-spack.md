@@ -13,10 +13,10 @@
 
 Linux操作系统的某个发行版一般会提供一些默认的软件，比如`gcc`等。使用操作系统自带的包管理工具，比如`apt-get`或者`yum`安装的软件，这些软件由包管理工具编译和打包，软件会安装到操作系统的特定文件夹下，这些特定文件夹一般已经加入到了环境变量中，可以直接使用。这些软件是面向整个系统所有用户生效的。
 
-在我们的共享集群中，普通用户没有`root`权限，无法使用`apt-get`或`yum`包管理工具安装特定的软件，常用的两种实践是：
+在Slurm共享集群中，普通用户没有`root`权限，无法使用`apt-get`或`yum`包管理工具安装特定的软件，常用的两种实践是：
 
-1. 将所需软件源代码下载到个人目录，使用编译工具编译，将编译好的软件路径添加到用户个人的环境变量中，比如`~/.bash_profile`或`~/.bashrc`中。比如，我们想将Anaconda放到环境变量里，可以在`~/.bashrc`中添加`export PATH="/opt/app/anaconda3/bin:$PATH"`，以后就可以直接使用。
-2. 集群管理员预先安装一些软件，使用针对集群的包管理软件`module`或`spack`来管理不同版本的软件，用户需要使用`module`或`spack`切换到所需的软件环境中。
+1. 将所需软件源代码下载到个人目录，使用编译工具编译，将编译好的软件路径添加到用户个人的环境变量中，比如`~/.bash_profile`或`~/.bashrc`中。比如，我们想将Anaconda放到环境变量里，可以在`~/.bashrc`中添加`export PATH="/opt/app/anaconda3/bin:$PATH"`，以后就可以直接使用。这种情况适合自己或一个课题组内使用编译工具编译自己需要的软件。
+2. 集群管理员预先安装一些软件，使用针对集群的包管理软件`module`或`spack`来管理不同版本的软件，用户需要使用`module`或`spack`切换到所需的软件环境中。这种情况的软件，一般整个集群用户都能使用。
 
 下面重点介绍第2种方式。
 
@@ -44,8 +44,7 @@ module load gcc-9.3.0-gcc-4.8.5-oxjixak
 这时，当前Session将使用GCC 9.3.0。使用`which gcc`可以查看`gcc`可执行文件的路径。
 
 ```bash
-which gcc
-/opt/app/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/gcc-9.3.0-oxjixak2sy5mudydbjatzvj4bpveh5jl/bin/gcc
+which gcc    # /opt/app/spack/opt/spack/linux-centos7-haswell/gcc-4.8.5/gcc-9.3.0-oxjixak2sy5mudydbjatzvj4bpveh5jl/bin/gcc
 ```
 
 !!! warning "module的生命周期"
@@ -64,11 +63,11 @@ which gcc
 
 ### 软件命名规则
 
-在我们的共享集群中，绝大多数软件是使用`spack`安装的。`spack`在安装软件时，命名遵循了一些规则。
+在我们的共享集群中，一部分软件是管理员手动安装的，一部分软件是使用`spack`自动化安装的。输入`module avail`后，返回当前安装的软件。其中，`-- /opt/app/modulefiles --`为管理员手动安装的；`-- /opt/app/spack/** --`为`spack`自动化安装的。两者对于用户使用起来没有区别，只是命名不同。
 
-`spack`安装的软件命名有三部分：软件名+版本号-编译所使用的编译器+版本号-唯一标识符。例如，`gcc-9.3.0-gcc-4.8.5-oxjixak`为GCC 9.3.0，它由GCC 4.8.5编译而生成。
+`spack`在安装软件时，命名遵循了一些规则。`spack`安装的软件命名有三部分：软件名+版本号-编译所使用的编译器+版本号-唯一标识符。例如，`gcc-9.3.0-gcc-4.8.5-oxjixak`为GCC 9.3.0，它由GCC 4.8.5编译而生成。
 
-不同的`---`将不同的软件分成了不同的组，其中`/opt/app/spack`为使用`spack`安装的软件，每组所使用的编译器不同。
+不同的`---`将不同的软件分成了不同的组，每组所使用的编译器不同。
 
 ```
 --- /opt/app/spack/share/spack/modules/linux-centos7-haswell ---
@@ -95,7 +94,7 @@ which gcc
 ...
 ```
 
-上面均为单独安装的软件，即未使用`spack`编译安装的软件。
+上面均为手动安装的软件，即未使用`spack`编译安装的软件。
 
 ## spack
 
