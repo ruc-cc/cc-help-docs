@@ -1,64 +1,67 @@
 site_name: 校级计算平台用户手册
-site_url: 'https://cc.ruc.edu.cn/help/'
-repo_url: 'https://github.com/ruc-cc/cc-help-docs'
+site_url: "https://cc.ruc.edu.cn/help/"
+# repo_url: "https://github.com/ruc-cc/cc-help-docs"
 
 theme:
-  name: 'material'
-  language: 'zh'
-  favicon: 'images/favicon.png'
+  name: "material"
+  language: "zh"
+  favicon: "images/favicon.png"
+  font: false
 
 copyright: Copyright © 中国人民大学大型科学仪器共享平台
 
 markdown_extensions:
-    - admonition
-    - pymdownx.highlight
-    - pymdownx.superfences
-    - pymdownx.arithmatex:
-        generic: true
-    - toc:
-        permalink: True
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - toc:
+      permalink: True
 
 plugins:
-    - redirects:
-        redirect_maps:
-            'app/Jupyterlab-With-GPU.md': 'app/Jupyterlab.md'
-    - mkdocs-video
-        
+  - redirects:
+      redirect_maps:
+        "app/Jupyterlab-With-GPU.md": "app/Jupyterlab.md"
+  - mkdocs-video
+
 extra_css:
   - stylesheets/extra.css
-          
-nav:
-    - '首页': 'index.md'
-    - '使用必读':
-      - '用户注册': 'manual/login.md'
-      - '使用模式': 'manual/usage-mode.md'
-      - '课题组团队管理': 'manual/project.md'
-      - '计费统计': 'manual/bill.md'
-      - '数据管理与文件传输': 'manual/transfer.md'
-      - 'SSH客户端': 'manual/ssh.md'
 
-    - '软件使用':
-      - '共享集群': 
-        - 'Slurm共享集群': 'app/GPU-Cluster.md'
-        - 'Slurm进阶': 'app/slurm-advanced.md'
-        - 'module/spack': 'app/module-spack.md'
-        - '编译器': 'app/compilers.md'
-      - 'conda': 'app/conda.md'
-      - 'CUDA': 'app/cuda.md'
-      - 'Python和深度学习':
-        - 'Jupyter': 'app/Jupyterlab.md'
-        - '在共享集群上提交作业': 'app/public-cluster-python.md'
-      - 'MATLAB': 
-        - '交互式MATLAB': 'app/matlab.md'
-        - '在共享集群上提交作业': 'app/public-cluster-matlab.md'
-      - 'R' :
-        - 'RStudio': 'app/RStudio.md'
-        - '在共享集群上提交作业' : 'app/public-cluster-r.md'
-      - 'Stata': 'app/stata.md'
-      - 'Windows虚拟机': 'app/windows.md'
-      - '分子动力学':
-        - 'Amber': 'app/amber.md'
-      - '容器：Docker与Singularity': 'app/docker-singularity.md'
-    
-    - '系列培训及相关资料': 'tutorials.md'
-    - '管理办法与收费奖励标准': 'regulation.md'
+nav:
+  - "首页": "index.md"
+  - "使用必读":
+      - "用户注册": "manual/login.md"
+      - "使用模式": "manual/usage-mode.md"
+      - "课题组团队管理": "manual/project.md"
+      - "计费统计": "manual/bill.md"
+      - "数据管理与文件传输": "manual/transfer.md"
+      - "SSH客户端": "manual/ssh.md"
+      - "校外访问与VPN": "manual/vpn.md"
+
+  - "软件使用":
+      - "共享集群":
+          - "Slurm共享集群": "app/GPU-Cluster.md"
+          - "Slurm进阶": "app/slurm-advanced.md"
+          - "module/spack": "app/module-spack.md"
+          - "编译器": "app/compilers.md"
+      - "conda": "app/conda.md"
+      - "CUDA": "app/cuda.md"
+      - "Python和深度学习":
+          - "Jupyter": "app/Jupyterlab.md"
+          - "在共享集群上提交作业": "app/public-cluster-python.md"
+      - "MATLAB":
+          - "交互式MATLAB": "app/matlab.md"
+          - "在共享集群上提交作业": "app/public-cluster-matlab.md"
+      - "R":
+          - "RStudio": "app/RStudio.md"
+          - "在共享集群上提交作业": "app/public-cluster-r.md"
+      - "Stata": "app/stata.md"
+      - "Windows虚拟机": "app/windows.md"
+      - "分子动力学":
+          - "Amber": "app/amber.md"
+      - "容器：Docker与Singularity": "app/docker-singularity.md"
+
+  - "收费奖励标准": "fee.md"
+  - "管理办法": "regulation.md"
+  - "系列培训及相关资料": "tutorials.md"
