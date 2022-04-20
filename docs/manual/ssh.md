@@ -4,11 +4,7 @@
 
 ![目标实例的各项操作](../images/public_cluster.png)
 
-## VSCode
-
-VSCode、PyCharm等IDE提供了SSH登录的功能，十分方便。下载安装VSCode后，再安装Remote插件，非常适合用来开发和调试。
-
-## 免密码登录
+## 1. 免密码登录
 
 SSH免密码登录需要一对密钥对，包括一个公钥和一个私钥，其中私钥放在用户本机，公钥放在目标实例的`~/.ssh/authorized_keys`目录。下次登录时，用户本机的私钥和远程集群的公钥通过加密协议验证配对，验证成功后将不需要密码直接登录成功。所以这里需要生成公私钥，并将公钥上传到目标实例的指定位置。
 
@@ -17,49 +13,51 @@ SSH免密码登录需要一对密钥对，包括一个公钥和一个私钥，�
 1. 在用户本机生成公私钥
 2. 将公钥添加到计算平台目标实例的`~/.ssh/authorized_keys`文件末尾
 
-### macOS & Linux
+### 1.1 Windows
 
-在用户本机生成公钥和私钥的命令为
+Windows 上的SSH Key参考[这篇文档](https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_keymanagement#user-key-generation)按照如下方式生成
+
+打开Windows的 PowerShell，在命令行中输入：
+
+```
+ssh-keygen -t rsa
+```
+
+一般直接输入回车，生成的Key一般在：`C:\Users\username\.ssh\` 文件夹下。打开 `.pub` 文件，拷贝到剪贴板。
+
+### 1.2 macOS
+
+打开个人电脑的终端或者iTerm，在命令行中输入：
 
 ```bash
 ssh-keygen -t rsa
 ```
 
-这时终端会提示
-
-```bash
-Generating public/private rsa key pair.
-Enter file in which to save the key (/Users/~your-local-username~/.ssh/id_rsa):
-```
-
-括号内为生成的公私钥的默认目录位置，直接回车就会使用这个默认位置。如果默认位置已经生成过公私钥，则终端会提示是否需要覆盖，这时可不用再次生成公私钥。
-
-```bash
-/Users/~your-local-username~/.ssh/id_rsa already exists.
-Overwrite (y/n)?
-```
-
-终端会提示输入密码 passphrase，这个密码为生成私钥的密码，将来防止私钥被其他人盗用。这里可以不输入任何密码，直接回车，再次提示输入密码，再次回车。
-
-这时公钥存储在 `/Users/~your-local-username~/.ssh/id_rsa.pub` 文件里，私钥存储在 `/Users/~your-local-username~/.ssh/id_rsa` 文件里。
+一般直接输入回车，这时公钥存储在 `~/.ssh/id_rsa.pub` 文件里，私钥存储在 `~/id_rsa` 文件里。
 
 获取公钥：
 
 ```bash
-cat id_rsa.pub
+cat ~/.ssh/id_rsa.pub
 ```
+### 1.3 计算平台
 
-将返回值拷贝到剪贴板。接下来需要我们将公钥追加到计算平台目标实例 `~/.ssh/authorized_keys`。使用Web SSH登录：
+接下来需要我们将个人电脑上的公钥追加到计算平台目标实例 `~/.ssh/authorized_keys`。在计算平台侧所申请的资源里，打开命令行：
 
-```bash
+```
 echo "ssh-rsa AAAA..." >> ~/.ssh/authorized_keys
 ```
 
-其中，"ssh-rsa AAAA..."为你本机的公钥，刚刚我们已经拷贝到剪贴板。
+其中 `ssh-rsa AAAA...` 为刚刚拷贝的 `.pub` 文件中的 Key，注意要全文粘贴过来。
 
-### Windows
 
-我们提供了一个[MobaXterm](./../files/MobaXterm_Portable_v20.3.zip)的校内下载链接。
+## 2. VSCode Remote
 
-MobaXterm也提供了生成公私钥的功能。
+VSCode、PyCharm等IDE提供了SSH登录的功能，十分方便。下载安装VSCode后，再安装Remote插件，非常适合用来开发和调试。
+
+![VScode远程连接](../images/vscode-remote-ssh.png)
+
+在这里输入：`ssh -p 2xxxx u20200002@10.77.90.101`，其中 `2xxxx` 为所申请的这个某个计算资源实例的端口号，每个实例的不一样，在“我的资源”，右侧查看。
+
+![目标实例的各项操作](../images/public_cluster.png)
 

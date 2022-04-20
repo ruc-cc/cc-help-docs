@@ -2,9 +2,9 @@
 
 向计算平台上传数据有几种方式：
 
-* 使用计算平台提供的Web页面：有图形界面，适用于不熟悉Linux的用户，但不能创建文件夹，不能上传11G以上文件。
-* 使用基于WebDAV的客户端软件（Cyberduck或RaiDrive）：有图形界面，适用于不熟悉Linux的用户，能管理文件夹，能上传大文件。
-* 使用SSH协议和命令行（`scp`、`rsync`）：适用于熟悉Linux的用户，能上传大文件。
+* 使用浏览器的Web页面：有图形界面，适用于不熟悉Linux的用户，但不能创建文件夹，不能上传11G以上文件。
+* 在Windows和Mac上，使用支持WebDAV协议的客户端软件（Cyberduck或RaiDrive）：有图形界面，适用于不熟悉Linux的用户，能管理文件夹，能上传大文件。
+* 在Linux上，使用SSH协议（`scp`、`rsync`）或WebDAV协议：无图形界面，需对Linux比较熟悉，适用于熟悉Linux的用户，能上传大文件。
 
 本页面先介绍Linux目录入门知识，再介绍计算平台的存储空间目录，最后分别介绍上述三种上传和管理数据的方式。
 
@@ -69,7 +69,7 @@
 
 ![在共享集群视图中进入数据管理页面](../images/public_cluster_data_management.png)
 
-## 4. 客户端软件
+## 4. Win/Mac客户端软件
 
 由于页面文件上传功能有限，每次只能上传下载单个文件，而且文件不能太大，**建议大量数据使用WebDAV协议传输**。WebDAV是一种通信协议，支持大批量的文件传输。对于用户来说，相当于将计算平台的服务器以网盘的形式挂载到用户的个人电脑，用户将个人电脑里的数据拷贝或者上传到计算平台的服务器上。
 
@@ -78,7 +78,7 @@
 
 WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算平台密码，首次使用密码需要设置一下：进入计算平台页面，点击右上角用户名，重置密码。
 
-#### Cyberduck 使用简介
+#### 4.1 Cyberduck
 
 打开Cyberduck，点击“新建连接”，按照下图所示填写连接方式，要选择“WebDAV(HTTPS)”方式。用户验证请使用平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算平台密码。
 
@@ -88,7 +88,7 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
 
 ![Cyberduck目标文件夹](../images/cyberduck_upload.png)
 
-#### RaiDrive 使用简介
+#### 4.2 RaiDrive
 
 下载免费标准版RaiDrive并安装后，点击窗口顶部的“添加”按钮，按照下图所示创建WebDAV驱动器。
 
@@ -103,7 +103,9 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
     * WebDAV驱动器里的文件不支持编辑，只支持创建和删除。
     * 根目录下不能创建目录或文件，只能在列出的顶层目录下操作。
 
-## 5. SSH协议
+## 5. Linux
+
+### 5.1 SSH
 
 对于开放了SSH端口的集群或实例，用户可以通过SSH账户使用scp类的工具来传输数据。
 
@@ -119,11 +121,88 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
 
 ![重置密码](../images/reset_passwd.png)
 
-用户在校内，或者校外使用VPN，能够直接访问计算平台服务IP地址的情况下，可以使用scp, winscp之类的工具来传输数据：
+用户在校内，或者校外使用[VPN](vpn.md)，能够直接访问计算平台服务IP地址的情况下，可以使用scp, winscp之类的工具来传输数据：
 
 ```bash
 scp -P 20014 some_data u20200002@10.77.90.101:/home/your-user-id/
 ```
+
+### 5.2 WebDAV
+
+!!! tip "大规模数据请使用这种方式"
+    大规模数据推荐使用WebDAV这种方式，而非SSH！
+
+Rclone是Linux上支持WebDAV协议的客户端。如果用户想从自己的Linux服务器上传数据到计算平台，需要在自己的Linux服务器上下载安装Rclone，使用Rclone连接到计算平台，上传和管理计算平台上的数据。
+
+!!! warning "操作位置"
+    以下操作均在用户自己的Linux服务器上，并非计算平台的服务器上！
+
+1 下载安装Rclone
+
+前往[https://rclone.org/install/](https://rclone.org/install/)根据指南，下载并安装到自己Linux服务器上。
+
+```bash
+curl -O https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip rclone-current-linux-amd64.zip
+cd rclone-*-linux-amd64
+```
+
+使用有root权限的用户拷贝到`/usr/bin/`下：
+
+```bash
+sudo cp rclone /usr/bin/
+sudo chown root:root /usr/bin/rclone
+sudo chmod 755 /usr/bin/rclone
+```
+
+2 配置用户名密码
+
+执行`rclone config`进行必要的配置：
+
+```bash
+# rclone config
+> n #新建连接
+name> remote #设置连接名称
+Storage> webdav #设置存储类型
+url> https://10.77.90.101:4918 #设置webdav服务端地址
+vendor>other #设置服务端vendor
+user> username #设置计算平台用户名：u2xxxxxx
+y/g/n> y
+password: ****** #设置计算平台密码
+bearer_token>    #键入回车，跳过
+Edit advanced config? (y/n) #键入回车，跳过
+Remote config       				#键入回车，跳过
+e/n/d/r/c/s/q> q     				#配置完成，退出
+```
+
+3 关闭证书检查
+
+!!! warning "关闭证书检查"
+    注意：此项必须关闭，不然远程操作会报错！
+
+有两种关闭检查的方式，如下：
+1.在执行命令时带上--no-check-certificate参数，如：rclone ls remote: --no-check-certificate
+2.在环境变量里指定，如：export RCLONE_NO_CHECK_CERTIFICATE=true
+
+4 常用操作
+
+```bash
+# 列出远程目录，remote替换为配置时设置的连接名称
+rclone lsd remote：
+
+# 将本地文件复制到远程的MyData目录
+rclone copy -P /tmp/*  remote:/MyData/
+
+#远程的文件复制到本地
+rclone copy -P remote:/MyData/rclone-v1.55.1-linux-amd64.zip /tmp
+```
+
+其中，Slurm共享集群数据在 `ProjectGroup(public_cluster)` 中，课题组数据在 `ProjectGroup(course)`。
+
+!!! warning "括号前后要加单引号'"
+    `ProjectGroup(public_cluster)` 这样的目录，在访问和拷贝数据时，需要加单引号，例如：`rclone copy -P /tmp/*  remote:ProjectGroup'('public_cluster')'/u2020xxxx/`
+
+5 其它操作可参考官方文档：https://rclone.org/docs/
 
 ## 6. 交互实例内访问共享集群Home目录
 

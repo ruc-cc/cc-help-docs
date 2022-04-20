@@ -190,8 +190,6 @@ sbatch run.sh
 ### 以上参数用来申请所需资源
 ### 以下命令将在计算节点执行
 
-nvidia-smi
-
 ### 执行你的作业
 python test.py
 ```

@@ -58,6 +58,7 @@ nav:
           - "在共享集群上提交作业": "app/public-cluster-r.md"
       - "Stata": "app/stata.md"
       - "Windows虚拟机": "app/windows.md"
+      - "Linux虚拟机": "app/linux-virtual.md"
       - "分子动力学":
           - "Amber": "app/amber.md"
       - "容器：Docker与Singularity": "app/docker-singularity.md"
