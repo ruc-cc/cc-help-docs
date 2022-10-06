@@ -46,7 +46,7 @@ CUDA与GPU硬件、操作系统内核、GPU驱动（Driver）耦合度非常紧�
 使用`conda`安装深度学习框架时，往往也会安装cudatoolkit。例如某个版本的PyTorch的安装命令为：
 
 ```bash
-conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c nvidia
+conda install pytorch==1.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
 ```
 
 其中的`cudatoolkit=11.1`表示安装了11.1的CUDA。`conda`安装的CUDA只提供了必备的Runtime，不提供NVCC、nvprof、NSight等开发工具。PyTorch程序运行时，优先使用`conda`环境下的CUDA。

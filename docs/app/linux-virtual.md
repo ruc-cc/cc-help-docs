@@ -14,7 +14,7 @@
 
 ```bash
 # 登录刚申请的Linux虚拟机
-ssh -p 20017 root@10.77.90.101
+ssh -p 20017 root@login.cc.ruc.edu.cn
 # 查看 /webdav 目录
 root@ubuntu:~# ls /webdav/
  MyData  'ProjectGroup(hpctest)'  'ProjectGroup(public_cluster)'   lost+found

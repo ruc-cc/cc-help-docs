@@ -24,9 +24,15 @@
 
 交互实例的Home目录可以和共享集群的Home目录之间相互拷贝数据，在交互实例中，可以通过/group_homes目录访问到在共享集群里的数据。详见[如何从共享集群的Home目录向交互实例拷贝数据](#home_2)。
 
-## 3. Web页面
+## 3. 设置密码
 
-### 3.1 访问交互实例中的Home目录
+首次登录的用户需要设置系统内密码，此密码为CC计算平台平台密码，用于本文登录时使用：点击右上角用户名，重置密码。
+
+![重置密码](../images/reset_passwd.png)
+
+## 4. Web页面
+
+### 4.1 访问交互实例中的Home目录
 
 #### 上传文件
 
@@ -61,7 +67,7 @@
 
 ![数据管理](../images/download_file.png)
 
-### 3.2 访问共享集群的Home目录
+### 4.2 访问共享集群的Home目录
 
 共享集群Home目录的访问方式与交互实例Home目录的访问类似，只是先要选择共享集群，进入共享集群页面，再点击左侧“数据管理”。
 
@@ -69,26 +75,34 @@
 
 ![在共享集群视图中进入数据管理页面](../images/public_cluster_data_management.png)
 
-## 4. Win/Mac客户端软件
+## 5. Win/Mac客户端软件
 
 由于页面文件上传功能有限，每次只能上传下载单个文件，而且文件不能太大，**建议大量数据使用WebDAV协议传输**。WebDAV是一种通信协议，支持大批量的文件传输。对于用户来说，相当于将计算平台的服务器以网盘的形式挂载到用户的个人电脑，用户将个人电脑里的数据拷贝或者上传到计算平台的服务器上。
 
 我们需要下载支持WebDAV协议的软件：Windows系统建议使用[RaiDrive](https://www.raidrive.com/)或[Cyberduck](https://cyberduck.io/)，macOS系统建议使用[Cyberduck](https://cyberduck.io/)。
 
 
-WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算平台密码，首次使用密码需要设置一下：进入计算平台页面，点击右上角用户名，重置密码。
+WebDAV协议访问的地址是`https://login.cc.ruc.edu.cn:4918`。用户名为平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算平台密码，首次使用密码需要设置一下：进入计算平台页面，点击右上角用户名，重置密码。
 
-#### 4.1 Cyberduck
+#### 5.1 Cyberduck
 
-打开Cyberduck，点击“新建连接”，按照下图所示填写连接方式，要选择“WebDAV(HTTPS)”方式。用户验证请使用平台内部用户名（`u` + 学工号， 例如u20200002），密码为计算平台密码。
+打开Cyberduck，点击“新建连接”，按照下图所示填写连接方式，要选择“WebDAV(HTTPS)”方式。用户验证请使用平台内部用户名（`u` + 学工号， 例如u20200002），密码为CC计算平台密码。
+
+!!! warning "密码为CC计算平台密码"
+    密码为CC计算平台密码，非微人大密码，未设置过的请在CC计算平台右上角设置！
 
 ![Cyberduck示意图](../images/cyberduck.png)
 
-连接过程中出现任何提示，直接点“继续”。连接成功后，可以使用软件的创建文件夹、上传等功能。注意，使用交互实例，比如交互式的JupyterLab、RStudio、Stata、MATLAB的用户，目标文件夹是“MyData”文件夹。软件的“操作”按钮下有“新建文件夹”、“上传”等功能。
+连接过程中出现任何提示，直接点“继续”。
 
-![Cyberduck目标文件夹](../images/cyberduck_upload.png)
+![Cyberduck点击信任](../images/cyberduck-trust.png)
 
-#### 4.2 RaiDrive
+
+连接成功后，可以使用软件的创建文件夹、上传等功能。注意，使用交互实例，比如交互式的JupyterLab、RStudio、Stata、MATLAB的用户，目标文件夹是“MyData”文件夹。软件的“操作”按钮下有“新建文件夹”、“上传”等功能。
+
+![Cyberduck目标文件夹](../images/cyberduck-upload.png)
+
+#### 5.2 RaiDrive
 
 下载免费标准版RaiDrive并安装后，点击窗口顶部的“添加”按钮，按照下图所示创建WebDAV驱动器。
 
@@ -103,9 +117,9 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
     * WebDAV驱动器里的文件不支持编辑，只支持创建和删除。
     * 根目录下不能创建目录或文件，只能在列出的顶层目录下操作。
 
-## 5. Linux
+## 6. Linux
 
-### 5.1 SSH
+### 6.1 SSH
 
 对于开放了SSH端口的集群或实例，用户可以通过SSH账户使用scp类的工具来传输数据。
 
@@ -115,19 +129,15 @@ WebDAV协议访问的地址是`https://10.77.90.101:4918`。用户名为平台�
 
 点击最右侧的SSH服务地址按钮，会弹出计算平台对外开放的IP地址和端口：
 
-![集群实例](../images/ssh_ip_port.png)
+![集群实例](../images/ssh-ip-port.png)
 
-首次使用SSH登录的用户需要设置SSH密码，此密码为计算平台平台密码，用于计算平台SSH登录时使用：点击右上角用户名，重置密码。
-
-![重置密码](../images/reset_passwd.png)
-
-用户在校内，或者校外使用[VPN](vpn.md)，能够直接访问计算平台服务IP地址的情况下，可以使用scp, winscp之类的工具来传输数据：
+用户在校内，或者校外使用[VPN](vpn.md)，可以使用scp, winscp之类的工具来传输数据：
 
 ```bash
-scp -P 20014 some_data u20200002@10.77.90.101:/home/your-user-id/
+scp -P 20014 some_data u20200002@login.cc.ruc.edu.cn:/home/your-user-id/
 ```
 
-### 5.2 WebDAV
+### 6.2 WebDAV
 
 !!! tip "大规模数据请使用这种方式"
     大规模数据推荐使用WebDAV这种方式，而非SSH！
@@ -164,7 +174,7 @@ sudo chmod 755 /usr/bin/rclone
 > n #新建连接
 name> remote #设置连接名称
 Storage> webdav #设置存储类型
-url> https://10.77.90.101:4918 #设置webdav服务端地址
+url> https://10.10.252.11:4918 #设置webdav服务端地址
 vendor>other #设置服务端vendor
 user> username #设置计算平台用户名：u2xxxxxx
 y/g/n> y
@@ -204,7 +214,7 @@ rclone copy -P remote:/MyData/rclone-v1.55.1-linux-amd64.zip /tmp
 
 5 其它操作可参考官方文档：https://rclone.org/docs/
 
-## 6. 交互实例内访问共享集群Home目录
+## 7. 交互实例内访问共享集群Home目录
 
 交互实例模式内，是可以访问到本用户共享集群模式的Home目录的。计算平台平台会自动将共享集群的Home目录挂载到`/group_homes`下。 用户可以在交互实例里把脚本和数据直接复制或移动到共享集群模式的Home目录中。
 
@@ -212,13 +222,13 @@ rclone copy -P remote:/MyData/rclone-v1.55.1-linux-amd64.zip /tmp
 
 ![group_homes](../images/group_homes.png)
 
-## 7. 虚拟机实例内访问Home目录
+## 8. 虚拟机实例内访问Home目录
 
 平台内的虚拟机实例访问共享文件系统上的Home目录的机制类似于用户从外部访问WebDAV服务。目前平台上的虚拟机镜像预先做好了WebDAV卷的自动挂载，挂载点是/webdav。
 
 ```bash
 # 登录Linux虚拟机
-ssh -p 20017 root@10.77.90.101
+ssh -p 20017 root@login.cc.ruc.edu.cn
 # 查看 /webdav 目录
 root@ubuntu:~# ls /webdav/
  MyData  'ProjectGroup(hpctest)'  'ProjectGroup(public_cluster)'   lost+found

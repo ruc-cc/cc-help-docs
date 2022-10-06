@@ -57,7 +57,7 @@ VSCode、PyCharm等IDE提供了SSH登录的功能，十分方便。下载安装V
 
 ![VScode远程连接](../images/vscode-remote-ssh.png)
 
-在这里输入：`ssh -p 2xxxx u20200002@10.77.90.101`，其中 `2xxxx` 为所申请的这个某个计算资源实例的端口号，每个实例的不一样，在“我的资源”，右侧查看。
+在这里输入：`ssh -p 2xxxx u20200002@login.cc.ruc.edu.cn`，其中 `2xxxx` 为所申请的这个某个计算资源实例的端口号，每个实例的不一样，在“我的资源”，右侧查看。
 
 ![目标实例的各项操作](../images/public_cluster.png)
 

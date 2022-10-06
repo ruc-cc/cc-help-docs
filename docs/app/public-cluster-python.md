@@ -124,15 +124,29 @@ sbatch test.sh
 #### CUDA & 安装
 
 !!! warning "CUDA版本"
-    目前，我们在共享集群的各个GPU节点上提供的CUDA版本为11.2，CUDA路径为：`/opt/pkgs/cuda`。请务必安装与CUDA版本兼容的PyTorch，即PyTorch所依赖的CUDA应该<=11.2的。
+    目前，我们在共享集群的各个GPU节点上提供的默认CUDA版本为11.2，CUDA路径为：`/opt/pkgs/cuda`。你可以使用当前默认版本的CUDA，也可以使用 `conda` 安装所需要的CUDA版本。
 
     更多CUDA安装和兼容性知识，详见[CUDA](./cuda.md)。
 
-创建自己的环境，激活环境后，在环境上安装PyTorch：
+创建自己的环境，激活环境：
 
 ```
-conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c nvidia
+# 创建名为 torch1.8 的环境
+conda create -n torch1.8
+
+# 激活这个环境
+source activate torch1.8
 ```
+
+大家可以前往PyTorch官网提供的安装指南查看安装命令： [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/) 。
+
+以下面的安装命令为例：
+
+```
+conda install pytorch==1.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
+```
+
+其中，`pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0` 为 PyTorch 相关包，`cudatoolkit=11.1` 表示同时也安装 CUDA 11.1。那么，环境里既安装了 `torch` 又安装了 CUDA 11.1。
 
 #### 多卡并行
 
@@ -142,10 +156,20 @@ conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c nvid
 
 #### 安装
 
-创建自己的环境，激活环境后，在环境上安装TensorFlow：
+创建自己的环境，激活环境：
+
+```
+# 创建名为 tf27 的环境
+conda create -n tf2.7
+
+# 激活这个环境
+source activate tf2.7
+```
+
+在 [https://anaconda.org/](https://anaconda.org/) 中搜索 `tensorflow-gpu`，找到安装命令，比如：
 
 ```bash
-conda install tensorflow-gpu -n tf22
+conda install -c conda-forge tensorflow-gpu==2.7.1
 ```
 
 #### 多卡并行
@@ -161,7 +185,7 @@ conda install tensorflow-gpu -n tf22
 * SSH登录
 
 ```bash
-ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101
+ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@login.cc.ruc.edu.cn
 ```
 
 以上命令登录的同时，也转发了10060端口，我们下面使用这个端口来启动TensorBoard服务。
@@ -176,6 +200,6 @@ tensorboard --port=10060 --logdir=./
 
 * VSCode Remote
 
-VSCode的Remote插件在SSH登录时，会把所有端口都进行转发，启动TensorBoard后，会直接监测到端口启动，无需`ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@10.77.90.101`这样逐个端口转发。
+VSCode的Remote插件在SSH登录时，会把所有端口都进行转发，启动TensorBoard后，会直接监测到端口启动，无需`ssh -L 127.0.0.1:10060:127.0.0.1:10060 -p 20014 u20200002@login.cc.ruc.edu.cn`这样逐个端口转发。
 
 在浏览器里直接访问：http://127.0.0.1:10060/ 即可打开TensorBoard界面。

@@ -37,7 +37,7 @@
 | 队列名 | CPU                         | 内存  | GPU                        | 台数 |
 | ------ | --------------------------- | ----- | -------------------------- | ---- |
 | tesla  | 64（2 * Intel Gold 5218 16核心32线程） | 256GB | 2 * Nvidia Tesla V100 PCI-E 32GB | 3    |
-| titan  | 64（2 * Intel Gold 5218 16核心32线程) | 128GB | 2 * Nvidia Titan RTX PCI-E 24GB | 6   |
+| titan  | 64（2 * Intel Gold 5218 16核心32线程) | 128GB | 4 * Nvidia Titan RTX PCI-E 24GB | 3   |
 | 2080ti  | 64 (2 * Intel Gold 5218 16核心32线程) | 128GB | 2 * Nvidia 2080Ti PCI-E 11GB | 4   |
 | cpu    | 64 (2 * Intel Gold 5218 16核心32线程) | 192GB | 无                         | 3   |
 | fat    | 128 (4 * Intel Gold 5218 16核心32线程) | 384GB | 无                         | 2    |
@@ -75,7 +75,7 @@ sinfo
 ```
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
 tesla*       up   infinite      3   idle tesla[1-3]
-titan        up   infinite      7   idle titan[1-7]
+titan        up   infinite      6   idle titan[1-7]
 cpu          up   infinite      6   idle cpu[1-6]
 fat          up   infinite      2   idle fat[1-2]
 ```
