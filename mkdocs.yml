@@ -10,6 +10,8 @@ theme:
 
 copyright: Copyright © 中国人民大学大型科学仪器共享平台
 
+use_directory_urls: false
+
 markdown_extensions:
   - admonition
   - pymdownx.highlight
@@ -63,6 +65,7 @@ nav:
           - "Amber": "app/amber.md"
       - "容器：Docker与Singularity": "app/docker-singularity.md"
 
+  - "常见问题FAQ": "faq.md"
   - "收费奖励标准": "fee.md"
   - "管理办法": "regulation.md"
   - "系列培训及相关资料": "tutorials.md"

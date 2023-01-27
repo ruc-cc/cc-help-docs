@@ -2,7 +2,7 @@
 
 [Amber](http://ambermd.org/)是一款分子动力学模拟软件。
 
-我们已经在共享集群上安装了Amber 18，并提供了CPU和GPU版本，安装位置为：`/opt/app/Amber/`。CPU版本和GPU版本分为两个文件夹，CPU版本路径地址为：`/opt/app/Amber/18`；GPU版本路径地址为：`/opt/app/Amber/18_gpu`。在共享集群上必须通过Slurm调度软件提交作业。每个路径下面有作业提交样例，文件名为：`run_amber.sh`。比如，提交一个GPU版本的作业，需要编写脚本为：
+我们已经在共享集群上安装了Amber 18和22，并提供了CPU和GPU版本，安装位置为：`/opt/app/Amber/`。CPU版本和GPU版本分为两个文件夹，CPU版本路径地址为：`/opt/app/Amber/18`；GPU版本路径地址为：`/opt/app/Amber/18_gpu`。在共享集群上必须通过Slurm调度软件提交作业。每个路径下面有作业提交样例，文件名为：`run_amber.sh`。比如，提交一个GPU版本的作业，需要编写脚本为：
 
 ```bash
 #!/bin/bash

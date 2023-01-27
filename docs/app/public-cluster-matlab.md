@@ -20,19 +20,18 @@
 #SBATCH --nodes=1
 
 ### 指定该作业需要多少个CPU核心
-### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请<=64核！
-#SBATCH --ntasks=64
+### 注意！一般根据队列的CPU核心数填写，比如cpu24c队列24核，这里申请<=24核！
+#SBATCH --ntasks=24
 
 ### 指定该作业在哪个队列上执行
-### 目前可用的CPU队列有 cpu/fat
-### cpu队列有64核，fat队列有128核
-#SBATCH --partition=cpu
+### 目前可用的CPU队列均以cpu开头，例如cpu24c
+#SBATCH --partition=cpu24c
 
 ### 以上参数用来申请所需资源
 ### 以下命令将在计算节点执行
 
 ### 使用何种版本的MATLAB
-module load matlab/2020a
+module load matlab/2022a
 
 ### 执行MATLAB程序
 ### -nodisplay 表示不使用图形化界面， -nosplash 表示启动matlab时不显示闪屏版权信息

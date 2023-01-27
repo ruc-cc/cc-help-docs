@@ -34,19 +34,21 @@
 
 目前，公共集群上有如下四类计算资源，分为四个队列。
 
-| 队列名 | CPU                         | 内存  | GPU                        | 台数 |
-| ------ | --------------------------- | ----- | -------------------------- | ---- |
-| tesla  | 64（2 * Intel Gold 5218 16核心32线程） | 256GB | 2 * Nvidia Tesla V100 PCI-E 32GB | 3    |
-| titan  | 64（2 * Intel Gold 5218 16核心32线程) | 128GB | 4 * Nvidia Titan RTX PCI-E 24GB | 3   |
-| 2080ti  | 64 (2 * Intel Gold 5218 16核心32线程) | 128GB | 2 * Nvidia 2080Ti PCI-E 11GB | 4   |
-| cpu    | 64 (2 * Intel Gold 5218 16核心32线程) | 192GB | 无                         | 3   |
-| fat    | 128 (4 * Intel Gold 5218 16核心32线程) | 384GB | 无                         | 2    |
+| 队列名 | CPU型号 | CPU核数 | 内存  | GPU                              | 卡数 | 台数 |
+|--------|------------------|---------|-------|----------------------------------|------|------|
+| a100   | Intel Gold 6348  | 56      | 512GB | NVIDIA Tesla A100 PCI-E 80GB     | 4    | 1    |
+| v100   | Intel Gold 5218  | 64      | 256GB | Nvidia Tesla V100 PCI-E 32GB | 2    | 3    |
+| titan  | Intel Gold 5218  | 64      | 128GB | Nvidia Titan RTX PCI-E 24GB  | 4    | 3    |
+| 2080ti | Intel Gold 5218  | 64      | 128GB | Nvidia 2080Ti PCI-E 11GB     | 2    | 3    |
+| cpu24c    | Intel E5-2650 v4  | 24      | 64GB | -                                | -    | 48    |
+| cpu64c    | Intel Gold 5218  | 64      | 192GB | -                                | -    | 4    |
+| cpu128c   | Intel Gold 5218 | 128      | 384GB  | -                                | -    | 2   |
 
 ## 4. 调度系统
 
-集群上常见的作业调度系统有Torque（我校2017年项目采用Torque）和Slurm（本项目采用）。Slurm（Simple Linux Utility for Resource Management）是一种可用于大型计算集群的作业调度系统，被世界范围内的超级计算机和计算集群广泛采用。相比Torque，Slurm更先进，因此我们放弃了Torque，转而使用Slurm。无论Torque还是Slurm，作业调度系统主要包括提交作业、查看状态等几大部分。
+Slurm（Simple Linux Utility for Resource Management）是一种可用于大型计算集群的作业调度系统，被世界范围内的超级计算机和计算集群广泛采用。
 
-所有集群调度系统在提交作业时都需要用户在一份文件中做一些参数说明，告知本作业需要多少CPU、GPU和内存，用来申请计算资源。用户提交一个作业，需要先将这些参数填写进一个脚本中，用户提交这个脚本给Slurm，Slurm会分配相应的计算资源给这个作业，如下图所示。
+集群调度系统在提交作业时都需要用户在一份文件中做一些参数说明，告知本作业需要多少CPU、GPU和内存，用来申请计算资源。用户提交一个作业，需要先将这些参数填写进一个脚本中，用户提交这个脚本给Slurm，Slurm会分配相应的计算资源给这个作业，如下图所示。
 
 ![集群与作业调度器](../images/job_scheduler.png)
 
@@ -74,18 +76,16 @@ sinfo
 
 ```
 PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
-tesla*       up   infinite      3   idle tesla[1-3]
-titan        up   infinite      6   idle titan[1-7]
-cpu          up   infinite      6   idle cpu[1-6]
-fat          up   infinite      2   idle fat[1-2]
+a100         up 28-00:00:0      1   idle a100-1
+...
 ```
 
-可以看到，我们有4个队列，每个队列的设备参数可以参考[计算资源](#_3)部分。其中`idle`为空闲，`mix`为节点部分CPU核心可以使用，`alloc`为节点所有CPU核心已被占用。
+可以看到，我们有多个队列，每个队列的设备参数可以参考[计算资源](#_3)部分。其中`idle`为空闲，`mix`为节点部分CPU核心可以使用，`alloc`为节点所有CPU核心已被占用。
 
 查看指定分区节点空闲状态：
 
 ```bash
-sinfo -p cpu
+sinfo -p cpu24c
 ```
 
 ### 4.2 提交作业
@@ -112,13 +112,12 @@ sinfo -p cpu
 #SBATCH --ntasks=4
 
 ### 指定该作业在哪个队列上执行
-### 目前可用的队列有 cpu/fat/titan/tesla
 #SBATCH --partition=cpu
 
 ### 以上参数用来申请所需资源
 ### 以下命令将在计算节点执行
 
-### 本例使用Anaconda中的Python，先将Python添加到环境变量配置好环境变量
+### 本例使用Anaconda中的Python，先将Python添加到环境变量配置好环境变量
 export PATH=/opt/app/anaconda3/bin:$PATH
 ### 激活一个 Anaconda 环境 tf22
 source activate tf22
@@ -152,7 +151,7 @@ sbatch run.sh
 
 用户在登录节点（workstation）不能进行计算，否则影响其他人登录。我们已经做了一些限制，进程无法长时间运行；同时，如果发现，我们将直接杀死进程。
 
-用户无法直接登录到计算节点，需要使用`sbatch`或者`salloc`提交作业后，使用`ssh hostname`来登录目标节点。比如，分配的节点为`cpu1`，`ssh cpu1`可登录到计算节点。
+用户无法直接登录到计算节点，需要使用`sbatch`或者`salloc`提交作业后，使用`ssh hostname`来登录目标节点。比如，分配的节点为`a100-1`，`ssh a100-1`可登录到计算节点。
 
 ### 4.4 GPU
 
@@ -180,8 +179,7 @@ sbatch run.sh
 #SBATCH --nodes=1
 
 ### 指定该作业在哪个队列上执行
-### 目前可用的GPU队列有 titan/tesla
-#SBATCH --partition=tesla
+#SBATCH --partition=titan
 
 ### 申请一块GPU卡，一块GPU卡默认配置了一定数量的CPU核
 ### 注意！程序没有使用多卡并行优化的，下面参数写1！不要多写，多写也不会加速程序！
@@ -204,6 +202,8 @@ python test.py
 
 ```bash
 squeue -u `whoami`
+
+squeue -u u2020xxxx
 ```
 
 !!! tip "查看输出文件"
@@ -219,59 +219,84 @@ scancel 43
 
 ```bash
 scancel -u `whoami`
+
+scancel -u u2020xxxx
 ```
 
 取消当前用户下作业状态为PENDING的作业：
 
 ```bash
 scancel -t PENDING -u `whoami`
+
+scancel -t PENDING -u -u2020xxxx
 ```
 
 ### 4.6 交互式debug
 
-前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu`队列申请1个节点，每个节点8个核心，时间为10分钟，`tutor_project`为你所在的计费课题组。
+前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu24c`队列申请1个节点，每个节点8个核心，时间为10分钟，`tutor_project`为你所在的计费课题组。
 
 ```bash
-salloc --nodes=1 --ntasks=8 --partition=cpu --time=00:10:00 --comment=tutor_project
+salloc --nodes=1 --ntasks=8 --partition=cpu24c --time=00:10:00 --comment=tutor_project
+# 以下为屏幕反馈信息
+# salloc: Granted job allocation 49933
+# salloc: Waiting for resource configuration
+# salloc: Nodes titan-1 are ready for job
+# 登录到当前计算节点
+ssh titan-1
+python test.py
+
+# 退出当前计算节点
+exit
+# 以下为屏幕反馈信息
+# logout
+# Connection to titan-1 closed.
+
+# 释放当前salloc计算资源
+exit
+# 以下为屏幕反馈信息
+# salloc: Relinquishing job allocation 49933
 ```
 
-![salloc](../images/salloc.png)
+Slurm会分配给一个机器，比如分配机器为titan-1，接着我们可以`ssh titan-1`，来登录到这台机器上，执行相应的计算和并进行debug。比如，执行一个Python程序，查看输出：`python test.py`。
 
-Slurm会分配给一个机器，比如图中分配机器为cpu5，接着我们可以`ssh cpu5`，来登录到这台机器上，执行相应的计算和并进行debug。比如，执行一个Python程序，查看输出：`python test.py`。在`test.py`中，我们可以增加一些打印语句，将一些信息打印出来，方便查看程序走到哪个位置。
+使用完后，我们需要先执行一次`exit`退出当前机器，这里是titan-1这台机器；再执行一次`exit`，提醒Slurm释放掉`salloc`所申请的资源。
 
-使用完后，我们需要先执行一次`exit`退出当前机器，这里是cpu5这台机器；再执行一次`exit`，提醒Slurm释放掉`salloc`所申请的资源。
+## 5. 存储
 
-## 5. 资源划分
+### 5.1 普通存储
+
+目前所有数据使用一个共享存储，即所有计算节点都能看到同样的目录结构和数据。
+
+### 5.2 高速缓存
+
+部分数据密集型任务，图像视觉类深度学习需要访问小文件，我们使用3台NVMe闪存服务器，搭建了一个高速闪存，挂载在 `/buffer` 目录，各课题组和用户可以在该目录下 `mkdir` 创建自己的目录，将对IO要求较高的数据集放置于此。
+
+!!! warning
+    `/buffer` 只是缓存，不适合长期存储，我们无法保证 `/buffer` 下的数据的长期持久化保存，建议只用来存储中间数据。
+
+## 6. 资源划分
 
 在当前的Slurm共享集群中，我们将所有的计算资源（CPU、内存、GPU）都定义为TRES（Trackable RESources），也就是说，计算资源是按需申请的，Slurm分配好资源后，会通过cgroups的方式对申请到的资源进行限制。同时，Slurm会根据所申请的资源进行计费。
 
-### 5.1 CPU队列
+### 6.1 CPU队列
 
 对于CPU队列，用户1使用`--ntasks=2`在队列cpu上某1个节点上申请了2个CPU核，无论代码中使用了多少线程，Slurm会限制该用户只能使用2个CPU核，即使该节点上剩下的62个CPU核都空闲，用户也只能使用2个CPU核；假如另外一个用户2使用`--ntasks=8`也在cpu队列上申请1个节点的8个CPU核，Slurm很有可能将第二个作业分配到同一个节点。两个作业在同一个物理节点上运行。直到物理节点上空闲的CPU核无法满足新作业的需求，Slurm将不在该物理节点上分配作业。
 
-### 5.2 GPU队列
+### 6.2 GPU队列
 
 GPU作业更加复杂，既要满足CPU资源，又要满足GPU资源。为了简化配置，用户可以只使用`--gpus=<gpus>`来申请GPU卡数量，不需要设置CPU资源。校级计算平台已经根据当前CPU核和GPU卡的数量配比，已经给GPU队列设置了一张GPU卡对应的CPU的默认配比数量，即`CPU核数÷GPU卡数`，因此，不需要使用`--ntasks=<ncpus>`。当然，用户可以根据自身需要使用`--ntasks=<ncpus>`申请CPU核，使用`--ntasks=<ncpus>`后将覆盖默认的配比。
 
 假如用户不设置`--gpus=<ngpus>`，则用户无法获取到GPU资源；假如`--gpus=1`，Slurm会使用cgroups限制用户只能使用1张GPU卡。直到物理节点上空闲的CPU核或空闲的GPU卡无法满足新作业的需求，Slurm将不再该物理节点上分配作业。
 
-### 5.3 内存
+### 6.3 内存
 
 为了避免运行在同一个节点上多个作业互相争抢资源，同一个节点上的不同作业之间的内存也是相互隔离的。目前我们设置了一个CPU核对应的默认内存大小，默认值为`内存大小÷CPU核数`。比如，fat队列上，1个CPU核对应3GB内存，如果用户申请16个CPU核，能获取到的内存为48GB。
 
-### 5.4 意见
+### 6.4 意见
 
-目前的这种方式对计算资源进行了细粒度的划分，并允许多个作业运行在1个物理节点上，可以充分利用资源。但是，多个作业运行在1个物理节点上，作业之间在内存、IO等地方有争抢。1个物理节点上运行的作业越多，作业之间争抢可能就越严重，作业运行速度就可能越慢。如果不希望别人争抢自己的资源，那么用户需要参考下表，在提交作业时申请该队列的所有CPU核或GPU卡。当然，申请更多的资源意味着计费时成本更高。以GPU队列tesla为例，用户需要申请`--gpus=2`，这样才能独占该节点，其他作业才不会与之共享运行在同一物理节点上。
+目前的这种方式对计算资源进行了细粒度的划分，并允许多个作业运行在1个物理节点上，可以充分利用资源。但是，多个作业运行在1个物理节点上，作业之间在内存、IO等地方有争抢。1个物理节点上运行的作业越多，作业之间争抢可能就越严重，作业运行速度就可能越慢。如果不希望别人争抢自己的资源，那么用户需要参考下表，在提交作业时申请该队列的所有CPU核或GPU卡。当然，申请更多的资源意味着计费时成本更高。以GPU队列a100为例，用户需要申请`--gpus=4`，这样才能独占该节点，其他作业才不会与之共享运行在同一物理节点上。
 
-| 队列名 | 队列属性                  | CPU核数             | 总内存            | GPU               | 台数 |
-| ------ | --------------------------- | ----- | -------------------------- | ---- | ---- |
-| tesla  | GPU队列 | 64 | 256G | 2 张 Nvidia Tesla V100 PCI-E 32GB | 3    |
-| titan  | GPU队列 | 64 | 128G | 2 张 Nvidia Titan RTX PCI-E 24GB | 6   |
-| 2080ti  | GPU队列 | 64 | 128G | 2 张 Nvidia 2080Ti RTX PCI-E 11GB | 4  |
-| cpu    | CPU队列 | 64 | 192G | 无 | 3   |
-| fat    | CPU队列 | 128 | 384G | 无 | 2    |
-
-## 6. 如何合理设置CPU/GPU资源数
+## 7. 如何合理设置CPU/GPU资源数
 
 到底如何设置CPU和GPU的资源？目前没有一个标准化的答案。所申请的CPU和GPU资源的数目与具体的作业任务有关。有些计算任务是高度依赖CPU的，有些是GPU密集型的，有些既需要CPU又需要GPU。用户需要了解自己作业中的瓶颈。
 

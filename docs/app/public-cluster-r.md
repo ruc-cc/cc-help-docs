@@ -3,9 +3,9 @@
 !!! warning "RStudio与共享集群"
     共享集群与Jupyter、RStudio等交互实例是相互独立的，在Jupyter或RStudio中安装的一些软件包，并不能直接在共享集群里直接使用，两边都需要单独安装。
 
-## 软件包安装
+## 1. 软件包安装
 
-### conda
+### 1.1 conda
 
 在共享集群上，我们建议使用`conda`来创建和管理R环境，`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
 
@@ -20,7 +20,7 @@ export PATH="/opt/app/anaconda3/bin:$PATH"
 ```
 * 方法2：
   
-可以使用`module`，每次使用前，将`conda`添加到环境变量：
+可以使用`module`，每次执行下面的命令，将`conda`添加到环境变量：
 
 ```bash
 module load anaconda3
@@ -28,25 +28,31 @@ module load anaconda3
 
 这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
 
-### 创建R环境
+### 1.2 创建R环境
 
-我们要创建一个带有R解释器的环境，环境名为`r36`，里面带有一个3.6版本的R解释器。
+我们要创建一个带有R解释器的环境，环境名为`r42`，里面带有一个4.2版本的R解释器。
 
 ```bash
-conda create -n r36 r-base=3.6
+conda create -n r42
 ```
 
 激活这个环境：
 
 ```bash
-source activate r36
+source activate r42
+```
+
+在这个环境里面安装4.2版本的R：
+
+```bash
+conda install -c conda-forge r-base=4.2
 ```
 
 安装好基础的R环境后，我们需要安装一些第三方包，主要有两种方法：
 
 * 建议优先使用`conda`安装一些包。
 
-因为`conda`能够帮我们解决一些依赖问题。首先在 [anaconda.org](https://anaconda.org/) 上搜索，比如`data.table`包，添加一个"r-"的前缀：
+因为`conda`能够帮我们解决一些依赖问题。首先在 [anaconda.org](https://anaconda.org/) 上搜索，比如`data.table`包，添加一个"r-"的前缀。有关conda的介绍详见我们提供的[conda入门教程](conda.md)。
 
 ![在Anaconda上搜索R相关包](../images/r_conda.png)
 
@@ -60,7 +66,7 @@ conda install -c r r-data.table
 
 这种方法能够安装绝大多数的包，但是如果某个包依赖了操作系统的底层包，而操作系统缺少这个底层包，会出现安装不上去的问题。因此，优先建议使用第一种方式。如果仍然安装不上，可以联系<hpc@ruc.edu.cn>。
 
-## 使用调度软件
+## 2. 使用调度软件
 
 安装好相关环境后，我们接着可以向共享集群提交作业。在共享集群上，我们使用Slurm作为调度软件，不了解共享集群和调度软件的可以先阅读我们提供的[共享集群快速入门文档](./GPU-Cluster.md)。
 
@@ -80,13 +86,12 @@ conda install -c r r-data.table
 #SBATCH --nodes=1
 
 ### 指定该作业需要多少个CPU核心
-### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请<=64核！
-#SBATCH --ntasks=16
+### 注意！一般根据队列的CPU核心数填写，比如cpu24c队列24核，这里申请<=24核！
+#SBATCH --ntasks=24
 
 ### 指定该作业在哪个队列上执行
-### 目前可用的CPU队列有 cpu/fat
-### cpu队列有64核，fat队列有128核
-#SBATCH --partition=cpu
+### 目前可用的CPU队列均以cpu开头，例如cpu24c
+#SBATCH --partition=cpu24c
 
 ### 以上参数用来申请所需资源
 ### 以下命令将在计算节点执行
@@ -95,7 +100,7 @@ conda install -c r r-data.table
 export PATH=/opt/app/anaconda3/bin:$PATH
 
 ### 激活R环境
-source activate r36
+source activate r42
 
 ### 执行你的作业
 Rscript test.R

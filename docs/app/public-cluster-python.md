@@ -7,12 +7,12 @@ Python是数据分析、数据挖掘和机器学习领域经常使用的一种�
 
 其中，第一种方式适合对Linux不太熟悉的用户，第二种方式适合有一定Linux基础，同时计算量较大，可以同时提交多个作业，以验证不同的参数。我们建议新人可以从Jupyter开始上手，如果发现资源需求较大，可逐渐将工作模式迁移到第二种方式上。本文主要展示如何使用共享集群，向集群上提交Python作业任务。
 
-## Python包安装
+## 1. Python包安装
 
 !!! warning "Jupyter与共享集群"
     共享集群与Jupyter等交互实例是相互独立的，在Jupyter中安装的一些软件包，并不能直接在共享集群里直接使用，两边都需要单独安装。
 
-### conda与环境变量
+### 1.1 conda与环境变量
 
 !!! tip "提示"
     在计算平台上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算平台的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
@@ -37,7 +37,7 @@ module load anaconda3
 
 这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
 
-### 创建环境并安装包
+### 1.2 创建环境并安装包
 
 我们强烈建议用户使用`conda`创建属于自己版本的Python，这样有几个好处：
 
@@ -65,9 +65,9 @@ source activate tf22
 conda install tensorflow-gpu -n tf22
 ```
 
-## 在共享集群上提交作业
+## 2. 在共享集群上提交作业
 
-### 在Slurm中提交作业
+### 2.1 在Slurm中提交作业
 
 对于共享集群不熟悉的用户，可以先阅读[共享集群文档](GPU-Cluster.md)。
 
@@ -86,7 +86,7 @@ conda install tensorflow-gpu -n tf22
 ### 注意！没有使用多机并行（MPI/NCCL等），下面参数写1！不要多写，多写了也不会加速程序！
 #SBATCH --nodes=1
 
-### 队列名，目前可用的GPU队列为tesla和titan
+### 队列名，目前可用的GPU队列为a100/v100/titan
 #SBATCH --partition=titan
 
 ### 使用GPU数，一块GPU卡默认配置了一定数量的CPU核
@@ -95,8 +95,6 @@ conda install tensorflow-gpu -n tf22
 
 ### 以上参数用来申请所需资源
 ### 以下命令将在计算节点执行
-
-echo $CUDA_VISIBLE_DEVICES
 
 ### Anaconda
 export PATH=/opt/app/anaconda3/bin:$PATH
@@ -117,9 +115,9 @@ sbatch test.sh
 
 其他Slurm命令，详见[共享集群文档](GPU-Cluster.md)。
 
-## PyTorch & TensorFlow
+## 3. PyTorch & TensorFlow
 
-### PyTorch
+### 3.1 PyTorch
 
 #### CUDA & 安装
 
@@ -152,7 +150,7 @@ conda install pytorch==1.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
 
 如果需要多个节点提供计算，需要在代码中加入多机多卡的API。同时，在Slurm脚本中申请资源时，按需申请多机多卡。
 
-### TensorFlow
+### 3.2 TensorFlow
 
 #### 安装
 
@@ -178,7 +176,7 @@ conda install -c conda-forge tensorflow-gpu==2.7.1
 
 同时，在Slurm申请资源时要根据需求申请多节点多GPU卡资源。
 
-## TensorBoard
+## 4. TensorBoard
 
 在共享集群上可以使用TensorBoard，需要在SSH登录时进行端口转发。
 

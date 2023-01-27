@@ -1,19 +1,25 @@
 # conda
 
-[Anaconda][1] 是一个用于科学计算的Python发行版，支持 Linux、Mac、 Windows系统以及 Python、R等科学计算语言，提供了包（Package）管理与环境（Environment）管理的功能，可以很方便地解决多版本多环境并存的问题。用户可以为某项具体的任务创建单独的环境，环境之间相互隔离。这样可以避免同一环境中各类软件相互冲突的问题。Anaconda 利用`conda`命令来进行包和环境的管理，并且已经包含了Python和相关的配套工具。
+`conda` 提供了包（Package）管理与环境（Environment）管理的功能，可以很方便地解决多版本多环境并存的问题。用户可以为某项具体的任务创建单独的环境，环境之间相互隔离。这样可以避免同一环境中各类软件相互冲突的问题。Anaconda 利用`conda`命令来进行包和环境的管理，并且已经包含了Python和相关的配套工具。
+
+具体而言，`conda` 提供了如下功能：
+
+1. 可创建和管理多个环境，每个环境相互独立，互不影响，避免出现相互冲突的问题。
+2. 有人将编译好的软件上传到 [anaconda.org](https://anaconda.org/) 上，其他人在执行 `conda install` 命令时，其实是从 anaconda.org 上下载别人编译好的软件并安装到自己的环境里。
+3. 在安装任何软件时，`conda` 尽量去检查当前环境中的软件与新安装软件的版本是否适配，并尽量适配软件的版本。
 
 !!! tip "提示"
-    在计算平台上，我们强烈建议用户使用 Anaconda 来管理和使用Python。我们已经在计算平台的共享集群和 Jupyter 交互实例上都安装好了 Anaconda ，用户只需要根据自身需要安装所需软件。
+    在计算平台上，我们强烈建议用户使用 `conda` 来管理和使用Python。我们已经在计算平台的共享集群和 Jupyter 交互实例上都安装好了 `conda` ，用户只需要根据自身需要安装所需软件。
 
-## conda与环境变量
+## 1. conda与环境变量
 
 一般情况下，我们主要在JupyterLab和共享集群里使用`conda`，JupyterLab和共享集群是两个相互独立的模块，JupyterLab中安装的环境和包目前和共享集群不共用。
 
-### JupyterLab
+### 1.1 JupyterLab
 
 在JupyterLab中，我们已经安装好了 `conda`，可以直接在Terminal中使用，其位置位于：`/opt/conda/bin/conda`。
 
-### 共享集群
+### 1.2 共享集群
 
 共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
 
@@ -26,7 +32,7 @@ export PATH="/opt/app/anaconda3/bin:$PATH"
 ```
 * 方法2：
   
-可以使用`module`模块，每次使用前，将`conda`添加到环境变量：
+可以使用`module`模块，每次执行下面的命令，将`conda`添加到环境变量：
 
 ```bash
 module load anaconda3
@@ -34,9 +40,9 @@ module load anaconda3
 
 这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
 
-## 添加源
+## 2. 添加源
 
-Anaconda 默认的软件源在国外，速度比较慢，我们可以将其更换为清华源：
+Anaconda 默认的软件源在国外，速度比较慢，建议更换为清华源等国内的源：
 
 ```bash
 # Anaconda官方库镜像
@@ -47,11 +53,13 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/m
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
 ```
 
-## 环境管理
+或根据清华源[Anaconda 镜像使用帮助](https://mirrors.tuna.tsinghua.edu.cn/help/anaconda/)的提示更改源。
 
-使用Anaconda，默认情况下是在`base`环境中，`base`环境有一些基础的工具，可以直接在这个环境下安装软件，也可以创建新的环境，在新环境下安装软件。
+## 3. 环境管理
 
-### 创建新环境
+使用Anaconda，默认情况下是在`base`环境中，`base`环境只有一些基础的工具，而且用户没有权限读写该环境，所以需要**创建新的环境**，在新环境下安装软件。
+
+### 3.1 创建新环境
 
 ```bash
 conda create -n <env_name> <package_names>
@@ -67,7 +75,7 @@ conda create -n python3 python=3.7 numpy pandas
 
 新的环境以及环境内的包会被安装到`/home/your-id/.conda/envs/`目录下。
 
-### 切换环境
+### 3.2 切换环境
 
 切换环境：
 
@@ -83,13 +91,13 @@ source activate <env_name>
 source deactivate
 ```
 
-### 显示环境
+### 3.3 显示已有环境
 
 ```bash
 conda info --envs
 ```
 
-### 删除环境
+### 3.4 删除环境
 
 ```bash
 conda remove --name <env_name> --all
@@ -97,34 +105,91 @@ conda remove --name <env_name> --all
 
 注意： <env_name> 为被删除环境的名称。环境名两边不加尖括号“<>”。
 
-## 包管理
+## 4. 安装包
 
-### 获取当前环境中已安装的包信息
+### 4.1 在指定环境中安装包
+
+安装包之前注意要先 `source activate <env_name>` 切换到该环境。`<env_name>` 即将包安装的指定环境名。环境名两边不加尖括号“<>”。
+
+```bash
+conda install -c <channel_name> <package_name>
+```
+
+`-c <channel_name>` 为指定包所在的channel，`<package_name>` 即要安装的包名。包名两边不加尖括号“<>”。
+
+Anaconda 有一个默认（default）的 channel，是 Anaconda 官方维护的。同时也有很多人或者组织开辟了自己 channel，自己编译软件并将软件上传到该 channel。例如，PyTorch 团队维护着名为 `pytorch` 的channel。使用 `pytorch` 这个channel，安装该channel内的包：
+
+```bash
+conda install pytorch -c pytorch
+```
+
+对于某个特定的包，如何安装呢？一般遵循以下步骤：
+
+1. 先前往 [anaconda.org](https://anaconda.org/)，在搜索框搜索包名。
+2. 在搜索结果中选择下载量比较大的 channel，点击进入后显示有安装命令。
+
+当前比较大的 channel 有 `conda-forge`，这是一个 Anaconda 官方以及其他第三方开源组织共同维护的 channel。
+
+### 4.2 获取当前环境中已安装的包信息
 
 ```bash
 conda list
 ```
 
-### 在指定环境中安装包
+### 4.3 卸载包
 
 ```bash
-conda install -n <env_name> <package_name>
+conda remove <package_name>
 ```
 
-注意：
+## 5. conda v.s. pip
 
-1. `<env_name>` 即将包安装的指定环境名。环境名两边不加尖括号“<>”。
-2. `<package_name>` 即要安装的包名。包名两边不加尖括号“<>”。
-3. 不加`-n <env_name>`，则安装到当前所在的环境。
+相比 `conda`，`pip` 可以安装的包更多。用户可以先切换到所需环境，再在环境中执行 `pip install <package_name>`。
 
-### 卸载包
+conda
 
-```bash
-conda remove -n <env_name> <package_name>
+|                | Conda                   | pip                      |
+| -------------- | ----------------------- | ------------------------ |
+| 源           | [anaconda.org](https://anaconda.org/)，包数量远少于PyPI     | [PyPI](https://pypi.org/)，Python包会被优先发布到PyPI上 |
+| 包内容            | 他人已编译好的，可直接拿来使用的二进制                     | 绝大多数是Python源码，一小部分有C/C+代码的还需要下载后再编译                   |
+| 支持语言           | Python、R、C/C++等         | 只支持Python                |
+| 多环境管理          | 可以创建多个环境，环境内包含Python、R、C++等 | 本身不支持，需要依赖其他工具           |
+| 依赖检查           | 严格的依赖检查                 | 依赖检查不严格                  |
+
+!!! tip "建议"
+    建议绝大多数基础的包尽量用 `conda` 安装，比如 Python 、PyTorch 等，其他一些比较小众的包可自己用 `pip` 安装。
+
+## 6. conda 与 R
+
+`conda` 也可以安装R以及各类R语言的包。
+
+例如，想安装某个版本（本例为4.2）的R：
+
+```
+conda create -n r42
+source activate r42
+conda install -c conda-forge r-base=4.2
 ```
 
-## pip
+执行完以上命令后，就在 `r42` 环境下安装了 4.2 版本的R。 
 
-相比 Anaconda，pip 可以安装的包更多。用户可以先切换到所需环境，再在环境中执行 `pip install <package_name>`
+如果想使用 `conda` 安装R包，在 [anaconda.org](https://anaconda.org/) 上搜索，比如`data.table`包，添加一个"r-"的前缀：`r-data.table`，点进搜索结果，找到安装命令
 
-[1]: https://www.anaconda.com/
+与在R语言中直接 `install.packages` 不同的是：
+
+|                | Conda                   | install.packages                      |
+| -------------- | ----------------------- | ------------------------ |
+| 源           | [anaconda.org](https://anaconda.org/)，包数量远少于PyPI     | [CRAN](https://cran.r-project.org/)，R包会被优先发布到CRAN上 |
+| 包内容            | 他人已编译好的，可直接拿来使用的二进制                     | 绝大多数是R源码，一小部分有C/C+代码还需要下载后再编译                   |
+| 支持语言           | Python、R、C/C++等         | 只支持R                |
+| 多环境管理          | 可以创建多个环境，环境内包含Python、R、C++等 | 本身不支持，需要依赖其他工具           |
+| 依赖检查           | 严格的依赖检查                 | 依赖检查不严格                  |
+
+!!! tip "建议"
+    建议绝大多数基础的包尽量用 `conda` 安装，比如 RCpp 等，其他一些比较小众的包可自己用 `install.packages` 安装。
+
+## 7. 其他软件
+
+除此之外，anaconda.org 里包含的软件很多，比如NVIDIA的CUDA。只要能在 anaconda.org 中能搜索到，就可以安装到本地的环境里。
+
+最后软件会被安装到 `~/.conda/envs/<env_name>/bin` 目录下。
