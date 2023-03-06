@@ -37,11 +37,11 @@
 | 队列名 | CPU型号 | CPU核数 | 内存  | GPU                              | 卡数 | 台数 |
 |--------|------------------|---------|-------|----------------------------------|------|------|
 | a100   | Intel Gold 6348  | 56      | 512GB | NVIDIA Tesla A100 PCI-E 80GB     | 4    | 1    |
-| v100   | Intel Gold 5218  | 64      | 256GB | Nvidia Tesla V100 PCI-E 32GB | 2    | 3    |
+| v100   | Intel Gold 5218  | 32      | 256GB | Nvidia Tesla V100 PCI-E 32GB | 6    | 1    |
 | titan  | Intel Gold 5218  | 64      | 128GB | Nvidia Titan RTX PCI-E 24GB  | 4    | 3    |
 | 2080ti | Intel Gold 5218  | 64      | 128GB | Nvidia 2080Ti PCI-E 11GB     | 2    | 3    |
-| cpu24c    | Intel E5-2650 v4  | 24      | 64GB | -                                | -    | 48    |
-| cpu64c    | Intel Gold 5218  | 64      | 192GB | -                                | -    | 4    |
+| cpu24c    | Intel E5-2650 v4  | 24      | 64GB | -                                | -    | 50    |
+| cpu64c    | Intel Gold 5218  | 64      | 192GB | -                                | -    | 5    |
 | cpu128c   | Intel Gold 5218 | 128      | 384GB  | -                                | -    | 2   |
 
 ## 4. 调度系统
