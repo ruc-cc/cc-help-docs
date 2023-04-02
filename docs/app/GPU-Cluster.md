@@ -32,17 +32,17 @@
 
 ## 3. 计算资源
 
-目前，公共集群上有如下四类计算资源，分为四个队列。
+目前，公共集群上有如下两类计算资源：CPU类型和GPU类型，分为不同的队列。
 
-| 队列名 | CPU型号 | CPU核数 | 内存  | GPU                              | 卡数 | 台数 |
-|--------|------------------|---------|-------|----------------------------------|------|------|
-| a100   | Intel Gold 6348  | 56      | 512GB | NVIDIA Tesla A100 PCI-E 80GB     | 4    | 1    |
-| v100   | Intel Gold 5218  | 32      | 256GB | Nvidia Tesla V100 PCI-E 32GB | 6    | 1    |
-| titan  | Intel Gold 5218  | 64      | 128GB | Nvidia Titan RTX PCI-E 24GB  | 4    | 3    |
-| 2080ti | Intel Gold 5218  | 64      | 128GB | Nvidia 2080Ti PCI-E 11GB     | 2    | 3    |
-| cpu24c    | Intel E5-2650 v4  | 24      | 64GB | -                                | -    | 50    |
-| cpu64c    | Intel Gold 5218  | 64      | 192GB | -                                | -    | 5    |
-| cpu128c   | Intel Gold 5218 | 128      | 384GB  | -                                | -    | 2   |
+| 队列名   | CPU型号          | CPU核数 | 内存   | GPU                          | 卡数 | 台数 |
+|----------|------------------|---------|--------|------------------------------|------|------|
+| gpu-a800 | Intel 8358       | 64      | 1024GB | NVIDIA A800 NVLink 80GB      | 8    |      |
+| a100     | Intel 6348       | 56      | 512GB  | NVIDIA A100 PCI-E 80GB       | 4    | 1    |
+| v100     | Intel 5218       | 32      | 256GB  | Nvidia Tesla V100 PCI-E 32GB | 6    | 1    |
+| titan    | Intel 5218       | 64      | 128GB  | Nvidia Titan RTX PCI-E 24GB  | 4    | 3    |
+| 2080ti   | Intel 5218       | 64      | 128GB  | Nvidia 2080Ti PCI-E 11GB     | 2    | 3    |
+| cpu24c   | Intel E5-2650 v4 | 24      | 64GB   | -                            | -    | 50   |
+| cpu64c   | Intel 5218       | 64      | 192GB  | -                            | -    | 5    |
 
 ## 4. 调度系统
 
@@ -158,7 +158,7 @@ sbatch run.sh
 使用GPU，请使用`--gpus=1`参数，程序未使用多卡并行优化，此参数设置为1！
 
 !!! warning
-    登录节点上没有GPU，无法使用`nvidia-smi`，也无法跑任何GPU相关运算，一切GPU运算都应该在相应的GPU队列上。可以使用`sbatch`或者下文提到的`salloc`交互式方式，将作业提交到GPU队列。
+    登录节点（workstation）上没有GPU，无法使用`nvidia-smi`，也无法跑任何GPU相关运算，一切GPU运算都应该在相应的GPU队列上。可以使用`sbatch`或者下文提到的`salloc`交互式方式，将作业提交到GPU队列。
     
 
     SSH登录到GPU节点上，请使用`/opt/app/eaas/eaas_smi`查看完整的`nvidia-smi`信息。
@@ -179,7 +179,7 @@ sbatch run.sh
 #SBATCH --nodes=1
 
 ### 指定该作业在哪个队列上执行
-#SBATCH --partition=titan
+#SBATCH --partition=gpu-a800
 
 ### 申请一块GPU卡，一块GPU卡默认配置了一定数量的CPU核
 ### 注意！程序没有使用多卡并行优化的，下面参数写1！不要多写，多写也不会加速程序！

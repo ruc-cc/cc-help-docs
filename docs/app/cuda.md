@@ -27,7 +27,7 @@ CUDA与GPU硬件、操作系统内核、GPU驱动（Driver）耦合度非常紧�
 		
 		NVIDIA的新硬件也会使用高版本的CUDA。
 
-在最近一次的升级中，我们的平台将GPU Driver版本升级到460.32.03，可以支持CUDA 11.2。
+在最近一次的升级中，我们的平台将GPU Driver版本升级到450.216.04，可以支持CUDA 11.x。
 
 ### GPU节点上的CUDA
 
@@ -37,7 +37,7 @@ CUDA与GPU硬件、操作系统内核、GPU驱动（Driver）耦合度非常紧�
 
 ## 多版本与兼容性
 
-一台物理机上一般安装一个版本的Driver，但可以安装多个版本的CUDA。比如Driver为460.32.03的物理机上可以安装CUDA 11.2、CUDA 10.2。多个版本的CUDA可以通过`PATH`与`LD_LIBRARY_PATH`等环境变量、容器、`module`或`spack`等环境管理工具来切换。
+一台物理机上一般安装一个版本的Driver，但可以安装多个版本的CUDA。比如Driver为450.216.04的物理机上可以安装CUDA 11.2、CUDA 10.2。多个版本的CUDA可以通过`PATH`与`LD_LIBRARY_PATH`等环境变量、容器、`module`或`spack`等环境管理工具来切换。
 
 高版本的CUDA一般是向下兼容的，也就是说，一个程序使用CUDA 10.1编译生成的可执行文件是可以运行在CUDA 11.1环境下的。相反，使用CUDA 11.1编译生成的可执行文件是很可能无法在CUDA 10.1环境下运行。
 
