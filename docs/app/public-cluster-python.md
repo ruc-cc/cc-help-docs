@@ -79,7 +79,7 @@ conda install tensorflow-gpu -n tf22
 ### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
 #SBATCH --comment=tutor_project
 
-### 给你这个作业起个名字，方便识别不同的作业
+### 给您这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=tf-example
 
 ### 指定该作业需要多少个节点
@@ -122,7 +122,7 @@ sbatch test.sh
 #### CUDA & 安装
 
 !!! warning "CUDA版本"
-    目前，我们在共享集群的各个GPU节点上提供的驱动兼容CUDA 11.x 版本，也提供了默认的CUDA，CUDA路径为：`/opt/pkgs/cuda`。你可以使用当前默认版本的CUDA，也可以使用 `conda` 安装所需要的CUDA版本。
+    目前，我们在共享集群的各个GPU节点上提供的驱动兼容CUDA 11.x 版本，也提供了默认的CUDA，CUDA路径为：`/opt/pkgs/cuda`。您可以使用当前默认版本的CUDA，也可以使用 `conda` 安装所需要的CUDA版本。
 
     更多CUDA安装和兼容性知识，详见[CUDA](./cuda.md)。
 

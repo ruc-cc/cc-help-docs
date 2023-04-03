@@ -121,5 +121,5 @@ spack load cuda@10.2.89%gcc@9.3.0
 
 `spack`中，`@`表示使用哪个版本，`%`表示某个软件依赖哪个编译器。
 
-如果有需要安装的软件，可以先使用`spack list | grep 'software_name'`查看，然后给<hpc@ruc.edu.cn>发邮件，我们会帮你安装。
+如果有需要安装的软件，可以先使用`spack list | grep 'software_name'`查看，然后给<hpc@ruc.edu.cn>发邮件，我们会帮您安装。
 

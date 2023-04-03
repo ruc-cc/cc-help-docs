@@ -100,7 +100,7 @@ sinfo -p cpu24c
 ### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
 #SBATCH --comment=tutor_project
 
-### 给你这个作业起个名字，方便识别不同的作业
+### 给您这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=example
 
 ### 指定该作业需要多少个节点
@@ -108,7 +108,7 @@ sinfo -p cpu24c
 #SBATCH --nodes=1
 
 ### 指定该作业需要多少个CPU核心
-### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在你的程序中尽量使用多线程充分利用64核资源！
+### 注意！一般根据队列的CPU核心数填写，比如cpu队列64核，这里申请64核，并在您的程序中尽量使用多线程充分利用64核资源！
 #SBATCH --ntasks=4
 
 ### 指定该作业在哪个队列上执行
@@ -122,7 +122,7 @@ export PATH=/opt/app/anaconda3/bin:$PATH
 ### 激活一个 Anaconda 环境 tf22
 source activate tf22
 
-### 执行你的作业
+### 执行您的作业
 python test.py
 ```
 
@@ -155,7 +155,7 @@ sbatch run.sh
 
 ### 4.4 GPU
 
-使用GPU，请使用`--gpus=1`参数，程序未使用多卡并行优化，此参数设置为1！
+使用GPU，请使用`--gres=gpu:1`参数，程序未使用多卡并行优化，此参数设置为1！
 
 !!! warning
     登录节点（workstation）上没有GPU，无法使用`nvidia-smi`，也无法跑任何GPU相关运算，一切GPU运算都应该在相应的GPU队列上。可以使用`sbatch`或者下文提到的`salloc`交互式方式，将作业提交到GPU队列。
@@ -171,7 +171,7 @@ sbatch run.sh
 ### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
 #SBATCH --comment=tutor_project
 
-### 给你这个作业起个名字，方便识别不同的作业
+### 给您这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=gpu-example
 
 ### 指定该作业需要多少个节点
@@ -183,12 +183,12 @@ sbatch run.sh
 
 ### 申请一块GPU卡，一块GPU卡默认配置了一定数量的CPU核
 ### 注意！程序没有使用多卡并行优化的，下面参数写1！不要多写，多写也不会加速程序！
-#SBATCH --gpus=1 
+#SBATCH --gres=gpu:1 
 
 ### 以上参数用来申请所需资源
 ### 以下命令将在计算节点执行
 
-### 执行你的作业
+### 执行您的作业
 python test.py
 ```
 
@@ -233,7 +233,7 @@ scancel -t PENDING -u -u2020xxxx
 
 ### 4.6 交互式debug
 
-前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu24c`队列申请1个节点，每个节点8个核心，时间为10分钟，`tutor_project`为你所在的计费课题组。
+前面介绍的提交作业的模式只能提前准备好程序，不方便debug，另外一种交互模式可以为用户申请特定的机器，用户可以进一步SSH登录上去，进而进行debug。我们需要使用`salloc`命令。下面的命令在`cpu24c`队列申请1个节点，每个节点8个核心，时间为10分钟，`tutor_project`为您所在的计费课题组。
 
 ```bash
 salloc --nodes=1 --ntasks=8 --partition=cpu24c --time=00:10:00 --comment=tutor_project
@@ -261,6 +261,97 @@ Slurm会分配给一个机器，比如分配机器为titan-1，接着我们可�
 
 使用完后，我们需要先执行一次`exit`退出当前机器，这里是titan-1这台机器；再执行一次`exit`，提醒Slurm释放掉`salloc`所申请的资源。
 
+### 4.7 申请多节点
+
+以下配置可以申请4个节点，共 4 × 24 = 96 个CPU核：
+
+```bash
+### 申请 4 个节点
+#SBATCH --nodes=4
+### 每个task 24 个CPU
+#SBATCH --cpus-per-task=24
+### 每节点 1 个task 
+#SBATCH --ntasks-per-node=1
+```
+
+以下配置可以申请4个GPU节点，共 4 × 8 = 32 个GPU卡，系统将自动分配对应的CPU核。
+
+```bash
+### 申请 4 个节点
+#SBATCH --nodes=4
+### 每节点 8 个GPU 
+#SBATCH --gres=gpu:8
+```
+
+### 4.8 多节点作业启动
+
+如果申请了多个节点，每个节点启动的进程略有不同，可以使用 `srun` 在不同节点上启动进程。
+
+1. 获取本次分配的节点列表和对应IP。
+2. 使用 srun，将制定作业运行到指定节点上。
+
+以下为一个案例：
+
+```bash
+#!/bin/bash
+
+#SBATCH --job-name=xorbits
+#SBATCH --nodes=4
+#SBATCH --cpus-per-task=24
+#SBATCH --ntasks-per-node=1
+#SBATCH --partition=cpu24c
+#SBATCH --time=00:30:00
+
+### 激活环境
+source activate df
+### 添加debug log，打印所有 Linux 命令行信息
+### 如果不想看到这些信息，可以删除下面这行
+set -x
+
+### 获得本次所申请的所有的节点的 hostname
+nodes=$(scontrol show hostnames "$SLURM_JOB_NODELIST")
+nodes_array=($nodes)
+
+### 将第一个节点作为 head 节点，并获取IP
+head_node=${nodes_array[0]}
+head_node_ip=$(srun --nodes=1 --ntasks=1 -w "$head_node" hostname --ip-address)
+
+if [[ "$head_node_ip" == *" "* ]]; then
+    IFS=' ' read -ra ADDR <<<"$head_node_ip"
+    if [[ ${#ADDR[0]} -gt 16 ]]; then
+        head_node_ip=${ADDR[1]}
+    else
+        head_node_ip=${ADDR[0]}
+    fi
+    echo "IPV6 address detected. We split the IPV4 address as $head_node_ip"
+fi
+
+### 在第一个节点上启动名为 supervisor 的进程，使用某个端口号
+port=16380
+web_port=16379
+echo "Starting HEAD at $head_node"
+srun --nodes=1 --ntasks=1 -w "$head_node" \
+    supervisor -H "$head_node_ip" -p "$port" -w "$web_port" &
+
+### 休眠 10秒 等待进程启动，便其他 worker 能够连接
+sleep 10
+
+### 其他节点启动 worker 进程，worker 进程连接 supervisor 进程
+worker_num=$((SLURM_JOB_NUM_NODES - 1))
+for ((i = 1; i <= worker_num; i++)); do
+    node_i=${nodes_array[$i]}
+    port_i=$((port + i))
+    
+    echo "Starting WORKER $i at $node_i"
+    srun --nodes=1 --ntasks=1 -w "$node_i" \
+        worker -H "$node_i"  -p "$port_i" -s "$head_node_ip":"$port" &
+done
+```
+
+上面的例子中，启动了两类进程：`supervisor` 和 `worker`。修改 `supervisor` 和 `worker`为您的工作负载。
+
+`SLURM_JOB_NODELIST` 是环境变量，当这个作业启动后，环境中就会添加该环境变量，其他环境变量请参考：[SLURM 环境变量](https://slurm.schedmd.com/sbatch.html#SECTION_OUTPUT-ENVIRONMENT-VARIABLES)。
+
 ## 5. 存储
 
 ### 5.1 普通存储
@@ -284,9 +375,9 @@ Slurm会分配给一个机器，比如分配机器为titan-1，接着我们可�
 
 ### 6.2 GPU队列
 
-GPU作业更加复杂，既要满足CPU资源，又要满足GPU资源。为了简化配置，用户可以只使用`--gpus=<gpus>`来申请GPU卡数量，不需要设置CPU资源。校级计算平台已经根据当前CPU核和GPU卡的数量配比，已经给GPU队列设置了一张GPU卡对应的CPU的默认配比数量，即`CPU核数÷GPU卡数`，因此，不需要使用`--ntasks=<ncpus>`。当然，用户可以根据自身需要使用`--ntasks=<ncpus>`申请CPU核，使用`--ntasks=<ncpus>`后将覆盖默认的配比。
+GPU作业更加复杂，既要满足CPU资源，又要满足GPU资源。为了简化配置，用户可以只使用`--gres=gpu:<gpus>`来申请GPU卡数量，不需要设置CPU资源。校级计算平台已经根据当前CPU核和GPU卡的数量配比，已经给GPU队列设置了一张GPU卡对应的CPU的默认配比数量，即`CPU核数÷GPU卡数`，因此，不需要使用`--ntasks=<ncpus>`。当然，用户可以根据自身需要使用`--ntasks=<ncpus>`申请CPU核，使用`--ntasks=<ncpus>`后将覆盖默认的配比。
 
-假如用户不设置`--gpus=<ngpus>`，则用户无法获取到GPU资源；假如`--gpus=1`，Slurm会使用cgroups限制用户只能使用1张GPU卡。直到物理节点上空闲的CPU核或空闲的GPU卡无法满足新作业的需求，Slurm将不再该物理节点上分配作业。
+假如用户不设置`--gres=gpu:<ngpus>`，则用户无法获取到GPU资源；假如`--gres=gpu:1`，Slurm会使用cgroups限制用户只能使用1张GPU卡。直到物理节点上空闲的CPU核或空闲的GPU卡无法满足新作业的需求，Slurm将不再该物理节点上分配作业。
 
 ### 6.3 内存
 
@@ -294,7 +385,7 @@ GPU作业更加复杂，既要满足CPU资源，又要满足GPU资源。为了�
 
 ### 6.4 意见
 
-目前的这种方式对计算资源进行了细粒度的划分，并允许多个作业运行在1个物理节点上，可以充分利用资源。但是，多个作业运行在1个物理节点上，作业之间在内存、IO等地方有争抢。1个物理节点上运行的作业越多，作业之间争抢可能就越严重，作业运行速度就可能越慢。如果不希望别人争抢自己的资源，那么用户需要参考下表，在提交作业时申请该队列的所有CPU核或GPU卡。当然，申请更多的资源意味着计费时成本更高。以GPU队列a100为例，用户需要申请`--gpus=4`，这样才能独占该节点，其他作业才不会与之共享运行在同一物理节点上。
+目前的这种方式对计算资源进行了细粒度的划分，并允许多个作业运行在1个物理节点上，可以充分利用资源。但是，多个作业运行在1个物理节点上，作业之间在内存、IO等地方有争抢。1个物理节点上运行的作业越多，作业之间争抢可能就越严重，作业运行速度就可能越慢。如果不希望别人争抢自己的资源，那么用户需要参考计算资源列表，在提交作业时申请该队列的所有CPU核或GPU卡。当然，申请更多的资源意味着计费时成本更高。以GPU队列gpu-a800为例，用户需要申请`--gres=gpu:8`，这样才能独占该节点，其他作业才不会与之共享运行在同一物理节点上。
 
 ## 7. 如何合理设置CPU/GPU资源数
 

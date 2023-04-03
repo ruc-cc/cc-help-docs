@@ -1,6 +1,6 @@
 # 容器技术：Docker与Singularity
 
-容器可用于软件环境和资源隔离，可执行程序与依赖库打包成一个镜像文件，启动时像启动一个普通进程一样，启动操作系统与各个依赖库。常见的容器技术为Docker，在高性能计算领域，一般使用Singularity。Singularity可兼容Docker，如果你想使用某个Docker镜像，需要先使用Singularity将Docker镜像转化为Singularity镜像格式。
+容器可用于软件环境和资源隔离，可执行程序与依赖库打包成一个镜像文件，启动时像启动一个普通进程一样，启动操作系统与各个依赖库。常见的容器技术为Docker，在高性能计算领域，一般使用Singularity。Singularity可兼容Docker，如果您想使用某个Docker镜像，需要先使用Singularity将Docker镜像转化为Singularity镜像格式。
 
 容器的具体使用流程为：
 
@@ -39,7 +39,7 @@ singularity pull pytorch-20.12.sif docker://nvcr.io/nvidia/pytorch:20.12-py3
 ### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
 #SBATCH --comment=tutor_project
 
-### 给你这个作业起个名字，方便识别不同的作业
+### 给您这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=singularity
 
 ### 指定该作业需要多少个节点
@@ -57,7 +57,7 @@ singularity pull pytorch-20.12.sif docker://nvcr.io/nvidia/pytorch:20.12-py3
 ### 以上参数用来申请所需资源
 ### 以下命令将在计算节点执行
 
-### 使用singularity，执行你的作业
+### 使用singularity，执行您的作业
 singularity exec --nv /path/to/pytorch-20.12.sif python test.py
 ```
 

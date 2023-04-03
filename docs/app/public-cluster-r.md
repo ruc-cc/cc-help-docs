@@ -78,7 +78,7 @@ conda install -c r r-data.table
 ### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
 #SBATCH --comment=tutor_project
 
-### 给你这个作业起个名字，方便识别不同的作业
+### 给您这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=r-test
 
 ### 指定该作业需要多少个节点
@@ -102,7 +102,7 @@ export PATH=/opt/app/anaconda3/bin:$PATH
 ### 激活R环境
 source activate r42
 
-### 执行你的作业
+### 执行您的作业
 Rscript test.R
 ```
 

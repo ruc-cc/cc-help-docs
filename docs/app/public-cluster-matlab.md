@@ -4,7 +4,7 @@
 
 我们已经在共享集群上安装好了MATLAB，只要用户自己上传好个人数据和程序，即可向共享集群提交作业。在共享集群上，我们使用Slurm作为调度软件，不了解共享集群和调度软件的可以先阅读我们提供的[共享集群快速入门文档](./GPU-Cluster.md)。
 
-例如，我们在`/home/your-id/`的HOME目录下准备好相关的MATLAB代码，名为`test.m`，这段程序创建了一个矩阵。准备一个作业提交脚本 `run.sh`，<font color=red >将`run.sh`脚本跟你的MATLAB放在同一个文件夹下</font>。其中 `-nodisplay` 表示不使用图形化界面， `-nosplash` 表示启动matlab时不显示闪屏版权信息：
+例如，我们在`/home/your-id/`的HOME目录下准备好相关的MATLAB代码，名为`test.m`，这段程序创建了一个矩阵。准备一个作业提交脚本 `run.sh`，<font color=red >将`run.sh`脚本跟您的MATLAB放在同一个文件夹下</font>。其中 `-nodisplay` 表示不使用图形化界面， `-nosplash` 表示启动matlab时不显示闪屏版权信息：
 
 ```bash
 #!/bin/bash
@@ -12,7 +12,7 @@
 ### 将本次作业计费到导师课题组，tutor_project改为导师创建的课题组名
 #SBATCH --comment=tutor_project
 
-### 给你这个作业起个名字，方便识别不同的作业
+### 给您这个作业起个名字，方便识别不同的作业
 #SBATCH --job-name=matlab-example
 
 ### 指定该作业需要多少个节点
