@@ -127,7 +127,7 @@ python test.py
 ```
 
 !!! warning "计费问题"
-    提交作业时如果报错`Batch job submission failed: Access/permission denied`，可能的原因有：
+    提交作业时如果报错`invalid account or account/partition combination specified`，可能的原因有：
     
     1. `#SBATCH --comment=tutor_project`中的`tutor_project`名称没写对，要注意大小写一致。
     2. 账户余额不足，超过透支额度。
