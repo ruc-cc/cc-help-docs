@@ -33,3 +33,9 @@
 出现错误：无法创建应用实例，用户资源不足 User quota not enough, exceed app count quota 5 of user
 
 解决方法：每个用户最多可以创建5个交互实例，已经创建的，在“我的资源”->“资源回收”里恢复已有资源或删除不用资源。
+
+#### 2.2 RStudio出现：Status code 504 return by RStudio Server when executing 'client_init'
+
+出现错误：tatus code 504 return by RStudio Server when executing 'client_init'
+
+解决方法：重启这个 RStudio 实例，参考[这个配置](app/rstudio.md#5)，设置 RStudio 启动参数。

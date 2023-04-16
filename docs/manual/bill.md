@@ -133,7 +133,7 @@ salloc --comment tutor_project
 如果不加`--comment` 参数，则默认从个人账户扣费。
 
 !!! warning "计费报错"
-    提交作业时如果报错`Batch job submission failed: Access/permission denied`，可能的原因有：
+    提交作业时如果报错`invalid account or account/partition combination specified`，可能的原因有：
     
     1. `tutor_project`名称没写对，要注意大小写一致。
     

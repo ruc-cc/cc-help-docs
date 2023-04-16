@@ -1,6 +1,10 @@
 site_name: 校级计算平台用户手册
 site_url: "https://cc.ruc.edu.cn/help/"
-# repo_url: "https://github.com/ruc-cc/cc-help-docs"
+repo_url: "https://github.com/ruc-cc/cc-help-docs"
+repo_name: ruc-cc/cc-help-docs
+theme:
+  icon:
+    repo: fontawesome/brands/git-alt
 
 theme:
   name: "material"
@@ -22,10 +26,12 @@ markdown_extensions:
       permalink: True
 
 plugins:
-  - redirects:
-      redirect_maps:
-        "app/Jupyterlab-With-GPU.md": "app/Jupyterlab.md"
   - mkdocs-video
+  - search:
+      lang:
+          - en
+          - ja
+      separator: '[\s\-\.]+'
 
 extra_css:
   - stylesheets/extra.css
@@ -43,9 +49,10 @@ nav:
 
   - "软件使用":
       - "共享集群":
-          - "Slurm共享集群": "app/GPU-Cluster.md"
+          - "SLURM共享集群": "app/GPU-Cluster.md"
           - "课题组共享文件夹": "app/slurm-share.md"
-          - "Slurm进阶": "app/slurm-advanced.md"
+          - "SLURM进阶": "app/slurm-advanced.md"
+          - "架构：网络和存储": "app/arch.md"
           - "module/spack": "app/module-spack.md"
           - "编译器": "app/compilers.md"
           - "Python": "app/public-cluster-python.md"

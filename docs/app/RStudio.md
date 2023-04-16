@@ -78,3 +78,9 @@ ERROR: dependency ‘xml2’ is not available for package ‘rvest’
 ### 数据上传
 
 我们可以使用RStudio自带的文件管理和上传工具，也可以用计算平台提供的文件传输与数据管理功能，计算平台的文件传输详见[文档](../manual/transfer.md)。
+
+## 5. 常用设置
+
+使用下面的方式可以加速 RStudio 启动，避免出现启动问题。
+
+![RStudio启动配置](./images/../../images/rstudio_init.jpeg)
