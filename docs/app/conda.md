@@ -1,11 +1,13 @@
-# conda
+# conda / mamba
 
 `conda` 提供了包（Package）管理与环境（Environment）管理的功能，可以很方便地解决多版本多环境并存的问题。用户可以为某项具体的任务创建单独的环境，环境之间相互隔离。这样可以避免同一环境中各类软件相互冲突的问题。Anaconda 利用`conda`命令来进行包和环境的管理，并且已经包含了Python和相关的配套工具。
 
-具体而言，`conda` 提供了如下功能：
+`mamba` 是一个加速 `conda` 的解决方案，它提供与 `conda` 的同样的功能。以下几乎所有命令，都可以将 `conda` 替换为 `mamba`。
+
+具体而言，`conda` 和 `mamba` 提供了如下功能：
 
 1. 可创建和管理多个环境，每个环境相互独立，互不影响，避免出现相互冲突的问题。
-2. 有人将编译好的软件上传到 [anaconda.org](https://anaconda.org/) 上，其他人在执行 `conda install` 命令时，其实是从 anaconda.org 上下载别人编译好的软件并安装到自己的环境里。
+2. 有人将编译好的软件上传到 [anaconda.org](https://anaconda.org/) 上，用户在执行 `conda install` 命令时，其实是从 anaconda.org 上下载别人编译好的软件并安装到自己的环境里。
 3. 在安装任何软件时，`conda` 尽量去检查当前环境中的软件与新安装软件的版本是否适配，并尽量适配软件的版本。
 
 !!! tip "提示"
@@ -13,32 +15,32 @@
 
 ## 1. conda与环境变量
 
-一般情况下，我们主要在JupyterLab和共享集群里使用`conda`，JupyterLab和共享集群是两个相互独立的模块，JupyterLab中安装的环境和包目前和共享集群不共用。
+一般情况下，我们主要在独占实例（JupyterLab、VSCode）和共享集群里使用`conda`，独占实例（JupyterLab、VSCode）和共享集群是两个相互独立的模块，独占实例（JupyterLab、VSCode）中安装的环境和包目前和共享集群不共用。
 
 ### 1.1 JupyterLab
 
-在JupyterLab中，我们已经安装好了 `conda`，可以直接在Terminal中使用，其位置位于：`/opt/conda/bin/conda`。
+在JupyterLab中，我们已经安装好了 `conda`，可以直接在Terminal中使用，其位置位于：`/opt/app/anaconda/bin/conda`。
 
 ### 1.2 共享集群
 
-共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+共享集群的`conda`位于`/opt/app/anaconda/bin/conda`。
 
 * 方法1：
 
 如果用户经常使用`conda`管理各类环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再在Terminal命令行中执行`source ~/.bashrc`，这样之后，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
 
 ```bash
-export PATH="/opt/app/anaconda3/bin:$PATH"
+export PATH="/opt/app/anaconda/bin:$PATH"
 ```
 * 方法2：
   
 可以使用`module`模块，每次执行下面的命令，将`conda`添加到环境变量：
 
 ```bash
-module load anaconda3
+module load conda
 ```
 
-这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
+这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load conda`。
 
 ## 2. 添加源
 

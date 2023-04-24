@@ -52,7 +52,8 @@ nav:
           - "SLURM共享集群": "app/GPU-Cluster.md"
           - "课题组共享文件夹": "app/slurm-share.md"
           - "SLURM进阶": "app/slurm-advanced.md"
-          - "架构：网络和存储": "app/arch.md"
+          - "网络": "app/network.md"
+          - "存储": "app/storage.md"
           - "module/spack": "app/module-spack.md"
           - "编译器": "app/compilers.md"
           - "Python": "app/public-cluster-python.md"
@@ -68,7 +69,7 @@ nav:
       - "Linux虚拟机": "app/linux-virtual.md"
       - "分子动力学":
           - "Amber": "app/amber.md"
-      - "conda": "app/conda.md"
+      - "conda/mamba": "app/conda.md"
       - "容器：Docker与Singularity": "app/docker-singularity.md"
       - "CUDA": "app/cuda.md"
 

@@ -7,7 +7,7 @@
 
 ### 1.1 conda
 
-在共享集群上，我们建议使用`conda`来创建和管理R环境，`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+在共享集群上，我们建议使用`conda`来创建和管理R环境，`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda/bin/conda`。
 
 使用`conda`前，先要将`conda`添加到环境变量中。
 
@@ -16,14 +16,14 @@
 如果用户经常使用`conda`管理各类环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再在Terminal命令行中执行`source ~/.bashrc`，这样之后，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
 
 ```bash
-export PATH="/opt/app/anaconda3/bin:$PATH"
+export PATH="/opt/app/anaconda/bin:$PATH"
 ```
 * 方法2：
   
 可以使用`module`，每次执行下面的命令，将`conda`添加到环境变量：
 
 ```bash
-module load anaconda3
+module load conda
 ```
 
 这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
@@ -97,7 +97,7 @@ conda install -c r r-data.table
 ### 以下命令将在计算节点执行
 
 ### 加载Anaconda
-export PATH=/opt/app/anaconda3/bin:$PATH
+export PATH=/opt/app/anaconda/bin:$PATH
 
 ### 激活R环境
 source activate r42

@@ -15,7 +15,7 @@ Python是数据分析、数据挖掘和机器学习领域经常使用的一种�
 ### 1.1 conda与环境变量
 
 !!! tip "提示"
-    在计算平台上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算平台的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+    在计算平台上，我们强烈建议用户使用 Anaconda 来管理和使用Python和R。我们已经在计算平台的共享集群和交互实例上都安装好了 Anaconda 。`conda` 命令的使用方法可以详见我们提供的[入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda/bin/conda`。
 
 使用`conda`前，先要将`conda`添加到环境变量中。
 
@@ -24,7 +24,7 @@ Python是数据分析、数据挖掘和机器学习领域经常使用的一种�
 如果用户经常使用`conda`管理各类环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再在Terminal命令行中执行`source ~/.bashrc`，这样之后，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
 
 ```bash
-export PATH="/opt/app/anaconda3/bin:$PATH"
+export PATH="/opt/app/anaconda/bin:$PATH"
 ```
 * 方法2：
   
@@ -97,7 +97,7 @@ conda install tensorflow-gpu -n tf22
 ### 以下命令将在计算节点执行
 
 ### Anaconda
-export PATH=/opt/app/anaconda3/bin:$PATH
+export PATH=/opt/app/anaconda/bin:$PATH
 
 ### 假设创建的conda环境名为 tf22
 source activate tf22
