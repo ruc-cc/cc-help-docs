@@ -23,6 +23,16 @@ IOPS和带宽都是衡量文件系统的速度：
 小文件场景需要极高的IOPS。
 大文件场景需要高带宽。
 
+* HDD（Hard Disk Drive），传统机械磁盘，读取数据前需要转动磁盘（寻道），IOPS和带宽都比较低。
+
+![HDD](../images/hdd.webp)
+
+* SSD（Solid State Drive），固态硬盘，数据读取前不需要转动，相比HDD硬盘的IOPS和带宽高很多。
+
+![SSD](../images/ssd.webp)
+
+* NVMe（Non-Volatile Memory express），非易失性内存，下一代固态硬盘，接近内存的速度，数据读取的速度比SSD更快。
+
 ## 3. Lustre文件系统
 
 * 每个计算节点上有一个 Lustre 客户端。
@@ -65,10 +75,10 @@ mkdir /fs/fast/uxxxx/envs
 然后在该目录上创建 conda 环境：
 
 ```bash
-conda create --prefix=/fs/fast/uxxxx/envs/<ENV_NAME>`
+conda create --prefix=/fs/fast/uxxxx/envs/<ENV_NAME>
 
 # 或
-mamba create --prefix=/fs/fast/uxxxx/envs/<ENV_NAME>`
+mamba create --prefix=/fs/fast/uxxxx/envs/<ENV_NAME>
 ```
 
 新的环境目录将在：`/fs/fast/uxxxx/envs/<ENV_NAME>`。之后根据提示，使用这个环境：
@@ -78,13 +88,6 @@ source activate /fs/fast/uxxxx/envs/<ENV_NAME>
 ```
 
 其他各类命令与[conda/mamba页面](./conda.md)无区别。
-
-* pip 环境
-`pip install --prefix=/fs/fast/uxxxx/` 等命令。
-
-`conda install --prefix=/fs/fast/uxxxx` 将安装到 `/fs/fast/uxxxx/.envs` 下。
-
-`pip install --prefix=/fs/fast/uxxxx` 将安装到 `/fs/fast/uxxxx/lib/python3.5/site-packages/[packages]` 下。
 
 ### 5.2 高速中间缓存
 

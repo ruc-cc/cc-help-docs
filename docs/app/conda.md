@@ -15,22 +15,21 @@
 
 ## 1. conda与环境变量
 
-一般情况下，我们主要在独占实例（JupyterLab、VSCode）和共享集群里使用`conda`，独占实例（JupyterLab、VSCode）和共享集群是两个相互独立的模块，独占实例（JupyterLab、VSCode）中安装的环境和包目前和共享集群不共用。
+无论是共享集群还是独占实例，`conda`和`mamba`都安装在了 `/opt/app/anaconda3` 下。
 
-### 1.1 JupyterLab
+独占实例（JupyterLab、VSCode）和共享集群是两个相互独立的存储空间，独占实例（JupyterLab、VSCode）中安装的环境和包目前和共享集群不共用。
 
-在JupyterLab中，我们已经安装好了 `conda`，可以直接在Terminal中使用，其位置位于：`/opt/app/anaconda/bin/conda`。
 
 ### 1.2 共享集群
 
-共享集群的`conda`位于`/opt/app/anaconda/bin/conda`。
+共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
 
 * 方法1：
 
 如果用户经常使用`conda`管理各类环境，可以将其添加到用户环境变量，即将下面的环境变量添加到`~/.bashrc`的**最后一行**。添加后再在Terminal命令行中执行`source ~/.bashrc`，这样之后，包括登录节点和计算节点在内的所有节点都可以直接使用`conda`了。
 
 ```bash
-export PATH="/opt/app/anaconda/bin:$PATH"
+export PATH="/opt/app/anaconda3/bin:$PATH"
 ```
 * 方法2：
   
@@ -59,23 +58,37 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 
 ## 3. 环境管理
 
-使用Anaconda，默认情况下是在`base`环境中，`base`环境只有一些基础的工具，而且用户没有权限读写该环境，所以需要**创建新的环境**，在新环境下安装软件。
+使用Anaconda，默认情况下是在`base`环境中，`base`环境只有一些基础的工具，而且用户**没有**权限读写该环境，所以需要**创建新的环境**，在新环境下安装软件。
 
 ### 3.1 创建新环境
 
 ```bash
-conda create -n <env_name> <package_names>
+# 交互实例（jupyterlab、vscode、远程桌面等）
+mamba create -n <env_name> <package_names>
+
+# SLURM共享集群 /fs/fast 下速度更快
+# 第一次创建环境需要执行 mkdir
+mkdir /fs/fast/uxxxx/envs
+mamba create --prefix=/fs/fast/uxxxx/envs/<env_name> <package_names>
 ```
 
 `<env_name>` 即创建的环境名。建议以英文命名，且不加空格，名称两边不加尖括号“<>”。
 
-`<package_names>` 即安装在环境中的包名。名称两边不加尖括号“<>”。如果要在新创建的环境中创建多个包，则直接在`<package_names>`后以空格隔开，添加多个包名即可。例如，创建一个名为`python3`的环境，环境中安装版本为3.7的python，同时也安装了`numpy`和`pandas`：
+`<package_names>` 即安装在环境中的包名。名称两边不加尖括号“<>”。如果要在新创建的环境中创建多个包，则直接在`<package_names>`后以空格隔开，添加多个包名即可。
+
+例如，创建一个名为`python3`的环境，环境中安装版本为3.10的python：
 
 ```bash
-conda create -n python3 python=3.7 numpy pandas
+# 交互实例（jupyterlab、vscode、远程桌面等）
+mamba create -n python3 python=3.10
+
+# SLURM共享集群 /fs/fast 下速度更快
+mamba create --prefix=/fs/fast/u20200002/envs/python3 python=3.10
 ```
 
-新的环境以及环境内的包会被安装到`/home/your-id/.conda/envs/`目录下。
+`mamba create -n python3 python=3.10` 这样创建的环境以及环境内的包会被安装到 `/home/your-id/.conda/envs/python3` 目录下。
+
+`mamba create --prefix=/fs/fast/u20200002/envs/python3` 会把软件安装到 `/fs/fast/u20200002/envs/python3` 下。
 
 ### 3.2 切换环境
 
@@ -83,6 +96,9 @@ conda create -n python3 python=3.7 numpy pandas
 
 ```bash
 source activate <env_name>
+
+# SLURM共享集群，安装到 /fs/fast/u20200002/envs/python3
+source activate /fs/fast/u20200002/envs/<env_name>
 ```
 
 当成功切换环境之后，在该行行首将以“(env_name)”开头。其中，“env_name”为切换到的环境名。
@@ -114,7 +130,17 @@ conda remove --name <env_name> --all
 安装包之前注意要先 `source activate <env_name>` 切换到该环境。`<env_name>` 即将包安装的指定环境名。环境名两边不加尖括号“<>”。
 
 ```bash
+# 进入 env_name 环境
+source activate <env_name>
+
+# SLURM共享集群
+source acitivate /fs/fast/uxxxx/envs/<env_name>
+
+# 安装所需软件
 conda install -c <channel_name> <package_name>
+
+# 或者使用 mamba
+mamba install -c <channel_name> <package_name>
 ```
 
 `-c <channel_name>` 为指定包所在的channel，`<package_name>` 即要安装的包名。包名两边不加尖括号“<>”。
@@ -123,6 +149,9 @@ Anaconda 有一个默认（default）的 channel，是 Anaconda 官方维护的�
 
 ```bash
 conda install pytorch -c pytorch
+
+# 或者使用 mamba
+mamba install pytorch -c pytorch
 ```
 
 对于某个特定的包，如何安装呢？一般遵循以下步骤：
@@ -165,12 +194,30 @@ conda
 
 `conda` 也可以安装R以及各类R语言的包。
 
-例如，想安装某个版本（本例为4.2）的R：
+例如，想安装某个版本（本例为4.2）的R。
+
+创建环境：
 
 ```
 conda create -n r42
+
+# SLURM共享集群上 /fs/fast 速度更快
+conda create --prefix /fs/fast/uxxx/envs/r42
+```
+
+```
 source activate r42
+
+# SLURM共享集群上 /fs/fast 速度更快
+source activate /fs/fast/uxxx/envs/r42
+```
+
+使用 conda 或者 mamba 安装：
+
+```
 conda install -c conda-forge r-base=4.2
+
+mamba install -c conda-forge r-base=4.2
 ```
 
 执行完以上命令后，就在 `r42` 环境下安装了 4.2 版本的R。 
@@ -192,6 +239,6 @@ conda install -c conda-forge r-base=4.2
 
 ## 7. 其他软件
 
-除此之外，anaconda.org 里包含的软件很多，比如NVIDIA的CUDA。只要能在 anaconda.org 中能搜索到，就可以安装到本地的环境里。
+除此之外，anaconda.org 里包含的软件很多，比如NVIDIA的 CUDA、NCCL，Intel的 oneAPI。只要能在 anaconda.org 中能搜索到，就可以安装到本地的环境里。
 
-最后软件会被安装到 `~/.conda/envs/<env_name>/bin` 目录下。
+最后软件会被安装到 `~/.conda/envs/<env_name>` 。SLURM共享集群里，如果设置了 `--prefix`，会安装到 `/fs/fast/uxxxx/envs/<env_name>` 目录下。

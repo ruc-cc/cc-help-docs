@@ -25,5 +25,5 @@ VSCode属于交互实例，在计算平台上使用时，需要先申请资源�
 
 用户有root权限，在终端中用 `sudo -i` 切换至 root，使用 `apt-get install` 安装必要的软件。
 
-Python和R相关软件建议用户使用 Anaconda 来管理和使用Python和R。我们已经在 VSCode 交互实例上安装好了 Anaconda，安装在 `/opt/app/anaconda/bin`，添加到自己的 `~/.bashrc` 中。 `conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。
+Python和R相关软件建议用户使用 Anaconda 来管理和使用Python和R。我们已经在 VSCode 交互实例上安装好了 Anaconda，安装在 `/opt/app/anaconda3/bin`，添加到自己的 `~/.bashrc` 中。 `conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。
 
