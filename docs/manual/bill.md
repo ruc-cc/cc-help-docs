@@ -118,7 +118,7 @@ Sum(Res × Time × Weight)
 
 ### 4.2 共享集群
 
-在Slurm作业提交脚本中加入如下参数:
+在SLURM作业提交脚本中加入如下参数:
 
 ```bash
 #SBATCH --comment tutor_project

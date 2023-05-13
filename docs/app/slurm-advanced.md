@@ -14,11 +14,11 @@
 | 输出             	| 将标准输出流输出到文件                                                             	| --output=xyz.out     	|
 | 输出             	| 将标准错误流输出到文件                                                             	| --error=abc.out      	|
 
-更多的作业参数信息，请参考[官方文档](https://slurm.schedmd.com/sbatch.html)。
+更多的作业参数信息，请参考[官方文档](https://SLURM.schedmd.com/sbatch.html)。
 
 ## 2. squeue
 
-### 输出更详细的作业信息
+#### 2.1 输出更详细的作业信息
 
 查看更加详细的作业信息：
 
@@ -32,7 +32,7 @@ squeue -l
 squeue -o "%.10i %.9P %.12j %.12u %.8T %.10M %.9l %.6D %R"
 ```
 
-### 作业状态
+## 3. 作业状态
 
 | Status     | Code | Explaination                                                 |
 | ---------- | :--: | ------------------------------------------------------------ |
@@ -45,9 +45,9 @@ squeue -o "%.10i %.9P %.12j %.12u %.8T %.10M %.9l %.6D %R"
 | SUSPENDED  | `S`  | A running job has been stopped with its cores released to other jobs. |
 | STOPPED    | `ST` | A running job has been stopped with its cores retained.      |
 
-完成的作业状态文档，请参考[官方文档](https://slurm.schedmd.com/squeue.html#lbAG)。
+完成的作业状态文档，请参考[官方文档](https://SLURM.schedmd.com/squeue.html#lbAG)。
 
-### 作业未能运行原因
+## 4. 作业未能运行原因
 
 | Reason Code               | Explaination                                                 |
 | ------------------------- | ------------------------------------------------------------ |
@@ -67,5 +67,5 @@ squeue -o "%.10i %.9P %.12j %.12u %.8T %.10M %.9l %.6D %R"
 | `AssociationMaxJobsLimit` | Maximum number of jobs for your job’s association have been met; job will run eventually. |
 | `AssociationNodeLimit`    | All nodes assigned to your job’s specified association are in use; job will run eventually. |
 
-更多的作业状态信息，请参考[官方文档](https://slurm.schedmd.com/squeue.html#lbAF)。
+更多的作业状态信息，请参考[官方文档](https://SLURM.schedmd.com/squeue.html#lbAF)。
 

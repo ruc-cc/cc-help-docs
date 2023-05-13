@@ -56,6 +56,7 @@ nav:
           - "存储": "app/storage.md"
           - "module/spack": "app/module-spack.md"
           - "编译器": "app/compilers.md"
+          - "MPI": "app/mpi.md"
           - "Python": "app/public-cluster-python.md"
           - "R": "app/public-cluster-r.md"
       - "VSCode": "app/vscode.md"

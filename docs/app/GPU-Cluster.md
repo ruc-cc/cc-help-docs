@@ -42,7 +42,7 @@
 
 | 队列名      | CPU型号            | CPU核数 | 内存     | GPU                          | 卡数  | 台数  | 本地SSD         |
 | -------- | ---------------- | ----- | ------ | ---------------------------- | --- | --- | ------------- |
-| gpu-a800 | Intel 8358       | 64    | 1024GB | NVIDIA A800 NVLink 80GB      | 8   |     | /disk: 3.84TB |
+| gpu-a800 | Intel 8358       | 64    | 1024GB | NVIDIA A800 NVLink 80GB      | 8   |  17   | /fs/nvme1: 3.84TB |
 | gpu-a100     | Intel 6348       | 56    | 512GB  | NVIDIA A100 PCI-E 80GB       | 4   | 1   |               |
 | gpu-v100     | Intel 4210       | 20    | 128GB  | Nvidia Tesla V100 PCI-E 32GB | 6   | 1   |               |
 | gpu-titan    | Intel 5218       | 64    | 128GB  | Nvidia Titan RTX PCI-E 24GB  | 4   | 3   |               |              |
@@ -68,7 +68,7 @@ SLURM（Simple Linux Utility for Resource Management）是一种可用于大型�
 
 我们首先登陆到共享集群的登录节点，可以使用Web SSH，也可以使用SSH客户端。
 
-下文将详细介绍如何使用SLURM来提交作业。[这里](../files/slurm-summary.pdf)提供了一个两页SLURM用户手册。
+下文将详细介绍如何使用SLURM来提交作业。[这里](../files/SLURM-summary.pdf)提供了一个两页SLURM用户手册。
 
 ### 4.1 查看集群状态
 
@@ -159,9 +159,9 @@ sbatch run.sh
 
 ![使用sbatch提交作业](../images/sbatch.png)
 
-这个程序将提交至作业调度系统，作业调度系统会为作业生成一个作业ID，并分配相应节点执行该作业。同时，程序中各类输出结果也会生成到文件中，文件名为`slurm-jobid.out`。
+这个程序将提交至作业调度系统，作业调度系统会为作业生成一个作业ID，并分配相应节点执行该作业。同时，程序中各类输出结果也会生成到文件中，文件名为`SLURM-jobid.out`。
 
-以上只是一个简单的案例，SLURM 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gpus=1`指定使用一张GPU卡。请参考[Slurm进阶](./slurm-advanced.md#)，或者作业参数信息，请参考[官方文档](https://slurm.schedmd.com/sbatch.html)。
+以上只是一个简单的案例，SLURM 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gpus=1`指定使用一张GPU卡。请参考[SLURM进阶](./SLURM-advanced.md#)，或者作业参数信息，请参考[官方文档](https://SLURM.schedmd.com/sbatch.html)。
 
 ### 4.3 登录到计算节点
 
@@ -279,7 +279,7 @@ exit
 
 SLURM会分配给一个机器，比如分配机器为titan-1，接着我们可以`ssh titan-1`，来登录到这台机器上，执行相应的计算和并进行debug。比如，执行一个Python程序，查看输出：`python test.py`。
 
-使用完后，我们需要先执行一次`exit`退出当前机器，这里是titan-1这台机器；再执行一次`exit`，提醒Slurm释放掉`salloc`所申请的资源。
+使用完后，我们需要先执行一次`exit`退出当前机器，这里是titan-1这台机器；再执行一次`exit`，提醒SLURM释放掉`salloc`所申请的资源。
 
 ### 4.7 申请多节点
 
@@ -370,7 +370,7 @@ done
 
 上面的例子中，启动了两类进程：`supervisor` 和 `worker`。修改 `supervisor` 和 `worker`为您的工作负载。
 
-`SLURM_JOB_NODELIST` 是环境变量，当这个作业启动后，环境中就会添加该环境变量，其他环境变量请参考：[SLURM 环境变量](https://slurm.schedmd.com/sbatch.html#SECTION_OUTPUT-ENVIRONMENT-VARIABLES)。
+`SLURM_JOB_NODELIST` 是环境变量，当这个作业启动后，环境中就会添加该环境变量，其他环境变量请参考：[SLURM 环境变量](https://SLURM.schedmd.com/sbatch.html#SECTION_OUTPUT-ENVIRONMENT-VARIABLES)。
 
 ## 5. 存储
 

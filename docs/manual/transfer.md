@@ -207,7 +207,7 @@ rclone copy -P /tmp/*  remote:/MyData/
 rclone copy -P remote:/MyData/rclone-v1.55.1-linux-amd64.zip /tmp
 ```
 
-其中，Slurm共享集群数据在 `ProjectGroup(public_cluster)` 中，课题组数据在 `ProjectGroup(course)`。
+其中，SLURM共享集群数据在 `ProjectGroup(public_cluster)` 中，课题组数据在 `ProjectGroup(course)`。
 
 !!! warning "括号前后要加单引号'"
     `ProjectGroup(public_cluster)` 这样的目录，在访问和拷贝数据时，需要加单引号，例如：`rclone copy -P /tmp/*  remote:ProjectGroup'('public_cluster')'/u2020xxxx/`

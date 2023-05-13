@@ -31,7 +31,7 @@ CUDA与GPU硬件、操作系统内核、GPU驱动（Driver）耦合度非常紧�
 
 ### GPU节点上的CUDA
 
-我们平台上所有GPU节点（包括Jupyter-with-GPU实例和Slurm共享集群中的GPU节点）已经安装了CUDA，位置为`/opt/pkgs/cuda/`，并通过软连接链接到`/usr/local/cuda/`。
+我们平台上所有GPU节点（包括Jupyter-with-GPU实例和SLURM共享集群中的GPU节点）已经安装了CUDA，位置为`/opt/pkgs/cuda/`，并通过软连接链接到`/usr/local/cuda/`。
 
 用户可以直接使用这个CUDA，也可以用`conda`安装自己所希望使用的CUDA，或者使用`module`或`spack`加载自己所希望使用的CUDA。
 

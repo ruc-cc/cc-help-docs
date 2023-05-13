@@ -31,7 +31,7 @@ singularity pull pytorch-20.12.sif docker://nvcr.io/nvidia/pytorch:20.12-py3
 
 ## 使用容器提交计算任务
 
-在Slurm共享集群上，修改提交作业的脚本，例如：
+在SLURM共享集群上，修改提交作业的脚本，例如：
 
 ```bash
 #!/bin/bash

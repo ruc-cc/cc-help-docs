@@ -67,11 +67,11 @@ conda install tensorflow-gpu -n tf22
 
 ## 2. 在共享集群上提交作业
 
-### 2.1 在Slurm中提交作业
+### 2.1 在SLURM中提交作业
 
 对于共享集群不熟悉的用户，可以先阅读[共享集群文档](GPU-Cluster.md)。
 
-使用Slurm提交作业，首先编写一个作业提交脚本，将其命名为：`test.sh`：
+使用SLURM提交作业，首先编写一个作业提交脚本，将其命名为：`test.sh`：
 
 ```bash
 #!/bin/bash
@@ -113,7 +113,7 @@ sbatch test.sh
 
 ![使用sbatch提交作业](../images/sbatch.png)
 
-其他Slurm命令，详见[共享集群文档](GPU-Cluster.md)。
+其他SLURM命令，详见[共享集群文档](GPU-Cluster.md)。
 
 ## 3. PyTorch & TensorFlow
 
@@ -148,7 +148,7 @@ conda install pytorch==1.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
 
 #### 多卡并行
 
-如果需要多个节点提供计算，需要在代码中加入多机多卡的API。同时，在Slurm脚本中申请资源时，按需申请多机多卡。
+如果需要多个节点提供计算，需要在代码中加入多机多卡的API。同时，在SLURM脚本中申请资源时，按需申请多机多卡。
 
 ### 3.2 TensorFlow
 
@@ -174,7 +174,7 @@ conda install -c conda-forge tensorflow-gpu==2.7.1
 
 如果需要多个节点多个GPU进行并行计算，则需要在Python代码中添加TensorFlow提供的分布式计算API。
 
-同时，在Slurm申请资源时要根据需求申请多节点多GPU卡资源。
+同时，在SLURM申请资源时要根据需求申请多节点多GPU卡资源。
 
 ## 4. TensorBoard
 
