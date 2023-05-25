@@ -68,7 +68,7 @@ SLURM（Simple Linux Utility for Resource Management）是一种可用于大型�
 
 我们首先登陆到共享集群的登录节点，可以使用Web SSH，也可以使用SSH客户端。
 
-下文将详细介绍如何使用SLURM来提交作业。[这里](../files/SLURM-summary.pdf)提供了一个两页SLURM用户手册。
+下文将详细介绍如何使用SLURM来提交作业。[这里](../files/slurm-summary.pdf)提供了一个两页SLURM用户手册。
 
 ### 4.1 查看集群状态
 
@@ -161,7 +161,7 @@ sbatch run.sh
 
 这个程序将提交至作业调度系统，作业调度系统会为作业生成一个作业ID，并分配相应节点执行该作业。同时，程序中各类输出结果也会生成到文件中，文件名为`SLURM-jobid.out`。
 
-以上只是一个简单的案例，SLURM 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gpus=1`指定使用一张GPU卡。请参考[SLURM进阶](./SLURM-advanced.md#)，或者作业参数信息，请参考[官方文档](https://SLURM.schedmd.com/sbatch.html)。
+以上只是一个简单的案例，SLURM 有更多使用参数，比如`--output=<output-filename>`指定标准输出文件参数、`--error=<error-filename>`指定标准错误文件参数、`--gpus=1`指定使用一张GPU卡。请参考[SLURM进阶](./slurm-advanced.md#)，或者作业参数信息，请参考[官方文档](https://SLURM.schedmd.com/sbatch.html)。
 
 ### 4.3 登录到计算节点
 

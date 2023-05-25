@@ -38,4 +38,4 @@
 
 出现错误：tatus code 504 return by RStudio Server when executing 'client_init'
 
-解决方法：重启这个 RStudio 实例，参考[这个配置](app/rstudio.md#5)，设置 RStudio 启动参数。
+解决方法：重启这个 RStudio 实例，参考[这个配置](instance/rstudio.md#5)，设置 RStudio 启动参数。

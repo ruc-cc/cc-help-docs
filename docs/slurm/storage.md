@@ -87,7 +87,7 @@ mamba create --prefix=/fs/fast/uxxxx/envs/<ENV_NAME>
 source activate /fs/fast/uxxxx/envs/<ENV_NAME>
 ```
 
-其他各类命令与[conda/mamba页面](./conda.md)无区别。
+其他各类命令与[conda/mamba页面](../app/conda.md)无区别。
 
 #### 5.2 高速中间缓存
 

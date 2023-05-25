@@ -7,7 +7,7 @@
 
 ### 1.1 conda
 
-在共享集群上，我们建议使用`conda`来创建和管理R环境，`conda` 命令的使用方法可以详见我们提供的[conda入门教程](conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
+在共享集群上，我们建议使用`conda`来创建和管理R环境，`conda` 命令的使用方法可以详见我们提供的[conda入门教程](../app/conda.md)。共享集群的`conda`位于`/opt/app/anaconda3/bin/conda`。
 
 使用`conda`前，先要将`conda`添加到环境变量中。
 
@@ -26,7 +26,7 @@ export PATH="/opt/app/anaconda3/bin:$PATH"
 module load conda
 ```
 
-这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load anaconda3`。
+这种方法只是在每次使用时有效，登录到任何一个计算节点，还需要重新执行一遍`module load conda`。
 
 ### 1.2 创建R环境
 
@@ -52,7 +52,7 @@ conda install -c conda-forge r-base=4.2
 
 * 建议优先使用`conda`安装一些包。
 
-因为`conda`能够帮我们解决一些依赖问题。首先在 [anaconda.org](https://anaconda.org/) 上搜索，比如`data.table`包，添加一个"r-"的前缀。有关conda的介绍详见我们提供的[conda入门教程](conda.md)。
+因为`conda`能够帮我们解决一些依赖问题。首先在 [anaconda.org](https://anaconda.org/) 上搜索，比如`data.table`包，添加一个"r-"的前缀。有关conda的介绍详见我们提供的[conda入门教程](../app/conda.md)。
 
 ![在Anaconda上搜索R相关包](../images/r_conda.png)
 
