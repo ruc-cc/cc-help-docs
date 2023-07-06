@@ -47,6 +47,7 @@
 | gpu-v100     | Intel 4210       | 20    | 128GB  | Nvidia Tesla V100 PCI-E 32GB | 6   | 1   |               |
 | gpu-titan    | Intel 5218       | 64    | 128GB  | Nvidia Titan RTX PCI-E 24GB  | 4   | 3   |               |              |
 | cpu24c   | Intel E5-2650 v4 | 24    | 64GB   | -                            | -   | 50  |               |
+| cpu32c   | Intel 5218 | 32    | 192GB   | -                            | -   | 4  |               |
 | cpu64c   | Intel 6438M      | 64    | 512GB  | -                            | -   | 14  |               |
 | cpu64c1t | Intel 6438M      | 64    | 1024GB    | -                            | -   | 2   |               |
 
@@ -332,26 +333,15 @@ set -x
 nodes=$(scontrol show hostnames "$SLURM_JOB_NODELIST")
 nodes_array=($nodes)
 
-### 将第一个节点作为 head 节点，并获取IP
+### 将第一个节点作为 head 节点
 head_node=${nodes_array[0]}
-head_node_ip=$(srun --nodes=1 --ntasks=1 -w "$head_node" hostname --ip-address)
-
-if [[ "$head_node_ip" == *" "* ]]; then
-    IFS=' ' read -ra ADDR <<<"$head_node_ip"
-    if [[ ${#ADDR[0]} -gt 16 ]]; then
-        head_node_ip=${ADDR[1]}
-    else
-        head_node_ip=${ADDR[0]}
-    fi
-    echo "IPV6 address detected. We split the IPV4 address as $head_node_ip"
-fi
 
 ### 在第一个节点上启动名为 supervisor 的进程，使用某个端口号
 port=16380
 web_port=16379
 echo "Starting HEAD at $head_node"
 srun --nodes=1 --ntasks=1 -w "$head_node" \
-    supervisor -H "$head_node_ip" -p "$port" -w "$web_port" &
+    xorbits-supervisor -H "${head_node}" -p "${port}" -w "${web_port}" &
 
 ### 休眠 10秒 等待进程启动，便其他 worker 能够连接
 sleep 10
@@ -364,11 +354,11 @@ for ((i = 1; i <= worker_num; i++)); do
 
     echo "Starting WORKER $i at $node_i"
     srun --nodes=1 --ntasks=1 -w "$node_i" \
-        worker -H "$node_i"  -p "$port_i" -s "$head_node_ip":"$port" &
+        xorbits-worker -H "${node_i}"  -p "${port_i}" -s "${head_node}":"${port}" &
 done
 ```
 
-上面的例子中，启动了两类进程：`supervisor` 和 `worker`。修改 `supervisor` 和 `worker`为您的工作负载。
+上面的例子中，启动了两类进程：`xorbits-supervisor` 和 `xorbits-worker`。修改 `xorbits-supervisor` 和 `worker`为您的工作负载。
 
 `SLURM_JOB_NODELIST` 是环境变量，当这个作业启动后，环境中就会添加该环境变量，其他环境变量请参考：[SLURM 环境变量](https://SLURM.schedmd.com/sbatch.html#SECTION_OUTPUT-ENVIRONMENT-VARIABLES)。
 

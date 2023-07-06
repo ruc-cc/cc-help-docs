@@ -58,6 +58,7 @@ nav:
       - "Python": "slurm/public-cluster-python.md"
       - "R": "slurm/public-cluster-r.md"
       - "MATLAB": "slurm/public-cluster-matlab.md"
+      - "Spark": "slurm/spark.md"
       - "Amber": "slurm/amber.md"
       - "容器：Docker与Singularity": "slurm/docker-singularity.md"
   
