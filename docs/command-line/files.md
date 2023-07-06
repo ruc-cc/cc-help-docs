@@ -122,30 +122,31 @@ G, 1G, 0, \$
 dd, ndd, x 或 X （dG 及 d1G 分别表示删除到页首及页尾）如何复制一行、n 行并加以贴上?yy, nyy, p 或 P
 
 如何搜寻 string 这个字符串?
-
+```bash
 ?string (往前搜寻) /string (往后搜寻) 
-
+```
 如何取代 word1 成为 word2，而若需要使用者确认机制，又该如何?
-
+```bash
 :1,\$s/word1/word2/g 或 :1,\$s/ word1/word2/gc （需要使用者确认）
-
+```
 如何读取一个档案 filename 进来目前这个档案?
-
+```bash
 :r filename
-
+```
 如何另存新档成为 newfilename?
-
+```bash
 :w newfilename
-
+```
 如何存盘、离开、存盘后离开、强制存盘后离开?
-
+```bash
 :w； :q： :wq； :wq!
-
+```
 如何设定与取消行号?
-
+```bash
 :set nu :set nonu
-
+```
 类似的编辑修改文件命令还有： nano、 vim、 emacs 等，请参考各软件相应的帮助手册。
+
 
 ## **11.5 显示列出目录下的文件 ls**
 
