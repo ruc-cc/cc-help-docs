@@ -106,34 +106,44 @@ vim 共分为 3 个模式，即一般模式（默认的模式）、编辑模式�
 \[Esc\]
 
 若上下左右键无法使用时，请问如何在一般模式移动光标?
+
 h, j, k, l  
 
 若 \[pagedown\] \[ pageup\] 在一般模式无法使用时，如何往前或往后翻一页?
+
 \[Ctrl\] + \[f\] \[Ctrl\] + \[b\]
 
 如何到本档案的最后一行、第一行；本行的第一个字符、最后一个字符?
+
 G, 1G, 0, \$
 
 如何删除一行、n 行；如何删除一个字符?
+
 dd, ndd, x 或 X （dG 及 d1G 分别表示删除到页首及页尾）如何复制一行、n 行并加以贴上?yy, nyy, p 或 P
 
 如何搜寻 string 这个字符串?
+
 ?string (往前搜寻) /string (往后搜寻) 
 
-如何取代 word1 成为 word2，而若需要使用者确认机制，又该如何?:
-1,\$s/word1/word2/g 或 :1,\$s/ word1/word2/gc （需要使用者确认）
+如何取代 word1 成为 word2，而若需要使用者确认机制，又该如何?
 
-如何读取一个档案 filename 进来目前这个档案?:
-r filename
+:1,\$s/word1/word2/g 或 :1,\$s/ word1/word2/gc （需要使用者确认）
 
-如何另存新档成为 newfilename?:
-w newfilename
+如何读取一个档案 filename 进来目前这个档案?
 
-如何存盘、离开、存盘后离开、强制存盘后离开?:
-w； :q： :wq； :wq!
+:r filename
 
-如何设定与取消行号?:
-set nu :set nonu
+如何另存新档成为 newfilename?
+
+:w newfilename
+
+如何存盘、离开、存盘后离开、强制存盘后离开?
+
+:w； :q： :wq； :wq!
+
+如何设定与取消行号?
+
+:set nu :set nonu
 
 类似的编辑修改文件命令还有： nano、 vim、 emacs 等，请参考各软件相应的帮助手册。
 
