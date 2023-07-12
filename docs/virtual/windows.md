@@ -75,7 +75,11 @@
 ![文件与数据管理1](../images/windows_folders01.png)
 
 双击打开桌面上的“WebDAV”,如下图所示，右侧是为计算平台为每位用户提供的存储空间（Home目录），建议大规模的数据放置这个目录。
+
 ![文件与数据管理2](../images/windows_folders02.png)
+
+!!! tip "WebDAV使用方法"
+		大量数据可以存放在 WebDAV 中的 MyData，计算时可将 WebDAV 的 MyData 数据拷贝到左侧虚拟机中。
 
 ## 磁盘扩缩容
 

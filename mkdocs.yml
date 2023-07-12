@@ -75,7 +75,7 @@ nav:
   
   - "通用软件":      
       - "CUDA": "app/cuda.md"
-  - "Linux命令行": "linux-command-line.md"
+  - "Linux 基本操作": "app/linux-command-line.md"
   - "conda": "app/conda.md"
   - "常见问题FAQ": "faq.md"
   - "收费奖励标准": "fee.md"
