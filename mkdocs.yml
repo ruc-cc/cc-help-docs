@@ -74,8 +74,9 @@ nav:
       - "Linux虚拟机": "virtual/linux-virtual.md"
   
   - "通用软件":      
-      - "conda/mamba": "app/conda.md" 
       - "CUDA": "app/cuda.md"
+  - "Linux命令行": "linux-command-line.md"
+  - "conda": "app/conda.md"
   - "常见问题FAQ": "faq.md"
   - "收费奖励标准": "fee.md"
   - "培训及相关资料": "tutorials.md"
